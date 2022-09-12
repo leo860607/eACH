@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+    default-autowire="byName" default-lazy-init="false">
+	
+	<!-- 設定 DAO -->	
+	<!-- 	批次 -->
+	<bean id="each_batch_Dao" class="tw.org.twntch.db.dao.hibernate.EACH_BATCH_Dao">
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="onclearingtab_Dao" class="tw.org.twntch.db.dao.hibernate.ONCLEARINGTAB_Dao">
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="batch_notify_Dao" class="tw.org.twntch.db.dao.hibernate.EACH_BATCH_NOTIFY_Dao">
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="settlementlogtab_Dao" class="tw.org.twntch.db.dao.hibernate.SETTLEMENTLOGTAB_Dao">
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="batch_def_Dao" class="tw.org.twntch.db.dao.hibernate.EACH_BATCH_DEF_Dao">
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="batch_status_Dao" class="tw.org.twntch.db.dao.hibernate.EACH_BATCH_STATUS_Dao">
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="nonclear_batch_status_Dao" class="tw.org.twntch.db.dao.hibernate.NONCLEAR_BATCH_STATUS_Dao">
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="eachsysstatustab_Dao"  class="tw.org.twntch.db.dao.hibernate.EACHSYSSTATUSTAB_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="eachapstatustab_Dao"  class="tw.org.twntch.db.dao.hibernate.EACHAPSTATUSTAB_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="each_user_Dao"  class="tw.org.twntch.db.dao.hibernate.EACH_USER_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="role_list_Dao"  class="tw.org.twntch.db.dao.hibernate.EACH_ROLE_LIST_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="func_list_Dao"  class="tw.org.twntch.db.dao.hibernate.EACH_FUNC_LIST_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="role_func_Dao"  class="tw.org.twntch.db.dao.hibernate.EACH_ROLE_FUNC_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="sys_para_Dao"  class="tw.org.twntch.db.dao.hibernate.SYS_PARA_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="bulletin_Dao"  class="tw.org.twntch.db.dao.hibernate.BULLETIN_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="bulletin_rec_Dao"  class="tw.org.twntch.db.dao.hibernate.BULLETIN_REC_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="wk_date_Dao"  class="tw.org.twntch.db.dao.hibernate.WK_DATE_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="cr_line_Dao"  class="tw.org.twntch.db.dao.hibernate.CR_LINE_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="typh_op_Dao"  class="tw.org.twntch.db.dao.hibernate.TYPH_OP_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="bank_group_Dao"  class="tw.org.twntch.db.dao.hibernate.BANK_GROUP_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="bank_opbk_Dao"  class="tw.org.twntch.db.dao.hibernate.BANK_OPBK_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="bank_ctbk_Dao"  class="tw.org.twntch.db.dao.hibernate.BANK_CTBK_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="business_type_Dao"  class="tw.org.twntch.db.dao.hibernate.BUSINESS_TYPE_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="bank_branch_Dao"  class="tw.org.twntch.db.dao.hibernate.BANK_BRANCH_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="bank_group_business_Dao"  class="tw.org.twntch.db.dao.hibernate.BANK_GROUP_BUSINESS_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="txn_code_Dao"  class="tw.org.twntch.db.dao.hibernate.TXN_CODE_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="agent_txn_code_Dao"  class="tw.org.twntch.db.dao.hibernate.AGENT_TXN_CODE_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="txn_err_code_Dao"  class="tw.org.twntch.db.dao.hibernate.TXN_ERROR_CODE_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="gl_err_code_Dao"  class="tw.org.twntch.db.dao.hibernate.GL_ERROR_CODE_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="txn_returnday_Dao"  class="tw.org.twntch.db.dao.hibernate.TXN_RETURNDAY_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="sd_com_Dao"  class="tw.org.twntch.db.dao.hibernate.SD_COMPANY_PROFILE_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="sd_com_his_Dao"  class="tw.org.twntch.db.dao.hibernate.SD_COMPANY_PROFILE_HIS_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="sc_com_Dao"  class="tw.org.twntch.db.dao.hibernate.SC_COMPANY_PROFILE_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="sc_com_his_Dao"  class="tw.org.twntch.db.dao.hibernate.SC_COMPANY_PROFILE_HIS_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="fee_code_Dao"  class="tw.org.twntch.db.dao.hibernate.FEE_CODE_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="fee_code_nw_Dao"  class="tw.org.twntch.db.dao.hibernate.FEE_CODE_NW_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="fee_code_nwlvl_Dao"  class="tw.org.twntch.db.dao.hibernate.FEE_CODE_NWLVL_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="chg_sc_profile_Dao"  class="tw.org.twntch.db.dao.hibernate.CHG_SC_PROFILE_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="pi_company_profile_Dao"  class="tw.org.twntch.db.dao.hibernate.PI_COMPANY_PROFILE_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="wo_company_profile_Dao"  class="tw.org.twntch.db.dao.hibernate.WO_COMPANY_PROFILE_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="pi_snd_profile_Dao"  class="tw.org.twntch.db.dao.hibernate.PI_SND_PROFILE_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="txn_fee_mapping_Dao"  class="tw.org.twntch.db.dao.hibernate.TXN_FEE_MAPPING_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="settle_day_Dao"  class="tw.org.twntch.db.dao.hibernate.SETTLE_DAY_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="userLog_Dao"  class="tw.org.twntch.db.dao.hibernate.EACH_USERLOG_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="turnon_Dao"  class="tw.org.twntch.db.dao.hibernate.TURNON_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="turnoff_Dao"  class="tw.org.twntch.db.dao.hibernate.TURNOFF_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="msg_notice_Dao"  class="tw.org.twntch.db.dao.hibernate.MSG_NOTICE_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="ap_pause_Dao"  class="tw.org.twntch.db.dao.hibernate.AP_PAUSE_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="tch_ap_pause_Dao"  class="tw.org.twntch.db.dao.hibernate.TCH_AP_PAUSE_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="ap_restart_Dao"  class="tw.org.twntch.db.dao.hibernate.AP_RESTART_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="tch_ap_restart_Dao"  class="tw.org.twntch.db.dao.hibernate.TCH_AP_RESTART_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="opc_trans_Dao"  class="tw.org.twntch.db.dao.hibernate.OPC_TRANS_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="ap_status_Dao"  class="tw.org.twntch.db.dao.hibernate.AP_STATUS_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="chg_mac_Dao"  class="tw.org.twntch.db.dao.hibernate.CHG_MAC_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="async_mac_Dao"  class="tw.org.twntch.db.dao.hibernate.ASYNC_MAC_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="unknown_msg_Dao"  class="tw.org.twntch.db.dao.hibernate.UNKNOWN_MSG_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="tch_turnoff_Dao"  class="tw.org.twntch.db.dao.hibernate.TCH_TURNOFF_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="tch_turnon_Dao"  class="tw.org.twntch.db.dao.hibernate.TCH_TURNON_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="each_txn_code_Dao"  class="tw.org.twntch.db.dao.hibernate.EACH_TXN_CODE_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="bankapstatus_Dao"  class="tw.org.twntch.db.dao.hibernate.BANKAPSTATUSTAB_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="banksysstatus_Dao"  class="tw.org.twntch.db.dao.hibernate.BANKSYSSTATUSTAB_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="monitor_Dao"  class="tw.org.twntch.db.dao.hibernate.MONITOR_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="missingtraderlogtab_Dao"  class="tw.org.twntch.db.dao.hibernate.MISSINGTRADERLOGTAB_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="commonSpringDao"  class="tw.org.twntch.db.dao.hibernate.CommonSpringDao"> 
+		<property name="dataSource" ref="DataSource_eACH"></property>
+	</bean>
+	<bean id="ikey_Dao"  class="tw.org.twntch.db.dao.hibernate.IKey_Dao"> 
+		<property name="dataSource" ref="DataSource_RA"></property>
+	</bean>
+	<!-- 交易明細查詢 -->
+	<bean id="onblocktab_Dao"  class="tw.org.twntch.db.dao.hibernate.ONBLOCKTAB_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="vw_onblocktab_Dao"  class="tw.org.twntch.db.dao.hibernate.VW_ONBLOCKTAB_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="rponblocktab_Dao"  class="tw.org.twntch.db.dao.hibernate.RPONBLOCKTAB_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="onpendingtab_Dao"  class="tw.org.twntch.db.dao.hibernate.ONPENDINGTAB_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<!-- 	安控 -->
+	<bean id="isec_version_dao" class="tw.org.twntch.db.dao.hibernate.ISEC_VERSION_DAO">
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<!-- 	繳費 -->
+	<bean id="payment_category_dao" class="tw.org.twntch.db.dao.hibernate.PAYMENT_CATEGORY_DAO">
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+<!--     其他服務-檔案上傳 -->
+	<bean id="each_fileupload_Dao" class="tw.org.twntch.db.dao.hibernate.EACH_FILEUPLOAD_Dao">
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+<!--     其他服務-檔案下載 -->
+	<bean id="each_filedownload_Dao" class="tw.org.twntch.db.dao.hibernate.EACH_FILEDOWNLOAD_Dao">
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="fee_adj_Dao" class="tw.org.twntch.db.dao.hibernate.FEE_ADJ_Dao">
+		<property name="userLog_Dao" ref="userLog_Dao"></property>
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="flcontroltab_Dao"  class="tw.org.twntch.db.dao.hibernate.FLCONTROLTAB_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<!-- 代理業者作業-代理業者基本資料維護 -->
+	<bean id="agent_profile_Dao" class="tw.org.twntch.db.dao.hibernate.AGENT_PROFILE_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<!-- 代理業者作業-手續費資料維護 -->
+	<bean id="agent_fee_code_Dao" class="tw.org.twntch.db.dao.hibernate.AGENT_FEE_CODE_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+<!-- 		被代理發動者額度設定 -->
+	<bean id="agent_cr_line_Dao" class="tw.org.twntch.db.dao.hibernate.AGENT_CR_LINE_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+<!-- 		代理業者關聯維護 -->
+	<bean id="agent_send_profile_Dao" class="tw.org.twntch.db.dao.hibernate.AGENT_SEND_PROFILE_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<!-- 代理模組開關機訊息通知 -->
+	<bean id="agent_turnon_Dao"  class="tw.org.twntch.db.dao.hibernate.AGENT_TURNON_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="agent_turnoff_Dao"  class="tw.org.twntch.db.dao.hibernate.AGENT_TURNOFF_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+	<bean id="agent_notice_Dao"  class="tw.org.twntch.db.dao.hibernate.AGENT_NOTICE_Dao"> 
+		<property name="sessionFactory" ref="sessionFactory_eACH"></property>
+	</bean>
+</beans>

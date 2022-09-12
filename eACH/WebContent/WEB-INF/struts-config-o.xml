@@ -1,0 +1,1357 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+
+	<form-beans>
+		<form-bean name="testform" type="tw.org.twntch.form.TestForm"/>
+<!-- 		系統登入 -->
+		<form-bean name="login_form" type="tw.org.twntch.form.Login_Form"/>
+<!-- 		系統設定 -->
+		<form-bean name="each_user_form" type="tw.org.twntch.form.Each_User_Form"/>
+		<form-bean name="role_list_form" type="tw.org.twntch.form.Each_Role_List_Form"/>
+		<form-bean name="func_list_form" type="tw.org.twntch.form.Each_Func_List_Form"/>
+		<form-bean name="sys_para_form" type="tw.org.twntch.form.Sys_Para_Form"/>
+		<form-bean name="wk_date_form" type="tw.org.twntch.form.Wk_Date_Form"/>
+		<form-bean name="cr_line_form" type="tw.org.twntch.form.Cr_Line_Form"/>
+		<form-bean name="each_batch_form" type="tw.org.twntch.form.Each_Batch_Form"/>
+		<form-bean name="each_batch_def_form" type="tw.org.twntch.form.Each_Batch_Def_Form"/>
+		<form-bean name="typh_op_form" type="tw.org.twntch.form.Typh_Op_Form"/>
+		<form-bean name="onclearing_adj_form" type="tw.org.twntch.form.Onclearing_Adj_Form"/>
+		<form-bean name="bulletin_form" type="tw.org.twntch.form.Bulletin_Form"/>
+		
+<!-- 		基本資料 -->
+		<form-bean name="bank_group_form" type="tw.org.twntch.form.Bank_Group_Form"/>
+		<form-bean name="bank_branch_form" type="tw.org.twntch.form.Bank_Branch_Form"/>
+		<form-bean name="business_type_form" type="tw.org.twntch.form.Business_Type_Form"/>
+		<form-bean name="txn_code_form" type="tw.org.twntch.form.Txn_Code_Form"/>
+		<form-bean name="txn_err_code_form" type="tw.org.twntch.form.Txn_Error_Code_Form"/>
+		<form-bean name="gl_err_code_form" type="tw.org.twntch.form.Gl_Error_Code_Form"/>
+		<form-bean name="txn_returnday_form" type="tw.org.twntch.form.Txn_Returnday_Form"/>
+		<form-bean name="sd_com_form" type="tw.org.twntch.form.SD_Company_Profile_Form"/>
+		<form-bean name="sc_com_form" type="tw.org.twntch.form.SC_Company_Profile_Form"/>
+		<form-bean name="fee_code_form" type="tw.org.twntch.form.Fee_Code_Form"/>
+		<form-bean name="fee_code_nw_form" type="tw.org.twntch.form.Fee_Code_NW_Form"/>
+		<form-bean name="each_txn_code_form" type="tw.org.twntch.form.Each_Txn_Code_Form"/>
+		<form-bean name="chg_sc_profile_form" type="tw.org.twntch.form.Chg_Sc_Profile_Form"/>
+		<form-bean name="pi_company_profile_form" type="tw.org.twntch.form.PI_Company_Profile_Form"/>
+		<form-bean name="wo_company_profile_form" type="tw.org.twntch.form.WO_Company_Profile_Form"/>
+		<form-bean name="pi_snd_profile_form" type="tw.org.twntch.form.PI_SND_Profile_Form"/>
+<!-- 		查詢統計 -->
+		<form-bean name="userlog_form" type="tw.org.twntch.form.Each_Userlog_Form"/>
+		<form-bean name="fee_search_form" type="tw.org.twntch.form.Fee_Search_Form"/>
+		<form-bean name="txs_day_form" type="tw.org.twntch.form.Txs_Day_Form"/>
+		<form-bean name="settle_day_form" type="tw.org.twntch.form.Settle_Day_Form"/>
+		<form-bean name="tx_err_form" type="tw.org.twntch.form.Tx_Err_Form"/>
+		<form-bean name="undone_txdata_form" type="tw.org.twntch.form.Undone_Txdata_Form"/>
+		<form-bean name="fail_trans_form" type="tw.org.twntch.form.FAIL_TRANS_Form"/>
+		<form-bean name="onblocktab_form" type="tw.org.twntch.form.Onblocktab_Form"/>
+		<form-bean name="hr_txp_time_form" type="tw.org.twntch.form.Hr_Txp_Time_Form"/>
+		<form-bean name="onblocktab_NotTradRes_form" type="tw.org.twntch.form.Onblocktab_NotTradRes_Form"/>
+		<form-bean name="monitor_biz_form" type="tw.org.twntch.form.Monitor_Biz_Form"/>
+		<form-bean name="alert_monitor_form" type="tw.org.twntch.form.Alert_Monitor_Form"/>
+		<form-bean name="onblocktab_evdayTraTimeTol_form" type="tw.org.twntch.form.Onblocktab_evdayTraTimeTol_Form"/>
+		<form-bean name="clear_data_form" type="tw.org.twntch.form.Clear_Data_Form"/>
+		<!-- 繳費查詢 -->
+		<form-bean name="payment_category_form" type="tw.org.twntch.form.Payment_Category_Form"/>
+<!-- 		報表列印 -->
+		<form-bean name="rpttx_1_form" type="tw.org.twntch.form.Rpttx_1_Form"/>
+		<form-bean name="rpttx_2_form" type="tw.org.twntch.form.Rpttx_2_Form"/>
+		<form-bean name="rpttx_3_form" type="tw.org.twntch.form.Rpttx_3_Form"/>
+		<form-bean name="rpttx_4_form" type="tw.org.twntch.form.Rpttx_4_Form"/>
+		<form-bean name="rptcl_1_form" type="tw.org.twntch.form.Rptcl_1_Form"/>
+		<form-bean name="rptcl_2_form" type="tw.org.twntch.form.Rptcl_2_Form"/>
+		<form-bean name="rptcl_3_form" type="tw.org.twntch.form.Rptcl_3_Form"/>
+		<form-bean name="rptcl_4_form" type="tw.org.twntch.form.Rptcl_4_Form"/>
+		<form-bean name="rptfee_1_form" type="tw.org.twntch.form.Rptfee_1_Form"/>
+		<form-bean name="rptfee_2_form" type="tw.org.twntch.form.Rptfee_2_Form"/>
+		<form-bean name="rptfee_3_form" type="tw.org.twntch.form.Rptfee_3_Form"/>
+		<form-bean name="rptfee_4_form" type="tw.org.twntch.form.Rptfee_4_Form"/>
+		<form-bean name="rptfee_5_form" type="tw.org.twntch.form.Rptfee_5_Form"/>
+		<form-bean name="rptfee_6_form" type="tw.org.twntch.form.Rptfee_6_Form"/>
+		<form-bean name="rptfee_7_form" type="tw.org.twntch.form.Rptfee_7_Form"/>
+		<form-bean name="rptfee_11_form" type="tw.org.twntch.form.Rptfee_11_Form"/>
+		<form-bean name="rptst_1_form" type="tw.org.twntch.form.Rptst_1_Form"/>
+		<form-bean name="rptst_2_form" type="tw.org.twntch.form.Rptst_2_Form"/>
+		<form-bean name="rptst_3_form" type="tw.org.twntch.form.Rptst_3_Form"/>
+		<form-bean name="rptst_4_form" type="tw.org.twntch.form.Rptst_4_Form"/>
+		<form-bean name="rptst_5_form" type="tw.org.twntch.form.Rptst_5_Form"/>
+		<form-bean name="rptst_6_form" type="tw.org.twntch.form.Rptst_6_Form"/>
+		<form-bean name="rptst_8_form" type="tw.org.twntch.form.Rptst_8_Form"/>
+		<form-bean name="rptst_10_form" type="tw.org.twntch.form.Rptst_10_Form"/>
+		<form-bean name="rptst_13_form" type="tw.org.twntch.form.Rptst_13_Form"/>
+		<form-bean name="rptst_14_form" type="tw.org.twntch.form.Rptst_14_Form"/>
+		<form-bean name="rptst_15_form" type="tw.org.twntch.form.Rptst_15_Form"/>
+<!-- 		作業程序子系統 -->
+		<form-bean name="turnon_form" type="tw.org.twntch.form.Turnon_Form"/>
+		<form-bean name="turnoff_form" type="tw.org.twntch.form.Turnoff_Form"/>
+		<form-bean name="tch_turnon_form" type="tw.org.twntch.form.Tch_Turnon_Form"/>
+		<form-bean name="tch_turnoff_form" type="tw.org.twntch.form.Tch_Turnoff_Form"/>
+		<form-bean name="msg_notice_form" type="tw.org.twntch.form.Msg_Notice_Form"/>
+		<form-bean name="ap_pause_form" type="tw.org.twntch.form.Ap_Pause_Form"/>
+		<form-bean name="tch_ap_pause_form" type="tw.org.twntch.form.Tch_Ap_Pause_Form"/>
+		<form-bean name="ap_restart_form" type="tw.org.twntch.form.Ap_Restart_Form"/>
+		<form-bean name="tch_ap_restart_form" type="tw.org.twntch.form.Tch_Ap_Restart_Form"/>
+		<form-bean name="opc_trans_form" type="tw.org.twntch.form.Opc_Trans_Form"/>
+		<form-bean name="ap_status_form" type="tw.org.twntch.form.Ap_Status_Form"/>
+		<form-bean name="monitor_form" type="tw.org.twntch.form.Monitor_Form"/>
+		<form-bean name="chg_mac_form" type="tw.org.twntch.form.Chg_Mac_Form"/>
+		<form-bean name="async_mac_form" type="tw.org.twntch.form.Async_Mac_Form"/>
+		<form-bean name="unknown_msg_form" type="tw.org.twntch.form.Unknown_Msg_Form"/>
+		<!-- 		安控元件 -->
+ 		<form-bean name="isec_version_form" type="tw.org.twntch.form.Isec_Version_Form"/>
+		<!-- 		代理清算行管理 -->
+		<form-bean name="proxy_cl_form" type="tw.org.twntch.form.Proxy_Cl_Form"/>
+<!-- 		交易資料 -->
+		<form-bean name="transactiondetail_download_form" type="tw.org.twntch.form.Transactiondetail_Download_Form"/>
+		<form-bean name="transactionday_download_form" type="tw.org.twntch.form.Transactionday_Download_Form"/>
+		<form-bean name="basedata_download_form" type="tw.org.twntch.form.Basedata_Download_Form"/>
+		<form-bean name="gcs_download_form" type="tw.org.twntch.form.GCS_Download_Form"/>
+		<form-bean name="fee_export_form" type="tw.org.twntch.form.Fee_Export_Form"/>
+		<form-bean name="fee_adj_form" type="tw.org.twntch.form.Fee_Adj_Form"/>
+		<form-bean name="transactionmonth_download_form" type="tw.org.twntch.form.Transactionmonth_Download_Form"/>
+		<form-bean name="feeday_download_form" type="tw.org.twntch.form.Feeday_Download_Form"/>
+		<form-bean name="feemonth_download_form" type="tw.org.twntch.form.Feemonth_Download_Form"/>
+		<form-bean name="clearday_download_form" type="tw.org.twntch.form.Clearday_Download_Form"/>
+<!--   		其他服務 -->
+		<form-bean name="each_fileupload_form" type="tw.org.twntch.form.Each_Fileupload_Form"/>
+		<form-bean name="each_filedownload_form" type="tw.org.twntch.form.Each_Filedownload_Form"/>
+		<form-bean name="each_formdownload_form" type="tw.org.twntch.form.Each_Formdownload_Form"/>
+		
+		<!-- 整批作業-整批資料上傳作業 -->
+		<form-bean name="batdata_upload_form" type="tw.org.twntch.form.Batdata_Upload_Form"/>
+		
+		<!-- 代理業者作業 -->
+		<form-bean name="agent_profile_form" type="tw.org.twntch.form.Agent_Profile_Form"/>
+		<form-bean name="agent_fee_code_form" type="tw.org.twntch.form.Agent_Fee_Code_Form"/>
+		<form-bean name="agent_send_profile_form" type="tw.org.twntch.form.Agent_Send_Profile_Form"/>
+		<form-bean name="agent_cr_line_form" type="tw.org.twntch.form.Agent_CR_Line_Form"/>
+		<form-bean name="txnlog_form" type="tw.org.twntch.form.TxnLog_Form"/>
+		<form-bean name="agent_txs_day_form" type="tw.org.twntch.form.Agent_Txs_Day_Form"/>
+		<form-bean name="agent_fee_search_form" type="tw.org.twntch.form.Agent_Fee_Search_Form"/>
+		<form-bean name="agent_turnon_form" type="tw.org.twntch.form.Agent_Turnon_Form"/>
+		<form-bean name="agent_turnoff_form" type="tw.org.twntch.form.Agent_Turnoff_Form"/>
+		<form-bean name="agent_notice_form" type="tw.org.twntch.form.Agent_Notice_Form"/>
+<!-- 		代理業者報表 -->
+		<form-bean name="rpt_agent_form" type="tw.org.twntch.form.Rpt_Agent_Form"/>
+		<form-bean name="rpt_form" type="tw.org.twntch.form.Rpt_Form"/>
+		<form-bean name="onblock_count_form" type="tw.org.twntch.form.Login_Form"/>
+	</form-beans>
+	
+	<global-forwards>
+        <forward name="session" path="/sessionck.jsp"/>
+		<forward name="error" path="/error.jsp"/>
+    </global-forwards>
+
+	<action-mappings>
+		<action
+        name="onblock_count_form"
+        path="/onblocktab_count"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="login" path="/login.jsp"/>
+    	</action>
+	 <action
+        name="testform"
+        path="/test"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="testB" path="/testB.jsp"/>
+    </action>
+<!--     系統登入 -->
+	 <action
+        name="login_form"
+        path="/login"
+        scope="session"
+        input="/index.jsp"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="login" path="/login.jsp"/>
+        <forward name="logout" path="/index.jsp"/>
+    </action>
+    
+<!--     公告系統管理 -->
+    <action
+        name="bulletin_form"
+        path="/bulletin"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/sys/bulletin_s.jsp"/>
+        <forward name="add_p"  path="/sys/bulletin_s_add.jsp"/>
+        <forward name="edit_p" path="/sys/bulletin_s_edit.jsp"/>
+    </action>
+<!--     使用者管理 -->
+	 <action
+        name="each_user_form"
+        path="/each_user"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/sys/each_user_s.jsp"/>
+        <forward name="add_p" path="/sys/each_user_s_add.jsp"/>
+		<forward name="edit_p" path="/sys/each_user_s_edit.jsp"/>
+    </action>
+	 <action
+        name="each_user_form"
+        path="/user_bank"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/sys/each_user_bank_s.jsp"/>
+        <forward name="add_p" path="/sys/each_user_bank_s_add.jsp"/>
+		<forward name="edit_p" path="/sys/each_user_bank_s_edit.jsp"/>
+    </action>
+<!--     功能清單管理 -->
+	 <action
+        name="func_list_form"
+        path="/func_list"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/sys/func_list_s.jsp"/>
+        <forward name="add_p" path="/sys/func_list_s_add.jsp"/>
+		<forward name="edit_p" path="/sys/func_list_s_edit.jsp"/>
+    </action>
+<!--     權限角色管理 -->
+	 <action
+        name="role_list_form"
+        path="/role_list"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/sys/role_list_s.jsp"/>
+        <forward name="add_p" path="/sys/role_list_s_add.jsp"/>
+		<forward name="edit_p" path="/sys/role_list_s_edit.jsp"/>
+    </action>
+	 <action
+        name="role_list_form"
+        path="/role_list_bank"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/sys/role_list_bank_s.jsp"/>
+		<forward name="edit_p" path="/sys/role_list_bank_s_edit.jsp"/>
+    </action>
+<!--     系統參數設定 -->
+	 <action
+        name="sys_para_form"
+        path="/sys_para"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/sys/sys_para_s.jsp"/>
+        <forward name="add_p" path="/sys/sys_para_s_add.jsp"/>
+		<forward name="edit_p" path="/sys/sys_para_s_edit.jsp"/>
+    </action>
+<!--     安控元件版本設定 -->
+	<action
+        name="isec_version_form"
+        path="/isec_version"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="edit" path="/sys/isec_version.jsp"/>
+    </action>
+<!--     營業日設定 -->
+	 <action
+        name="wk_date_form"
+        path="/wk_date"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/sys/wk_date_s.jsp"/>
+		<forward name="edit_p" path="/sys/wk_date_s_edit.jsp"/>
+    </action>
+<!--     額度設定 -->
+	 <action
+        name="cr_line_form"
+        path="/cr_line"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/sys/cr_line_s.jsp"/>
+        <forward name="add_p" path="/sys/cr_line_s_add.jsp"/>
+		<forward name="edit_p" path="/sys/cr_line_s_edit.jsp"/>
+    </action>
+	 <action
+        name="each_batch_form"
+        path="/each_batch"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/sys/bt_s.jsp"/>
+        <forward name="add_p" path="/sys/bt_s_add.jsp"/>
+		<forward name="edit_p" path="/sys/bt_s_edit.jsp"/>
+		<forward name="notify_p" path="/sys/bt_notify_rs.jsp"/>
+    </action>
+	 <action
+        name="each_batch_form"
+        path="/nonclear_batch"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/sys/nonclear_bt_s.jsp"/>
+    </action>
+	 <action
+        name="each_batch_def_form"
+        path="/each_batch_def"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/sys/btdef_s.jsp"/>
+        <forward name="add_p" path="/sys/btdef_s_add.jsp"/>
+        <forward name="edit_p" path="/sys/btdef_s_edit.jsp"/>
+    </action>
+<!--   颱風天處理作業   -->
+	 <action
+        name="typh_op_form"
+        path="/typh_op"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/sys/typh_op_s.jsp"/>
+    </action>
+<!--    總行資料維護  -->
+	 <action
+        name="bank_group_form"
+        path="/bank_group"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/base/bGroup_m.jsp"/>
+        <forward name="add_p" path="/base/bGroup_m_add.jsp"/>
+		<forward name="edit_p" path="/base/bGroup_m_edit.jsp"/>
+		<forward name="opbk_search" path="/pub/opbk_search.jsp"/>
+		<forward name="ctbk_search" path="/pub/ctbk_search.jsp"/>
+		<forward name="OP" path="/base/chg_op_rec.jsp"/>
+    </action>
+<!--     分行 -->
+	 <action
+        name="bank_branch_form"
+        path="/bank_branch"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/base/b_branch_m.jsp"/>
+        <forward name="add_p" path="/base/b_branch_m_add.jsp"/>
+		<forward name="edit_p" path="/base/b_branch_m_edit.jsp"/>
+		<forward name="branch_search" path="/pub/branch_search.jsp"/>
+    </action>
+<!--     代收發動者基本資料 -->
+    <action
+        name="sd_com_form"
+        path="/sd_com"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/base/sd_com_m.jsp"/>
+        <forward name="add_p" path="/base/sd_com_m_add.jsp"/>
+        <forward name="edit_p" path="/base/sd_com_m_edit.jsp"/>
+    </action>
+<!--     代付發動者基本資料 -->
+    <action
+        name="sc_com_form"
+        path="/sc_com"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/base/sc_com_m.jsp"/>
+        <forward name="add_p" path="/base/sc_com_m_add.jsp"/>
+        <forward name="edit_p" path="/base/sc_com_m_edit.jsp"/>
+    </action>
+<!--     業務清單 -->
+	 <action
+        name="business_type_form"
+        path="/business_type"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="business_type" path="/base/bs_type_m.jsp"/>
+        <forward name="business_type_add" path="/base/bs_type_m_add.jsp"/>
+        <forward name="business_type_edit" path="/base/bs_type_m_edit.jsp"/>
+    </action>
+<!--     交易代號 -->
+	 <action
+        name="txn_code_form"
+        path="/txn_code"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/base/txn_code_m.jsp"/>
+        <forward name="add_p" path="/base/txn_code_m_add.jsp"/>
+        <forward name="edit_p" path="/base/txn_code_m_edit.jsp"/>
+    </action>
+<!--     交易錯誤代號 -->
+	 <action
+        name="txn_err_code_form"
+        path="/txn_err_code"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/base/txn_err_code_m.jsp"/>
+        <forward name="add_p" path="/base/txn_err_code_m_add.jsp"/>
+        <forward name="edit_p" path="/base/txn_err_code_m_edit.jsp"/>
+    </action>
+<!--     一般錯誤代號 -->
+	 <action
+        name="gl_err_code_form"
+        path="/gl_err_code"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/base/gl_err_code_m.jsp"/>
+        <forward name="add_p" path="/base/gl_err_code_m_add.jsp"/>
+        <forward name="edit_p" path="/base/gl_err_code_m_edit.jsp"/>
+    </action>
+<!--     手續費代號維護 -->
+	 <action
+        name="fee_code_form"
+        path="/fee_code"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/base/fee_code_m.jsp"/>
+        <forward name="add_p" path="/base/fee_code_m_add.jsp"/>
+        <forward name="edit_p" path="/base/fee_code_m_edit.jsp"/>
+    </action>
+<!--     新版手續費代號維護 -->
+	 <action
+        name="fee_code_nw_form"
+        path="/fee_code_nw"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/base/fee_code_nw_m.jsp"/>
+        <forward name="add_p" path="/base/fee_code_nw_m_add.jsp"/>
+        <forward name="edit_p" path="/base/fee_code_nw_m_edit.jsp"/>
+        <forward name="add_lvl_more_p" path="/base/fee_code_nw_m_lvl_add.jsp"/>
+        <forward name="add_lvl_edit_p" path="/base/fee_code_nw_m_lvl_edit.jsp"/>
+        <forward name="add_lvl_result_p" path="/base/fee_code_nw_m_lvl_result.jsp"/>
+    </action>
+<!--     退回天數 -->
+	 <action
+        name="txn_returnday_form"
+        path="/txn_returnday"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/base/txn_returnday_m.jsp"/>
+        <forward name="add_p" path="/base/txn_returnday_m_add.jsp"/>
+		<forward name="edit_p" path="/base/txn_returnday_m_edit.jsp"/>
+		<forward name="history_p" path="/base/txn_returnday_m_history.jsp"/>
+    </action>
+<!--     交易類別維護-->
+	 <action
+        name="each_txn_code_form"
+        path="/each_txn_code"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/base/each_txn_code_m.jsp"/>
+        <forward name="add_p" path="/base/each_txn_code_m_add.jsp"/>
+        <forward name="edit_p" path="/base/each_txn_code_m_edit.jsp"/>
+    </action>
+<!--     繳費入帳業者基本資料維護 -->
+    <action
+        name="chg_sc_profile_form"
+        path="/chg_sc_profile"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/base/chg_sc_profile_m.jsp"/>
+        <forward name="add_p" path="/base/chg_sc_profile_m_add.jsp"/>
+        <forward name="edit_p" path="/base/chg_sc_profile_m_edit.jsp"/>
+    </action>
+<!--     收費業者基本資料維護 -->
+    <action
+        name="pi_company_profile_form"
+        path="/pi_company_profile"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/base/pi_company_profile_m.jsp"/>
+        <forward name="add_p" path="/base/pi_company_profile_add.jsp"/>
+        <forward name="edit_p" path="/base/pi_company_profile_edit.jsp"/>
+    </action>
+<!--     收費業者關連檔 -->
+    <action
+        name="pi_snd_profile_form"
+        path="/pi_snd_profile"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/base/pi_snd_profile_m.jsp"/>
+        <forward name="add_p" path="/base/pi_snd_profile_add.jsp"/>
+        <forward name="edit_p" path="/base/pi_snd_profile_edit.jsp"/>
+    </action>
+<!--     銷帳委託單位基本資料維護 -->
+    <action
+        name="wo_company_profile_form"
+        path="/wo_company_profile"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/base/wo_company_profile_m.jsp"/>
+        <forward name="add_p" path="/base/wo_company_profile_add.jsp"/>
+        <forward name="edit_p" path="/base/wo_company_profile_edit.jsp"/>
+    </action>
+<!--     交換所端操作紀錄查詢 -->
+	 <action
+        name="userlog_form"
+        path="/userlog"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/qs/userlog_tch_q.jsp"/>
+        <forward name="edit_p" path="/qs/userlog_tch_edit_q.jsp"/>
+    </action>
+	 <action
+        name="userlog_form"
+        path="/userlog_demo"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/qs/userlog_tch_q_demo.jsp"/>
+        <forward name="edit_p" path="/qs/userlog_tch_edit_q_Demo.jsp"/>
+    </action>
+    <!--     銀行端操作紀錄查詢 -->
+	 <action
+        name="userlog_form"
+        path="/userlog_bank"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/qs/userlog_bank_q.jsp"/>
+        <forward name="edit_p" path="/qs/userlog_bank_edit_q.jsp"/>
+    </action>
+<!-- 	查詢統計-交易明細查詢 -->
+    <action
+        name="onblocktab_form"
+        path="/onblocktab"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/qs/onblocktab_trad_q.jsp"/>
+        <forward name="edit_p" path="/qs/onblocktab_trad_edit_q.jsp"/>
+        <forward name="tx_err" path="/tx_err.do"/>
+        <forward name="undone_txdata" path="/undone_txdata.do"/>
+        <forward name="onblocktabNotTradRes" path="/onblocktabNotTradRes.do"/>
+        <forward name="batdata" path="/batdata.do"/>
+    </action>
+<!--     查詢統計-手續費查詢 -->
+	 <action
+        name="fee_search_form"
+        path="/fee_search"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/qs/fee_search_q.jsp"/>
+     </action>
+     <action
+        name="fee_search_form"
+        path="/fee_search_aftb"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/qs/fee_search_aftb_q.jsp"/>
+    </action>
+<!--     查詢統計-交易統計查詢(日) -->
+	 <action
+        name="txs_day_form"
+        path="/txs_day"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/qs/txs_day_q.jsp"/>
+    </action>
+<!--     查詢統計-結算統計查詢(日) -->
+	 <action
+        name="settle_day_form"
+        path="/settle_day"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/qs/settle_day_q.jsp"/>
+    </action>
+<!--     查詢統計-交易異常處理狀況查詢 -->
+	 <action
+        name="onblocktab_form"
+        path="/tx_err"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/qs/tx_err_q.jsp"/>
+        <forward name="edit_p" path="/qs/onblocktab_trad_edit_q.jsp"/>
+    </action>
+<!--     查詢統計-未完成交易資料查詢 -->
+	 <action
+        name="undone_txdata_form"
+        path="/undone_txdata"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/qs/undone_txdata_q.jsp"/>
+        <forward name="edit_p" path="/qs/onblocktab_trad_edit_q.jsp"/>
+    </action>
+<!--     查詢統計-交易失敗資料查詢 -->
+	 <action
+        name="fail_trans_form"
+        path="/fail_trans"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/qs/fail_trans_q.jsp"/>
+    </action>
+<!--     查詢統計-每小時交易處理時間統計 -->
+	 <action
+        name="hr_txp_time_form"
+        path="/hr_txp_time"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/qs/hr_txp_time_q.jsp"/>
+    </action>
+<!--     查詢統計-監控畫面查詢(業務單位) -->
+	 <action
+        name="monitor_biz_form"
+        path="/monitor_biz"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/qs/monitor_biz_q.jsp"/>
+    </action>
+<!--     查詢統計-每日交易處理時間統計 -->
+	 <action
+        name="onblocktab_evdayTraTimeTol_form"
+        path="/onblocktabevdayTraTimeTol"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/qs/onblocktab_evdayTraTimeTol_q.jsp"/>
+    </action>
+<!--     查詢統計-結算資料查詢 -->
+	 <action
+        name="clear_data_form"
+        path="/clear_data"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/qs/clear_data_q.jsp"/>
+        <forward name="edit_p" path="/qs/clear_data_edit_q.jsp"/>
+    </action>
+<!-- 未完成交易結果查詢 -->
+    <action
+        name="onblocktab_NotTradRes_form"
+        path="/onblocktabNotTradRes"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/qs/onblocktab_NotTradResult_q.jsp"/>    
+        <forward name="edit_p" path="/qs/onblocktab_trad_edit_q.jsp"/>    
+    </action>
+<!-- 結算通知電文查詢 -->
+    <action
+        name="opc_trans_form"
+        path="/settlement_msg"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/qs/settlement_msg_q.jsp"/>
+        <forward name="edit_p" path="/qs/settlement_msg_edit.jsp"/>
+    </action>
+<!--     連線結算檔調整 -->
+    <action
+        name="onclearing_adj_form"
+        path="/onclearing_adj"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/qs/onclearing_adj_q.jsp"/>
+        <forward name="edit_p" path="/qs/onclearing_adj_edit.jsp"/>
+    </action>
+<!--     繳費查詢 -->
+    <action
+        name="payment_category_form"
+        path="/payment_category"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/qs/payment_category_q.jsp"/>
+        <forward name="add_p" path="/qs/payment_category_add.jsp"/>
+        <forward name="edit_p" path="/qs/payment_category_edit.jsp"/>
+    </action>
+    
+<!--     交換所開機通知 -->
+	 <action
+        name="turnon_form"
+        path="/turnon"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/op/turnon_o.jsp"/>
+    </action>
+<!--     交換所關機通知 -->
+	 <action
+        name="turnoff_form"
+        path="/turnoff"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/op/turnoff_o.jsp"/>
+    </action>
+<!--     交換所關機作業 -->
+	 <action
+        name="tch_turnoff_form"
+        path="/tch_turnoff"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/op/tch_turnoff_o.jsp"/>
+    </action>
+<!--     交換所開機作業 -->
+	 <action
+        name="tch_turnon_form"
+        path="/tch_turnon"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/op/tch_turnon_o.jsp"/>
+    </action>
+<!--     交換所訊息通知 -->
+	 <action
+        name="msg_notice_form"
+        path="/msg_notice"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/op/msg_notice_o.jsp"/>
+    </action>
+<!--     交換所應用系統暫停通知 -->
+	 <action
+        name="ap_pause_form"
+        path="/ap_pause"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/op/ap_pause_o.jsp"/>
+    </action>
+<!--     交換所應用系統暫停作業 -->
+	 <action
+        name="tch_ap_pause_form"
+        path="/tch_ap_pause"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/op/tch_ap_pause_o.jsp"/>
+    </action>
+<!--     交換所應用系統重新啟動通知 -->
+	 <action
+        name="ap_restart_form"
+        path="/ap_restart"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/op/ap_restart_o.jsp"/>
+    </action>
+<!--     交換所應用系統重新啟動作業 -->
+	 <action
+        name="tch_ap_restart_form"
+        path="/tch_ap_restart"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/op/tch_ap_restart_o.jsp"/>
+    </action>
+<!--     交換所OPC交易查詢 -->
+	 <action
+        name="opc_trans_form"
+        path="/opc_trans"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/op/opc_trans_o.jsp"/>
+        <forward name="edit_p" path="/op/opc_trans_o_edit.jsp"/>
+    </action>
+<!--     交換所應用系統狀態查詢維護 -->
+	 <action
+        name="ap_status_form"
+        path="/ap_status"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/op/ap_status_o.jsp"/>
+        <forward name="edit_p" path="/op/ap_status_o_edit.jsp"/>
+    </action>
+<!--     監控畫面查詢(系統) -->
+	 <action
+        name="monitor_form"
+        path="/monitor"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/op/monitor_o.jsp"/>
+        <forward name="search_pending" path="/op/search_pending.jsp"/>
+    </action>
+<!--     交換所變更押碼基碼通知 -->
+	 <action
+        name="chg_mac_form"
+        path="/chg_mac"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/op/chg_mac_o.jsp"/>
+    </action>
+<!--     交換所押碼基碼同步通知 -->
+	 <action
+        name="async_mac_form"
+        path="/async_mac"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/op/async_mac_o.jsp"/>
+    </action>
+<!--     不明訊息交易查詢 -->
+	 <action
+        name="unknown_msg_form"
+        path="/unknown_msg"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/op/unknown_msg_o.jsp"/>
+    </action>
+<!--     報表-交易明細表 -->
+	 <action
+        name="rpttx_1_form"
+        path="/rpttx_1"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/tx_1_r.jsp"/>
+    </action>
+<!--     報表-未完成明細表 -->
+	 <action
+        name="rpttx_2_form"
+        path="/rpttx_2"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/tx_2_r.jsp"/>
+    </action>
+<!--     報表-未完成處理結果資料明細表 -->
+	 <action
+        name="rpttx_3_form"
+        path="/rpttx_3"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/tx_3_r.jsp"/>
+    </action>
+<!--     報表-整批交易明細報表(依發動行) -->
+	 <action
+        name="rpttx_4_form"
+        path="/rpttx_4"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/tx_4_r.jsp"/>
+    </action>
+<!--     報表-代理業者交易明細報表 -->
+	 <action
+        name="rpt_agent_form"
+        path="/rpttx_5"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/tx_5_r.jsp"/>
+    </action>
+<!--     代理業者手續費日報表 -->
+	 <action
+        name="rpt_agent_form"
+        path="/rptfee_8"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/fee_8_r.jsp"/>
+    </action>
+<!--     代理業者手續費月報表 -->
+	 <action
+        name="rpt_agent_form"
+        path="/rptfee_9"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/fee_9_r.jsp"/>
+    </action>
+<!--     代理業者手續費月報表-陳閱 -->
+	 <action
+        name="rpt_agent_form"
+        path="/rptfee_10"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/fee_10_r.jsp"/>
+    </action>
+<!--     報表-結算資料日報表 -->
+	 <action
+        name="rptcl_1_form"
+        path="/rptcl_1"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/cl_1_r.jsp"/>
+    </action>
+<!--     報表-銀行結算資料日報表 -->
+	 <action
+        name="rptcl_2_form"
+        path="/rptcl_2"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/cl_2_r.jsp"/>
+    </action>
+<!--     報表-收費日報表 -->
+	 <action
+        name="rptfee_1_form"
+        path="/rptfee_1"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/fee_1_r.jsp"/>
+    </action>
+<!--     報表-收費月報表-銀行別 -->
+	 <action
+        name="rptfee_2_form"
+        path="/rptfee_2"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/fee_2_r.jsp"/>
+    </action>
+<!--     報表-收費月報表-銀行別 陳閱-->
+	 <action
+        name="rptfee_3_form"
+        path="/rptfee_3"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/fee_3_r.jsp"/>
+    </action>
+<!--     報表-收費月報表-日期別 -->
+	 <action
+        name="rptfee_4_form"
+        path="/rptfee_4"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/fee_4_r.jsp"/>
+    </action>
+<!--     報表-銀行收費日報表 -->
+	 <action
+        name="rptfee_5_form"
+        path="/rptfee_5"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/fee_5_r.jsp"/>
+    </action>
+<!--     報表-銀行收費月報表-發動者別 -->
+	 <action
+        name="rptfee_6_form"
+        path="/rptfee_6"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/fee_6_r.jsp"/>
+    </action>
+<!--     報表-銀行收費月報表-日期別 -->
+	 <action
+        name="rptfee_7_form"
+        path="/rptfee_7"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/fee_7_r.jsp"/>
+    </action>
+<!--     報表-EA231-1銀行收費明細表 -->
+	 <action
+        name="rptfee_11_form"
+        path="/rptfee_11"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/fee_11_r.jsp"/>
+    </action>
+<!--     報表-交易資料日統計-銀行別 -->
+	 <action
+        name="rptst_1_form"
+        path="/rptst_1"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/st_1_r.jsp"/>
+    </action>
+<!--     報表-交易資料月統計-日期別 -->
+	 <action
+        name="rptst_2_form"
+        path="/rptst_2"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/st_2_r.jsp"/>
+    </action>
+<!--     報表-交易資料月統計-銀行別 -->
+	 <action
+        name="rptst_3_form"
+        path="/rptst_3"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/st_3_r.jsp"/>
+    </action>
+<!--     報表-交易資料月統計-發動者別 -->
+	 <action
+        name="rptst_4_form"
+        path="/rptst_4"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/st_4_r.jsp"/>
+    </action>
+<!--     報表-交易資料月統計-業務類別 -->
+	 <action
+        name="rptst_5_form"
+        path="/rptst_5"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/st_5_r.jsp"/>
+    </action>    
+<!--     報表-交易資料月統計-發動行交易筆數及金額比率表 -->
+	 <action
+        name="rptst_6_form"
+        path="/rptst_6"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/st_6_r.jsp"/>
+    </action>
+    <!--     報表-交易月統計(失敗原因及比率)-->
+	 <action
+        name="rpt_form"
+        path="/rptst_7"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/st_7_r.jsp"/>
+    </action>
+<!--     報表-每小時交易處理時間統計 -->
+	 <action
+        name="rptst_8_form"
+        path="/rptst_8"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/st_8_r.jsp"/>
+    </action>
+<!--     報表-參加單位每月處理時間排行榜 -->
+	 <action
+        name="rptst_10_form"
+        path="/rptst_10"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/st_10_r.jsp"/>
+    </action>
+    <!--     EA121ACH圈存平台未成交原因分析-->
+	 <action
+        name="rpt_form"
+        path="/rptst_11"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/st_11_r.jsp"/>
+    </action>
+<!--     報表-整批作業日報表 -->
+	 <action
+		name="rptst_13_form"
+		path="/rptst_13"
+		scope="request"
+		type="org.springframework.web.struts.DelegatingActionProxy">
+		<forward name="search" path="/rpt/st_13_r.jsp"/>
+	 </action>
+<!--     報表-整批作業月統計表 -->
+	 <action
+		name="rptst_14_form"
+		path="/rptst_14"
+		scope="request"
+		type="org.springframework.web.struts.DelegatingActionProxy">
+		<forward name="search" path="/rpt/st_14_r.jsp"/>
+	 </action>
+<!--     報表-交易處理時間統計-銀行別 -->
+	 <action
+		name="rptst_15_form"
+		path="/rptst_15"
+		scope="request"
+		type="org.springframework.web.struts.DelegatingActionProxy">
+		<forward name="search" path="/rpt/st_15_r.jsp"/>
+	 </action>
+	 <!--     報表-代理業者交易日統計報表 -->
+	 <action
+        name="rpt_agent_form"
+        path="/rptst_16"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/st_16_r.jsp"/>
+    </action>
+	 <!--     報表-代理業者交易月統計報表 -->
+	 <action
+        name="rpt_agent_form"
+        path="/rptst_17"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/st_17_r.jsp"/>
+    </action>
+	 <!--     報表-代理業者交易統計表-代理業者別-->
+	 <action
+        name="rpt_agent_form"
+        path="/rptst_18"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/st_18_r.jsp"/>
+    </action>
+	 <!--     報表-代理業者交易統計表-交易代號別-->
+	 <action
+        name="rpt_agent_form"
+        path="/rptst_19"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/st_19_r.jsp"/>
+    </action>
+    
+    
+<!--     報表-應收應付差額明細表 -->
+	 <action
+        name="rptcl_3_form"
+        path="/rptcl_3"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/cl_3_r.jsp"/>
+	</action>    
+<!--     報表-代理清算交換差額表 -->
+	 <action
+        name="rptcl_4_form"
+        path="/rptcl_4"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/rpt/cl_4_r.jsp"/>
+	</action>
+<!--     代理清算行 管理 -->
+	 <action
+        name="proxy_cl_form"
+        path="/proxy_cl"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/clear/proxy_cl_c.jsp"/>
+    </action>
+	 <action
+        name="proxy_cl_form"
+        path="/proxy_cl_rpt"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/clear/proxy_cl_rpt.jsp"/>
+    </action>
+	 <action
+        name="proxy_cl_form"
+        path="/proxy_cl_txt"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/clear/proxy_cl_txt.jsp"/>
+    </action>
+	 <action
+        name="proxy_cl_form"
+        path="/proxy_cl"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/clear/proxy_cl_c.jsp"/>
+    </action>
+    
+<!--     交易資料-交易明細資料檔下載 -->
+	<action
+        name="transactiondetail_download_form"
+        path="/transactiondetail_download"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/txdata/transactiondetail_download_q.jsp"/>
+    </action>
+<!--     交易資料-共用代碼資料下載 -->
+	<action
+        name="basedata_download_form"
+        path="/basedata_download"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/txdata/basedata_download_q.jsp"/>
+    </action>
+<!--     交易資料-GCS結算資料檔下載 -->
+	<action
+        name="gcs_download_form"
+        path="/gcs_download"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/txdata/gcs_download_q.jsp"/>
+    </action>
+<!--     交易資料-交易日統計資料檔下載 -->
+	<action
+        name="transactionday_download_form"
+        path="/transactionday_download"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/txdata/transactionday_download_q.jsp"/>
+    </action>
+<!--     交易資料-收費資料調整 -->
+	<action
+        name="fee_adj_form"
+        path="/fee_adj"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/txdata/fee_adj_q.jsp"/>
+        <forward name="add_p" path="/txdata/fee_adj_q_add.jsp"/>
+        <forward name="edit_p" path="/txdata/fee_adj_q_edit.jsp"/>
+    </action>
+<!--     交易資料-計費檔匯出 -->
+	<action
+        name="fee_export_form"
+        path="/fee_export"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/txdata/fee_export_q.jsp"/>
+    </action>
+<!--     交易資料-交易月統計資料檔下載 -->
+	<action
+        name="transactionmonth_download_form"
+        path="/transactionmonth_download"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/txdata/transactionmonth_download_q.jsp"/>
+    </action>
+<!--     交易資料-手續費日統計資料檔下載 -->
+	<action
+        name="feeday_download_form"
+        path="/feeday_download"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/txdata/feeday_download_q.jsp"/>
+    </action>
+<!--     交易資料-手續費月統計資料檔下載 -->
+	<action
+        name="feemonth_download_form"
+        path="/feemonth_download"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/txdata/feemonth_download_q.jsp"/>
+    </action>
+<!--     交易資料-結算日統計資料檔下載 -->
+	<action
+        name="clearday_download_form"
+        path="/clearday_download"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/txdata/clearday_download_q.jsp"/>
+    </action>
+<!--     其他服務-檔案上傳 -->
+	<action
+        name="each_fileupload_form"
+        path="/each_fileupload"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/oth/each_fileupload_q.jsp"/>
+        <forward name="add_p" path="/oth/each_fileupload_add.jsp"/>
+    </action>
+<!--     其他服務-檔案下載 -->
+	<action
+        name="each_filedownload_form"
+        path="/each_filedownload"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/oth/each_filedownload_q.jsp"/>
+    </action>    
+<!--     其他服務-表單下載 -->   
+	<action
+        name="each_formdownload_form"
+        path="/each_formdownload"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/oth/each_formdownload_q.jsp"/>
+    </action>    
+    <!-- 整批作業-整批交易資料查詢(依發動行) -->
+	<action
+        name="onblocktab_form"
+        path="/batdata"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/bat/batdata_b.jsp"/>
+        <forward name="edit_p" path="/qs/onblocktab_trad_edit_q.jsp"/>
+    </action>
+    <!-- 整批作業-整批資料上傳作業 -->
+    <action
+        name="batdata_upload_form"
+        path="/batdata_upload"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/bat/batdata_upload_b.jsp"/>
+    </action>
+    <!-- 代理業者作業-代理業者基本資料維護 -->
+    <action
+        name="agent_profile_form"
+        path="/agent_profile"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/proxy/agent_profile_p.jsp"/>
+        <forward name="add_p" path="/proxy/agent_profile_p_add.jsp"/>
+        <forward name="edit_p" path="/proxy/agent_profile_p_edit.jsp"/>
+    </action>
+    <!-- 代理業者作業-代理業者手續費資料維護 -->
+	 <action
+        name="agent_fee_code_form"
+        path="/agent_fee_code"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/proxy/agent_fee_code_p.jsp"/>
+        <forward name="add_p" path="/proxy/agent_fee_code_p_add.jsp"/>
+        <forward name="edit_p" path="/proxy/agent_fee_code_p_edit.jsp"/>
+    </action>
+	 <action
+        name="agent_send_profile_form"
+        path="/agent_send_profile"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/proxy/agent_send_profile_p.jsp"/>
+        <forward name="add_p" path="/proxy/agent_send_profile_p_add.jsp"/>
+        <forward name="edit_p" path="/proxy/agent_send_profile_p_edit.jsp"/>
+    </action>
+	 <action
+        name="agent_cr_line_form"
+        path="/agent_cr_line"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/proxy/agent_cr_line_p.jsp"/>
+        <forward name="add_p" path="/proxy/agent_cr_line_p_add.jsp"/>
+        <forward name="edit_p" path="/proxy/agent_cr_line_p_edit.jsp"/>
+    </action>
+<!--     代理業者交易資料查詢 -->
+	 <action
+        name="txnlog_form"
+        path="/txnlog"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/proxy_qs/txnlog_pq.jsp"/>
+        <forward name="edit_p" path="/proxy_qs/txnlog_edit_pq.jsp"/>
+    </action>
+    <!--     代理業者交易統計資料查詢 -->
+	 <action
+        name="agent_txs_day_form"
+        path="/agent_txs_day"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/proxy_qs/agent_txs_day_pq.jsp"/>
+    </action>
+    <!--     代理業者手續費統計資料查詢 -->
+	 <action
+        name="agent_fee_search_form"
+        path="/agent_fee_search"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/proxy_qs/agent_fee_search_pq.jsp"/>
+    </action>
+    
+    <!--     代理業者交易明細資料檔下載-->
+    <action
+        name="rpt_agent_form"
+        path="/agent_dl_tx001"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/txdata/agent_tx001_dl_q.jsp"/>
+    </action>
+    <!--     代理業者交易日統計資料檔下載-->
+    <action
+        name="rpt_agent_form"
+        path="/agent_dl_st001"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/txdata/agent_st001_dl_q.jsp"/>
+    </action>
+    <!--     代理業者手續費日統計資料檔下載-->
+    <action
+        name="rpt_agent_form"
+        path="/agent_dl_fee001"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/txdata/agent_fee001_dl_q.jsp"/>
+    </action>
+    <!--     代理業者計費檔下載-->
+    <action
+        name="rpt_agent_form"
+        path="/agent_dl_fee002"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/txdata/agent_fee002_dl_q.jsp"/>
+    </action>
+    <!--     代理業者OPC交易查詢-->
+    <action
+        name="rpt_agent_form"
+        path="/agent_opc_trans"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/op/agent_opc_trans_o.jsp"/>
+        <forward name="edit_p" path="/op/agent_opc_trans_o_edit.jsp"/>
+    </action>
+    <!--     代理模組開機通知 -->
+	<action
+        name="agent_turnon_form"
+        path="/agent_turnon"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/op/agent_turnon_o.jsp"/>
+    </action>
+	<!--     代理模組關機通知 -->
+	<action
+        name="agent_turnoff_form"
+        path="/agent_turnoff"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/op/agent_turnoff_o.jsp"/>
+    </action>
+    <!--     代理模組訊息通知 -->
+	<action
+        name="agent_notice_form"
+        path="/agent_notice"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/op/agent_notice_o.jsp"/>
+    </action>
+    
+    <action
+        name="agent_notice_form"
+        path="/agent_notice"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/op/agent_notice_o.jsp"/>
+    </action>
+    <action
+        name="alert_monitor_form"
+        path="/alert_monitor"
+        scope="request"
+        type="org.springframework.web.struts.DelegatingActionProxy">
+        <forward name="search" path="/qs/alert_monitor_q.jsp"/>
+    </action>
+	</action-mappings>
+</struts-config>

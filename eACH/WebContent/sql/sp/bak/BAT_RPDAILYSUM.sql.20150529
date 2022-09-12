@@ -1,0 +1,179 @@
+﻿CREATE PROCEDURE "EACHUSER"."BAT_RPDAILYSUM" ()
+	LANGUAGE SQL
+BEGIN
+	Declare sPhase VARCHAR(10);
+    Declare sPREVDATE VARCHAR(10);
+    Declare sBIZDATE VARCHAR(10);
+     Declare sDATEMODE VARCHAR(10);
+
+SET (sBIZDATE, sPREVDATE, sPhase , sDATEMODE ) = 
+        (SELECT THISDATE, PREVDATE, (case when ClearingPhase='01' then '02' else '01' end), DATEMODE
+         FROM EACHUSER.EACHSYSSTATUSTAB);
+--SET sBIZDATE = '20150225';
+--SET sPREVDATE = '20150224';
+--SET sPhase = '01';    
+
+    --20150523 edit by PU
+    --Call EACHUSER.UPD_EACH_BATCH_STATUS(sBizDATE, sPhase ,'BAT_RPDAILYSUM', 'P' , '');
+    CALL EACHUSER.UPD_EACH_BATCH_STATUS(sBizDATE, sPhase ,'BAT_RPDAILYSUM', 'P');
+
+--清算階段後統計檔
+        Delete EACHUSER.RPDAILYSUMTAB Where BizDATE=sBIZDATE and CLEARINGPHASE =sPhase ;
+        commit;
+        INSERT INTO EACHUSER.RPDAILYSUMTAB (BIZDATE, CLEARINGPHASE, TXN_ID,TXN_NAME, BUSINESS_TYPE_ID, BRBK_ID, BRBK_NAME, BGBK_ID, BGBK_NAME, SENDERID,COMPANY_ABBR_NAME  ,PCODE,EACH_TXN_NAME, OP_TYPE, RESULTSTATUS ,CNT, AMT ,OPBK_ID) 
+        select 
+               BIZDATE
+                ,CLEARINGPHASE
+                ,TXN_ID
+                ,(select TXN_NAME from EACHUSER.TXN_CODE where TXN_ID=X.TXN_ID) TXN_NAME
+                ,(select BUSINESS_TYPE_ID from EACHUSER.TXN_CODE where TXN_ID=X.TXN_ID) BUSINESS_TYPE_ID
+                ,BRBK_ID
+                ,EACHUSER.GETBKNAME(BRBK_ID) BRBK_NAME
+                 ,EACHUSER.GETBKHEADID(BRBK_ID) BGBK_ID
+                 ,(SELECT B.BGBK_NAME FROM EACHUSER.BANK_GROUP AS B WHERE B.BGBK_ID = EACHUSER.GETBKHEADID(BRBK_ID))
+                 ,SENDERID
+                , EACHUSER.GETCOMPANY_ABBR(SENDERID) COMPANY_ABBR_NAME
+                ,PCODE
+                ,(select EACH_TXN_NAME from EACHUSER.EACH_TXN_CODE where EACH_TXN_ID=X.PCODE) EACH_TXN_NAME
+                ,OP_TYPE 
+                ,RESULTSTATUS
+                ,CNT
+                , AMT
+                ,  (SELECT OPBK_ID FROM EACHUSER.BANK_GROUP WHERE BGBK_ID = EACHUSER.GETBKHEADID(BRBK_ID) ) OPBK_ID
+        from (
+             --扣款行 (+應收; -應付)  
+              SELECT
+                   BIZDATE
+                   ,CLEARINGPHASE
+                    ,TXID TXN_ID
+                    ,OUTBANKID BRBK_ID
+                     ,SENDERID
+                ,PCODE
+                     ,'O' OP_TYPE
+                     ,RESULTSTATUS 
+                    ,Count(*)  CNT
+                    ,SUM (NEWTXAMT) AMT
+                FROM
+                    EACHUSER.VW_ONBLOCKTAB 
+                Where  SENDERSTATUS != '1' and COALESCE(GARBAGEDATA,'') != '*' and CLEARINGPHASE=sPhase and BIZDATE=sBIZDATE
+                Group by     BIZDATE , CLEARINGPHASE ,  TXID ,OUTBANKID ,SENDERID ,RESULTSTATUS  ,PCODE
+     --上下結果集合併 
+        Union All
+             --入帳行手續費 (+應收; -應付)
+             SELECT
+                BIZDATE
+               ,CLEARINGPHASE
+                ,TXID TXN_ID
+                ,INBANKID BRBK_ID
+                ,SENDERID
+                ,PCODE
+                ,'I' OP_TYPE
+                ,RESULTSTATUS
+                ,Count(*) CNT
+                ,SUM (NEWTXAMT) AMT
+            FROM
+                EACHUSER.VW_ONBLOCKTAB 
+            Where  SENDERSTATUS != '1'  and COALESCE(GARBAGEDATA,'') != '*' and  CLEARINGPHASE=sPhase and BIZDATE=sBIZDATE
+            Group by     BIZDATE , CLEARINGPHASE , TXID , INBANKID,SENDERID ,RESULTSTATUS ,PCODE
+     --上下結果集合併 
+        Union ALL
+             --發動行手續費及?正(+應收; -應付)
+          SELECT
+                BIZDATE
+               ,CLEARINGPHASE
+                ,TXID TXN_ID
+                ,SENDERBANKID BRBK_ID
+                ,SENDERID
+                ,PCODE
+                ,'S' OP_TYPE
+                ,RESULTSTATUS
+                ,Count(*) CNT
+                ,SUM (NEWTXAMT) AMT
+            FROM
+                EACHUSER.VW_ONBLOCKTAB 
+            Where  SENDERSTATUS != '1'  and COALESCE(GARBAGEDATA,'') != '*' and  CLEARINGPHASE=sPhase and BIZDATE=sBIZDATE
+            Group by  BIZDATE , CLEARINGPHASE , TXID , SENDERBANKID,SENDERID ,RESULTSTATUS  ,PCODE
+         )  X
+        ;
+        commit;
+
+--20150327
+--清算階段之前一營業日未完成交易結果統計檔
+        Delete EACHUSER.RPPENDINGDAILYSUMTAB Where BizDATE=sPREVDATE and CLEARINGPHASE =sPhase ;
+        INSERT INTO EACHUSER.RPPENDINGDAILYSUMTAB (BIZDATE, CLEARINGPHASE, TXN_ID, TXN_NAME,BUSINESS_TYPE_ID, BRBK_ID, BRBK_NAME, BGBK_ID, SENDERID,COMPANY_ABBR_NAME, PCODE,EACH_TXN_NAME, OP_TYPE, RESULTSTATUS ,CNT, AMT ,OPBK_ID) 
+        select 
+               OBIZDATE
+                ,OCLEARINGPHASE
+                ,TXN_ID
+               ,(select TXN_NAME from EACHUSER.TXN_CODE where TXN_ID=X.TXN_ID) TXN_NAME
+                ,(select BUSINESS_TYPE_ID from EACHUSER.TXN_CODE where TXN_ID=X.TXN_ID) BUSINESS_TYPE_ID
+                ,BRBK_ID
+                ,EACHUSER.GETBKNAME(BRBK_ID) BRBK_NAME
+                 ,EACHUSER.GETBKHEADID(BRBK_ID) BGBK_ID
+                 ,SENDERID
+                , EACHUSER.GETCOMPANY_ABBR(SENDERID) COMPANY_ABBR_NAME
+                 ,PCODE
+               ,(select EACH_TXN_NAME from EACHUSER.EACH_TXN_CODE where EACH_TXN_ID=X.PCODE) EACH_TXN_NAME
+                ,OP_TYPE 
+                ,NewRESULT
+                ,count(*) CNT
+                , sum(AMT) 
+                ,  (SELECT OPBK_ID FROM EACHUSER.BANK_GROUP WHERE BGBK_ID = EACHUSER.GETBKHEADID(BRBK_ID) ) OPBK_ID
+        from (
+             --扣款行交易金額
+              SELECT
+                    B.OBIZDATE
+                   ,B.OCLEARINGPHASE
+                    ,A.TXID TXN_ID
+                    ,B.OUTBANKID BRBK_ID
+                     ,A.SENDERID
+                     ,A.PCODE
+                     ,'O' OP_TYPE
+                     ,(case when (B.RESULTCODE='01'  or A.ACCTCODE='0') then 'R'  else 'A' end)  NewRESULT  
+                   -- ,Count(*)  CNT
+                    ,EACHUSER.ISNUMERIC(B.TXAMT) AMT
+              FROM EACHUSER.ONPENDINGTAB B
+              left join EACHUSER.ONBLOCKTAB A on B.otxdate=A.txdate  and A.Stan=B.oStan and A.Clearingphase=B.oClearingphase and A.BIZDATE = B.oBIZDATE 
+                Where  B.OCLEARINGPHASE=sPhase and B.OBIZDATE=sPREVDATE
+     --上下結果集合併 
+        Union All
+             --入帳行交易金額 
+             SELECT
+                    B.OBIZDATE
+                   ,B.OCLEARINGPHASE
+                    ,A.TXID TXN_ID
+                    ,B.INBANKID BRBK_ID
+                     ,A.SENDERID
+                     ,A.PCODE
+                     ,'I' OP_TYPE
+                     ,(case when (B.RESULTCODE='01'  or A.ACCTCODE='0') then 'R'  else 'A' end)  NewRESULT  
+                   -- ,Count(*)  CNT
+                    ,EACHUSER.ISNUMERIC(B.TXAMT) AMT
+              FROM EACHUSER.ONPENDINGTAB B
+              left join EACHUSER.ONBLOCKTAB A on B.otxdate=A.txdate  and A.Stan=B.oStan and A.Clearingphase=B.oClearingphase and A.BIZDATE = B.oBIZDATE 
+                Where  B.OCLEARINGPHASE=sPhase and B.OBIZDATE=sPREVDATE
+     --上下結果集合併 
+        Union ALL
+             --發動行交易金額
+            SELECT
+                    B.OBIZDATE
+                   ,B.OCLEARINGPHASE
+                    ,A.TXID TXN_ID
+                    ,B.SENDERBANKID BRBK_ID
+                     ,A.SENDERID
+                    ,A.PCODE
+                     ,'S' OP_TYPE
+                     ,(case when (B.RESULTCODE='01'  or A.ACCTCODE='0') then 'R'  else 'A' end)  NewRESULT  
+                   -- ,Count(*)  CNT
+                    ,EACHUSER.ISNUMERIC(B.TXAMT) AMT
+              FROM EACHUSER.ONPENDINGTAB B
+              left join EACHUSER.ONBLOCKTAB A on B.otxdate=A.txdate  and A.Stan=B.oStan and A.Clearingphase=B.oClearingphase and A.BIZDATE = B.oBIZDATE 
+              Where  B.OCLEARINGPHASE=sPhase and B.OBIZDATE=sPREVDATE
+         )  X Group by   OBIZDATE , OCLEARINGPHASE ,BRBK_ID ,OP_TYPE ,SENDERID , PCODE , TXN_ID, NewRESULT
+        ;
+        commit;
+
+    --20150523 edit by PU
+    --Call EACHUSER.UPD_EACH_BATCH_STATUS(sBizDATE, sPhase ,'BAT_RPDAILYSUM', 'S' ,'' );
+    CALL EACHUSER.UPD_EACH_BATCH_STATUS(sBizDATE, sPhase ,'BAT_RPDAILYSUM', 'S');
+END

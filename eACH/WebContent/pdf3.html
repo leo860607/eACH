@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>HTML to PDF - techumber</title>
+	<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
+	<style type="text/css">
+	</style>
+	<script type="text/javascript" src="./js/jquery-latest.js"></script>
+<!-- 		<script type="text/javascript" src="./js/jquery-ui-latest.js"></script> -->
+<!-- 		<script type="text/javascript" src="./js/jquery.blockUI.js"></script> -->
+	<script type="text/javascript" src="./pdf_js/jspdf.js"></script>
+		<script type="text/javascript" src="./pdf_js/jspdf.min.js"></script>
+		<script type="text/javascript" src="./pdf_js/html2canvas.js"></script>
+<!-- 		<script type="text/javascript" src="./pdf_js/jspdf.debug.js"></script> -->
+<!-- 		<script type="text/javascript" src="./pdf_js/jspdf.js"></script> -->
+<!-- 		<script type="text/javascript" src="./pdf_js/from_html.js"></script> -->
+<!-- 		<script type="text/javascript" src="./pdf_js/split_text_to_size.js"></script> -->
+<!-- 		<script type="text/javascript" src="./pdf_js/standard_fonts_metrics.js"></script> -->
+<!-- 		<script type="text/javascript" src="./pdf_js/addimage.js"></script> -->
+</head>
+
+<div id="content">
+<img  src="./images/page_login_old.jpg" alt="Smiley face" height="42" width="42">
+<img  src="./images/button01.png" alt="Smiley face" height="42" width="42">
+<select>
+<option>aaa</option>
+<option>bbb</option>
+<option>cc</option>
+<option>sss</option>
+</select>
+    <table id="tab_customers" class="table table-striped">
+        <colgroup>
+            <col width="20%">
+                <col width="20%">
+                    <col width="20%">
+                        <col width="20%">
+        </colgroup>
+        <thead>
+            <tr class='warning'>
+                <th>Country</th>
+                <th>Population</th>
+                <th>Date</th>
+                <th>Age</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Chinna</td>
+                <td>1,363,480,000</td>
+                <td>March 24, 2014</td>
+                <td>19.1</td>
+            </tr>
+            <tr>
+                <td>India</td>
+                <td>1,241,900,000</td>
+                <td>March 24, 2014</td>
+                <td>17.4</td>
+            </tr>
+            <tr>
+                <td>United States</td>
+                <td>317,746,000</td>
+                <td>March 24, 2014</td>
+                <td>4.44</td>
+            </tr>
+            <tr>
+                <td>Indonesia</td>
+                <td>249,866,000</td>
+                <td>July 1, 2013</td>
+                <td>3.49</td>
+            </tr>
+            <tr>
+                <td>Brazil</td>
+                <td>201,032,714</td>
+                <td>July 1, 2013</td>
+                <td>2.81</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<button id="pdf">PDF</button>
+
+<script type="text/javascript">
+window.onload = function(){
+var content = $('#content'),
+    cache_width = content.width(),
+    a4  =[ 595.28,  841.89];  // for a4 size paper width and height
+
+$('#pdf').on('click',function(){
+	console.log('hello');
+    $('body').scrollTop(0);
+    createPDF();
+});
+//create pdf
+function createPDF(){
+    getCanvas().then(function(canvas){
+        var 
+        img = canvas.toDataURL("image/png"),
+        doc = new jsPDF({
+          unit:'px', 
+          format:'a4'
+        });     
+        doc.addImage(img, 'JPEG', 20, 20);
+        doc.save("{{this.['Student Last Name']}}-{{this.['Student Name']}}-umpire-incident-report.pdf");
+        content.width(cache_width);
+    });
+}
+
+// create canvas object
+function getCanvas(){
+    content.width((a4[0]*1.33333) -80).css('max-width','none');
+    return html2canvas(content,{
+        imageTimeout:2000,
+        removeContainer:true
+    }); 
+}
+
+};
+</script >

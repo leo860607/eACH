@@ -1,0 +1,85 @@
+-- 20150430 edit by hugo req by 李建利 此張報表所有應付金額都要正向表示 差額才有負號
+SELECT coalesce( b.CTBK_ID ,'')  CTBK_ID , coalesce((SELECT BGBK_NAME  FROM BANK_GROUP  WHERE BGBK_ID = b.CTBK_ID )  ,'') CTBGBK_NAME 
+, coalesce((SELECT CTBK_ACCT  FROM BANK_GROUP  WHERE BGBK_ID = b.CTBK_ID )  ,'') CTBK_ACCT ,VARCHAR(a.CLEARINGPHASE) CLEARINGPHASE 
+, VARCHAR(a.BGBK_ID) BGBK_ID , (select coalesce(bgbk_name,'') from bank_group where bgbk_id=a.BGBK_ID) BGBK_NAME
+,SUM(a.RECVCNT) RECVCNT , SUM(a.RECVAMT) RECVAMT , SUM(a.PAYCNT) PAYCNT , abs(SUM(a.PAYAMT )) PAYAMT ,SUM(a.RVSRECVCNT) RVSRECVCNT , SUM(a.RVSRECVAMT) RVSRECVAMT ,SUM(a.RVSPAYCNT) RVSPAYCNT , abs(SUM(a.RVSPAYAMT)) RVSPAYAMT 
+,SUM(a.RECVAMT+a.RVSRECVAMT) in_tol, abs(SUM(a.PAYAMT+a.RVSPAYAMT)) out_tol,SUM((a.RECVAMT+a.RVSRECVAMT)+(a.PAYAMT+a.RVSPAYAMT)) dif_tol
+FROM EACHUSER.RPONCLEARINGTAB a
+RIGHT JOIN BANK_GROUP b ON a.BGBK_ID = b.BGBK_ID and b.BGBK_ID != b.CTBK_ID
+WHERE a.BIZDATE = '20150429' --AND b.CTBK_ID = '0060000'
+GROUP BY b.CTBK_ID , a.BGBK_ID  ,CLEARINGPHASE 
+
+--20150302 後新的
+SELECT coalesce( b.CTBK_ID ,'')  CTBK_ID , coalesce((SELECT BGBK_NAME  FROM BANK_GROUP  WHERE BGBK_ID = b.CTBK_ID )  ,'') CTBGBK_NAME 
+, coalesce((SELECT CTBK_ACCT  FROM BANK_GROUP  WHERE BGBK_ID = b.CTBK_ID )  ,'') CTBK_ACCT ,VARCHAR(a.CLEARINGPHASE) CLEARINGPHASE 
+, VARCHAR(a.BGBK_ID) BGBK_ID , (select coalesce(bgbk_name,'') from bank_group where bgbk_id=a.BGBK_ID) BGBK_NAME
+,SUM(a.RECVCNT) RECVCNT , SUM(a.RECVAMT) RECVAMT ,SUM(a.PAYCNT) PAYCNT , SUM(a.PAYAMT ) PAYAMT ,SUM(a.RVSRECVCNT) RVSRECVCNT , SUM(a.RVSRECVAMT) RVSRECVAMT ,SUM(a.RVSPAYCNT) RVSPAYCNT ,SUM(a.RVSPAYAMT) RVSPAYAMT 
+,SUM(a.RECVAMT+a.RVSRECVAMT) in_tol, SUM(a.PAYAMT+a.RVSPAYAMT) out_tol,SUM((a.RECVAMT+a.RVSRECVAMT)+(a.PAYAMT+a.RVSPAYAMT)) dif_tol
+FROM EACHUSER.RPONCLEARINGTAB a
+RIGHT JOIN BANK_GROUP b ON a.BGBK_ID = b.BGBK_ID and b.BGBK_ID != b.CTBK_ID
+WHERE a.BIZDATE = '20150225' --AND b.CTBK_ID = '0060000'
+GROUP BY b.CTBK_ID , a.BGBK_ID  ,CLEARINGPHASE 
+ORDER BY CLEARINGPHASE ,  b.CTBK_ID
+
+
+--列印成.TXT的語法
+
+
+SELECT T.BIZDATE
+,STRIP(T.CLEARINGPHASE,L,'0' ) CLEARINGPHASE
+, case when T.CLEARINGPHASE = '01' then 'E' else 'F' end CLTYPE
+, T.BGBK_ID,T.TCH_ID ,T.BGBK_ATTR
+,LPAD( cast( T.OUTCNT as VARCHAR(9) )  , 9, '0')  AS OUTCNT
+,LPAD( cast( ABS(T.out_tol)as VARCHAR(14) )  , 14, '0')  AS out_tol
+,LPAD( cast( T.INCNT as VARCHAR(9) )  , 9, '0')  AS INCNT
+,LPAD( cast( ABS(T.in_tol)as VARCHAR(14) )  , 14, '0')  AS in_tol
+,LPAD( cast( ABS(T.dif_tol)as VARCHAR(14) )  , 14, '0')  AS dif_tol
+, case when T.dif_tol < 0 THEN '-' ELSE '+' END DIF_MARK
+FROM (
+        SELECT  coalesce( b.CTBK_ID ,'')  CTBK_ID ,TRANS_DATE(a.BIZDATE ,'T' , '/') BIZDATE
+         ,VARCHAR(a.CLEARINGPHASE) CLEARINGPHASE
+        , VARCHAR(a.BGBK_ID) BGBK_ID
+        ,b.TCH_ID ,b.BGBK_ATTR
+        ,SUM(a.RECVCNT + a.RVSRECVCNT)  INCNT ,SUM(a.PAYCNT + a.RVSPAYCNT) OUTCNT
+        ,SUM(a.RECVCNT) RECVCNT , SUM(a.RECVAMT) RECVAMT ,SUM(a.PAYCNT) PAYCNT , SUM(a.PAYAMT ) PAYAMT ,SUM(a.RVSRECVCNT) RVSRECVCNT , SUM(a.RVSRECVAMT) RVSRECVAMT ,SUM(a.RVSPAYCNT) RVSPAYCNT ,SUM(a.RVSPAYAMT) RVSPAYAMT
+        ,SUM(a.RECVAMT+a.RVSRECVAMT) in_tol, SUM(a.PAYAMT+a.RVSPAYAMT) out_tol,SUM((a.RECVAMT+a.RVSRECVAMT)+(a.PAYAMT+a.RVSPAYAMT)) dif_tol
+        FROM EACHUSER.RPONCLEARINGTAB a
+        RIGHT JOIN BANK_GROUP b ON a.BGBK_ID = b.BGBK_ID and b.BGBK_ID != b.CTBK_ID
+        WHERE a.BIZDATE = '20150317' --AND b.CTBK_ID = '0060000'
+        GROUP BY b.CTBK_ID , a.BGBK_ID  ,CLEARINGPHASE  ,b.TCH_ID,b.BGBK_ATTR   ,a.BIZDATE
+        ORDER BY CLEARINGPHASE ,  b.CTBK_ID , a.BGBK_ID
+        ) T
+
+
+
+--20150302 前舊的
+WITH TEMP AS (  
+			 	SELECT      (case when a.ACCTCODE='0' then '0' else '1' end) ACCTCODE,  
+			     a.CLEARINGPHASE,   
+			     GetBkHeadId(a.INCLEARING) INCLEARING,   
+			     GetBkHeadId(a.OUTCLEARING) OUTCLEARING,  
+			     a.TXAMT,  
+			     a.RESULTSTATUS,  
+			     a.RC1,  
+			     a.RC2,  
+			     a.RC3   
+			     FROM RPONBLOCKTAB  A  
+			sql.append(conStr_1);
+			 )  
+
+			  SELECT  GetBkHead(a.bgbk_Id)     bgbk_Id,       //銀行代號名稱
+			  (case when a.CLEARINGPHASE='01' then '第一階段' else '第二階段' end)  CLEARINGPHASE,  //清算階段
+			  (SELECT count(INCLEARING)  from TEMP where  INCLEARING=a.bgbk_Id and CLEARINGPHASE=a.CLEARINGPHASE and ACCTCODE='1' ) InCount,  //入帳筆數
+			  (SELECT Sum(TXAMT)  from TEMP where  INCLEARING=a.bgbk_Id and CLEARINGPHASE=a.CLEARINGPHASE and ACCTCODE='1') INAmt,  //入帳金額(B)
+			  (SELECT count(INCLEARING)  from TEMP where  INCLEARING=a.bgbk_Id and CLEARINGPHASE=a.CLEARINGPHASE and ACCTCODE='0' ) InBackCount,  //扣款沖正筆數
+			  (SELECT Sum(TXAMT)  from TEMP where  INCLEARING=a.bgbk_Id and CLEARINGPHASE=a.CLEARINGPHASE and ACCTCODE='0') InBackAmt,  //扣款沖正金額(B)
+			  (SELECT count(OUTCLEARING)  from TEMP where  OUTCLEARING=a.bgbk_Id and CLEARINGPHASE=a.CLEARINGPHASE and ACCTCODE='1' ) OutCount,  //扣款筆數
+			  (SELECT Sum(TXAMT)  from TEMP where  OUTCLEARING=a.bgbk_Id and CLEARINGPHASE=a.CLEARINGPHASE and ACCTCODE='1') OutAmt,  //扣款金額(C)
+			  (SELECT count(OUTCLEARING)  from TEMP where  OUTCLEARING=a.bgbk_Id and CLEARINGPHASE=a.CLEARINGPHASE and ACCTCODE='0' ) OutBackCount,  //入帳沖正筆數
+			  (SELECT Sum(TXAMT)  from TEMP where  OUTCLEARING=a.bgbk_Id and CLEARINGPHASE=a.CLEARINGPHASE and ACCTCODE='0') OutBackAmt  //入帳沖正金額(C)
+			  FROM  
+			  (select distinct INCLEARING bgbk_Id , CLEARINGPHASE from Temp  
+			  union select distinct OUTCLEARING bgbk_Id , CLEARINGPHASE from Temp  
+			  )  a  
+			  where a.bgbk_Id = '"+val+  "' 
+			  order by a.bgbk_Id , a.CLEARINGPHASE desc  

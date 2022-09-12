@@ -1,0 +1,204 @@
+10.60.3.8
+CREATE PROCEDURE "EACHUSER"."MAN_RPMONTHSUM" (in sBizDATE varchar(10), in sPhase varchar(2))
+	LANGUAGE SQL
+BEGIN
+	Declare sDATEMODE VARCHAR(1);   --營業日是否已經換日
+    Declare startDATE VARCHAR(10);  --上個月的 startDATE
+	Declare endDATE VARCHAR(10);    --上個月的 endDATE
+    Declare begDATE VARCHAR(10);    --查詢營業日檔的begin Date
+    Declare sMonFirstDate VARCHAR(10);  --當月的第一個營業日
+    
+    SET begDATE = to_char(Date(substr(sBIZDATE,1,4) || '-' || substr(sBIZDATE,5,2) || '-01 00:00:00') , 'yyyymmdd');
+    SET endDATE = to_char(Date(substr(sBIZDATE,1,4) || '-' || substr(sBIZDATE,5,2) || '-01 00:00:00') - 1 Days , 'yyyymmdd');
+    SET startDATE = substr(endDATE,1,6) || '01';
+    --sMonFirstDate 從營業日檔抓出當月的第一個營業日
+    SET sMonFirstDate=(
+		SELECT txn_date FROM (
+			SELECT EACHUSER.TRANS_DATE(txn_date,'W','') txn_date  ,row_number()  OVER (ORDER BY txn_date asc) row_num
+			FROM  EACHUSER.WK_DATE_CALENDAR 
+			where (txn_date between EACHUSER.TRANS_DATE(begDATE,'T','') and  EACHUSER.TRANS_DATE(sBIZDATE,'T','') ) and IS_TXN_DATE='Y'
+		) where row_num =1
+	);
+
+    --如果sBIZDATE不是當月的第一個營業日，則不執行上個月的月統計批次
+	IF sBIZDATE != sMonFirstDate then 
+--20150527 edit by hugo
+		--Call EACHUSER.UPD_EACH_BATCH_STATUS(sBIZDATE, '02' ,'BAT_RPMONTHSUM', 'N', 'MonFirstDate=' || sMonFirstDate || '@sBIZDATE=' || sBIZDATE ) ;
+        Call EACHUSER.UPD_EACH_BATCH_STATUS(sBIZDATE, '02' ,'BAT_RPMONTHSUM', 'N' ) ;
+    End If;
+	
+	--如果sBIZDATE是當月的第一個營業日，則執行上個月的月統計批次
+    IF sBIZDATE = sMonFirstDate THEN
+--20150527 edit by hugo
+		--Call EACHUSER.UPD_EACH_BATCH_STATUS(sBIZDATE, '02' ,'BAT_RPMONTHSUM', 'P', 'startDATE=' || startDATE || '@endDATE=' || endDATE );
+Call EACHUSER.UPD_EACH_BATCH_STATUS(sBIZDATE, '02' ,'BAT_RPMONTHSUM', 'P' );
+        DELETE FROM EACHUSER.RPMONTHSUMTAB Where YYYYMM = substr(endDATE,1,6);
+
+        --commit;
+        INSERT INTO EACHUSER.RPMONTHSUMTAB (
+			--YYYYMM, TXN_ID,TXN_NAME, BUSINESS_TYPE_ID, BRBK_ID,BRBK_NAME, BGBK_ID, SENDERID,COMPANY_ABBR_NAME, PCODE, OP_TYPE, RESULTSTATUS ,CNT, AMT ,OPBK_ID
+			YYYYMM, BRBK_ID, BRBK_NAME, BGBK_ID, TXN_ID, TXN_NAME, SENDERID, COMPANY_ABBR_NAME, BUSINESS_TYPE_ID, OP_TYPE, RESULTSTATUS, CNT, AMT, PCODE, EACH_TXN_NAME
+		) 
+        Select 
+        YYYYMM
+		,BRBK_ID
+		,EACHUSER.GETBKNAME(BRBK_ID) BRBK_NAME
+		,EACHUSER.GETBKHEADID(BRBK_ID) BGBK_ID
+		,TXN_ID
+		,(select TXN_NAME from EACHUSER.TXN_CODE where TXN_ID = X.TXN_ID) TXN_NAME
+		,SENDERID
+		,EACHUSER.GETCOMPANY_ABBR(SENDERID) COMPANY_ABBR_NAME
+		,(select BUSINESS_TYPE_ID from EACHUSER.TXN_CODE where TXN_ID = X.TXN_ID) BUSINESS_TYPE_ID
+		,OP_TYPE
+		,RESULTSTATUS	--A=成功; R=失敗
+		,SUM(CNT) CNT
+		,SUM(AMT) AMT
+		,PCODE
+		,(SELECT EACH_TXN_NAME FROM EACHUSER.EACH_TXN_CODE WHERE EACH_TXN_ID = PCODE) AS EACH_TXN_NAME
+        from (
+			--日統計(不含未完成)
+			SELECT
+			substr(BIZDATE,1,6) YYYYMM               
+			,TXN_ID
+			,BRBK_ID
+			,SENDERID
+			,PCODE
+			,OP_TYPE
+			,RESULTSTATUS
+			,CNT
+			,AMT
+			FROM EACHUSER.RPDAILYSUMTAB 
+			Where RESULTSTATUS !='P' and (BIZDATE between startDATE and endDATE)
+			--上下結果集合併              
+            Union All
+            --日統計未完成交易結果
+			SELECT
+			substr(BIZDATE,1,6) YYYYMM               
+			,TXN_ID
+			,BRBK_ID
+			,SENDERID
+			,PCODE
+			,OP_TYPE
+			,RESULTSTATUS
+			,CNT
+			,AMT
+			FROM EACHUSER.RPPENDINGDAILYSUMTAB 
+			Where BIZDATE between startDATE and endDATE
+		) X Group by  YYYYMM , TXN_ID , BRBK_ID,SENDERID , PCODE ,OP_TYPE ,RESULTSTATUS;
+		 
+        UPDATE EACHUSER.RPMONTHSUMTAB AS A SET
+		BGBK_NAME = EACHUSER.GETBKNAME(A.BGBK_ID)
+		,OPBK_ID = (SELECT BG.OPBK_ID FROM EACHUSER.BANK_GROUP AS BG WHERE BG.BGBK_ID = A.BGBK_ID)
+		,OPBK_NAME = (SELECT OP.BGBK_NAME FROM EACHUSER.BANK_GROUP AS OP WHERE OP.BGBK_ID = (SELECT BG.OPBK_ID FROM EACHUSER.BANK_GROUP AS BG WHERE BG.BGBK_ID = A.BGBK_ID))
+		,BUSINESS_TYPE_NAME = (SELECT BT.BUSINESS_TYPE_NAME FROM EACHUSER.BUSINESS_TYPE AS BT WHERE BT.BUSINESS_TYPE_ID = A.BUSINESS_TYPE_ID)
+		WHERE YYYYMM = substr(startDATE,1,6);
+		 
+        commit;
+--20150527 edit by hugo
+		--Call EACHUSER.UPD_EACH_BATCH_STATUS(sBIZDATE, '02' ,'BAT_RPMONTHSUM', 'S' ,'' );
+Call EACHUSER.UPD_EACH_BATCH_STATUS(sBIZDATE, '02' ,'BAT_RPMONTHSUM', 'S'  );
+    End If;
+END
+
+
+
+
+
+
+﻿CREATE PROCEDURE "EACHUSER"."BAT_RPMONTHSUM" ()
+	LANGUAGE SQL
+BEGIN
+	Declare sDATEMODE VARCHAR(2);  --營業日是否已經換日
+    Declare startDATE VARCHAR(10);  --上個月的 startDATE
+	Declare endDATE VARCHAR(10);    --上個月的 endDATE
+    Declare begDATE VARCHAR(10);    --查詢營業日檔的begin Date
+    Declare sBIZDATE VARCHAR(10);
+    Declare sMonFirstDate VARCHAR(10);
+    
+    SET (sBIZDATE,sDATEMODE) = (SELECT THISDATE, DATEMODE FROM EACHUSER.EACHSYSSTATUSTAB);
+    SET begDATE = to_char(Date(substr(sBIZDATE,1,4) || '-' || substr(sBIZDATE,5,2) || '-01 00:00:00'), 'yyyymmdd');
+    SET endDATE = to_char(Date(substr(sBIZDATE,1,4) || '-' || substr(sBIZDATE,5,2) || '-01 00:00:00') - 1 Days, 'yyyymmdd');
+    SET startDATE = substr(endDATE,1,6) || '01';
+    --sMonFirstDate 從營業日檔抓出當月的第一個營業日
+    SET sMonFirstDate = (
+		SELECT txn_date FROM (
+			SELECT EACHUSER.TRANS_DATE(txn_date,'W','') txn_date, row_number() OVER (ORDER BY txn_date asc) row_num
+			FROM EACHUSER.WK_DATE_CALENDAR 
+			WHERE(txn_date between EACHUSER.TRANS_DATE(begDATE,'T','') AND EACHUSER.TRANS_DATE(sBIZDATE,'T','') )
+			AND IS_TXN_DATE='Y'
+		)
+        WHERE row_num = 1
+	);
+	--如果sBIZDATE不是當月的第一個營業日，則不執行上個月的月統計批次
+	IF sBIZDATE != sMonFirstDate then 
+		Call EACHUSER.UPD_EACH_BATCH_STATUS(sBIZDATE, '02' ,'BAT_RPMONTHSUM', 'N', 'MonFirstDate=' || sMonFirstDate || '@sBIZDATE=' || sBIZDATE ) ;
+	End If;
+
+    --如果sBIZDATE是當月的第一個營業日，則執行上個月的月統計批次
+    IF sBIZDATE = sMonFirstDate AND sDATEMODE = '1' THEN
+		Call EACHUSER.UPD_EACH_BATCH_STATUS(sBIZDATE, '02' ,'BAT_RPMONTHSUM', 'P', 'startDATE=' || startDATE || '@endDATE=' || endDATE);
+        Delete from EACHUSER.RPMONTHSUMTAB Where YYYYMM=substr(endDATE,1,6);
+        --commit;
+        INSERT INTO EACHUSER.RPMONTHSUMTAB (
+		  --YYYYMM, TXN_ID, TXN_NAME, BUSINESS_TYPE_ID, BRBK_ID,BRBK_NAME, BGBK_ID, SENDERID,COMPANY_ABBR_NAME, PCODE, OP_TYPE, RESULTSTATUS ,CNT, AMT ,OPBK_ID
+		  YYYYMM, BRBK_ID, BRBK_NAME, BGBK_ID, TXN_ID, TXN_NAME, SENDERID, COMPANY_ABBR_NAME, BUSINESS_TYPE_ID, OP_TYPE, RESULTSTATUS, CNT, AMT, PCODE, EACH_TXN_NAME
+		)
+		SELECT
+		YYYYMM
+		,BRBK_ID
+		,EACHUSER.GETBKNAME(BRBK_ID) BRBK_NAME
+		,EACHUSER.GETBKHEADID(BRBK_ID) BGBK_ID
+		,TXN_ID
+		,(select TXN_NAME from EACHUSER.TXN_CODE where TXN_ID = X.TXN_ID) TXN_NAME
+		,SENDERID
+		,EACHUSER.GETCOMPANY_ABBR(SENDERID) COMPANY_ABBR_NAME
+		,(select BUSINESS_TYPE_ID from EACHUSER.TXN_CODE where TXN_ID = X.TXN_ID) BUSINESS_TYPE_ID
+		,OP_TYPE
+		,RESULTSTATUS	--A=成功; R=失敗
+		,SUM(CNT) CNT
+		,SUM(AMT) AMT
+		,PCODE
+		,(SELECT EACH_TXN_NAME FROM EACHUSER.EACH_TXN_CODE WHERE EACH_TXN_ID = PCODE) AS EACH_TXN_NAME		
+		from (
+			--日統計(不含未完成)
+			SELECT
+			substr(BIZDATE,1,6) YYYYMM               
+			,TXN_ID
+			,BRBK_ID
+			,SENDERID
+			,PCODE
+			,OP_TYPE
+			,RESULTSTATUS
+			,CNT
+			,AMT
+			FROM EACHUSER.RPDAILYSUMTAB 
+			Where RESULTSTATUS !='P' and (BIZDATE between startDATE and endDATE)
+			--上下結果集合併              
+            Union All
+			
+            --日統計未完成交易結果
+			SELECT
+			substr(BIZDATE,1,6) YYYYMM               
+			,TXN_ID
+			,BRBK_ID
+			,SENDERID
+			,PCODE
+			,OP_TYPE
+			,RESULTSTATUS
+			,CNT
+			,AMT
+			FROM EACHUSER.RPPENDINGDAILYSUMTAB 
+			Where BIZDATE between startDATE and endDATE
+		) X Group by  YYYYMM , TXN_ID , BRBK_ID,SENDERID , PCODE ,OP_TYPE ,RESULTSTATUS;
+		
+        UPDATE EACHUSER.RPMONTHSUMTAB AS A SET
+		BGBK_NAME = EACHUSER.GETBKNAME(A.BGBK_ID)
+		,OPBK_ID = (SELECT BG.OPBK_ID FROM EACHUSER.BANK_GROUP AS BG WHERE BG.BGBK_ID = A.BGBK_ID)
+		,OPBK_NAME = (SELECT OP.BGBK_NAME FROM EACHUSER.BANK_GROUP AS OP WHERE OP.BGBK_ID = (SELECT BG.OPBK_ID FROM EACHUSER.BANK_GROUP AS BG WHERE BG.BGBK_ID = A.BGBK_ID))
+		,BUSINESS_TYPE_NAME = (SELECT BT.BUSINESS_TYPE_NAME FROM BUSINESS_TYPE AS BT WHERE BT.BUSINESS_TYPE_ID = A.BUSINESS_TYPE_ID)
+		WHERE YYYYMM = substr(startDATE,1,6);
+		
+		commit;
+		Call EACHUSER.UPD_EACH_BATCH_STATUS(sBIZDATE, '02' ,'BAT_RPMONTHSUM', 'S' , '' );
+	End If;
+END

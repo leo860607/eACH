@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="proxy_cl_txt" language="groovy" pageWidth="650" pageHeight="600" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="650" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="fcf23836-6368-49d4-9c5c-9d6e3e0a8359">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT T.BIZDATE
+,STRIP(T.CLEARINGPHASE,L,'0' ) CLEARINGPHASE
+, case when T.CLEARINGPHASE = '01' then 'E' else 'F' end CLTYPE
+, T.BGBK_ID,T.TCH_ID ,T.BGBK_ATTR
+,LPAD( cast( T.OUTCNT as VARCHAR(9) )  , 9, '0')  AS OUTCNT
+,LPAD( cast( ABS(T.out_tol)as VARCHAR(14) )  , 14, '0')  AS out_tol
+,LPAD( cast( T.INCNT as VARCHAR(9) )  , 9, '0')  AS INCNT
+,LPAD( cast( ABS(T.in_tol)as VARCHAR(14) )  , 14, '0')  AS in_tol
+,LPAD( cast( ABS(T.dif_tol)as VARCHAR(14) )  , 14, '0')  AS dif_tol
+, case when T.dif_tol < 0 THEN '-' ELSE '+' END DIF_MARK
+FROM (
+        SELECT  coalesce( b.CTBK_ID ,'')  CTBK_ID ,a.BIZDATE
+         ,VARCHAR(a.CLEARINGPHASE) CLEARINGPHASE
+        , VARCHAR(a.BGBK_ID) BGBK_ID
+        ,b.TCH_ID ,b.BGBK_ATTR
+        ,SUM(a.RECVCNT + a.RVSRECVCNT)  INCNT ,SUM(a.PAYCNT + a.RVSPAYCNT) OUTCNT
+        ,SUM(a.RECVCNT) RECVCNT , SUM(a.RECVAMT) RECVAMT ,SUM(a.PAYCNT) PAYCNT , SUM(a.PAYAMT ) PAYAMT ,SUM(a.RVSRECVCNT) RVSRECVCNT , SUM(a.RVSRECVAMT) RVSRECVAMT ,SUM(a.RVSPAYCNT) RVSPAYCNT ,SUM(a.RVSPAYAMT) RVSPAYAMT
+        ,SUM(a.RECVAMT+a.RVSRECVAMT) in_tol, SUM(a.PAYAMT+a.RVSPAYAMT) out_tol,SUM((a.RECVAMT+a.RVSRECVAMT)+(a.PAYAMT+a.RVSPAYAMT)) dif_tol
+        FROM EACHUSER.RPONCLEARINGTAB a
+        RIGHT JOIN BANK_GROUP b ON a.BGBK_ID = b.BGBK_ID and b.BGBK_ID != b.CTBK_ID
+        WHERE a.BIZDATE = '20150317' --AND b.CTBK_ID = '0060000'
+        GROUP BY b.CTBK_ID , a.BGBK_ID  ,CLEARINGPHASE  ,b.TCH_ID,b.BGBK_ATTR  , a.PAYAMT ,a.BIZDATE
+        ORDER BY CLEARINGPHASE ,  b.CTBK_ID , a.BGBK_ID
+        ) T]]>
+	</queryString>
+	<field name="BIZDATE" class="java.lang.String"/>
+	<field name="CLEARINGPHASE" class="java.lang.String"/>
+	<field name="CLTYPE" class="java.lang.String"/>
+	<field name="BGBK_ID" class="java.lang.String"/>
+	<field name="TCH_ID" class="java.lang.String"/>
+	<field name="BGBK_ATTR" class="java.lang.String"/>
+	<field name="OUTCNT" class="java.lang.String"/>
+	<field name="OUT_TOL" class="java.lang.String"/>
+	<field name="INCNT" class="java.lang.String"/>
+	<field name="IN_TOL" class="java.lang.String"/>
+	<field name="DIF_TOL" class="java.lang.String"/>
+	<field name="DIF_MARK" class="java.lang.String"/>
+	<variable name="v1" class="java.lang.String">
+		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+	</variable>
+	<group name="ALL" keepTogether="true">
+		<groupExpression><![CDATA[$V{v1}]]></groupExpression>
+		<groupFooter>
+			<band height="12">
+				<textField>
+					<reportElement x="0" y="0" width="650" height="12" uuid="d5aedd0b-8f90-4aa9-878c-c73838e19cf7"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA["EOF"+$F{BIZDATE}+$F{DIF_MARK}+$F{DIF_TOL}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="12" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="650" height="12" uuid="2e5da94b-2c06-421f-8dfb-af6b7b77dcfb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BIZDATE}+$F{CLEARINGPHASE}+$F{CLTYPE}+$F{BGBK_ID}+$F{TCH_ID}+$F{BGBK_ATTR}+$F{OUTCNT}+$F{OUT_TOL}+$F{INCNT}+$F{IN_TOL}+$F{DIF_TOL}+$F{DIF_MARK}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

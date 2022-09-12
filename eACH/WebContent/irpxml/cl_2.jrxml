@@ -1,0 +1,1039 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cl_2" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="814" leftMargin="14" rightMargin="14" topMargin="14" bottomMargin="14" uuid="fcf23836-6368-49d4-9c5c-9d6e3e0a8359">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="90"/>
+	<parameter name="V_OPT_BANK" class="java.lang.String"/>
+	<parameter name="V_TXDT" class="java.lang.String"/>
+	<parameter name="V_CLEARINGPHASE" class="java.lang.String"/>
+	<parameter name="TXDT" class="java.lang.String"/>
+	<parameter name="CLEARINGPHASE" class="java.lang.String"/>
+	<parameter name="SENDERACQUIRE" class="java.lang.String"/>
+	<parameter name="V_PRINT_DATE" class="java.lang.String"/>
+	<parameter name="V_PRINT_TIME" class="java.lang.String"/>
+	<parameter name="V_OP_TYPE" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT a.BANKID || '-' || (select coalesce(bgbk_name,'') from bank_group where bgbk_id=a.BANKID) BANKID
+            , a.PCODE || ( SELECT coalesce(EACH_TXN_NAME,'') From EACH_TXN_CODE Where EACH_TXN_ID=a.PCODE)  PCODE
+            ,a.CLEARINGPHASE
+            , a.RECVCNT
+            , a.RECVAMT
+            , a.PAYCNT
+            , a.PAYAMT
+            , a.RVSRECVCNT
+            , a.RVSRECVAMT --扣款沖正金額
+            , a.RVSPAYCNT
+            , a.RVSPAYAMT --入帳冲正金額
+            ,a.RECVAMT+a.RVSRECVAMT in_tol --應收小計(入帳金額+扣款沖正金額) A
+            ,a.PAYAMT+a.RVSPAYAMT out_tol --應付小計(扣款金額+入帳沖正金額) B
+            ,((a.RECVAMT+a.RVSRECVAMT)-(a.PAYAMT+a.RVSPAYAMT)) dif_tol --差額 A-B
+FROM
+	ONCLEARINGTAB a
+
+ORDER BY BANKID]]>
+	</queryString>
+	<field name="BANKID" class="java.lang.String"/>
+	<field name="PCODE" class="java.lang.String"/>
+	<field name="CLEARINGPHASE" class="java.lang.String"/>
+	<field name="RECVCNT" class="java.lang.Integer"/>
+	<field name="RECVAMT" class="java.lang.Long"/>
+	<field name="PAYCNT" class="java.lang.Integer"/>
+	<field name="PAYAMT" class="java.lang.Long"/>
+	<field name="RVSRECVCNT" class="java.lang.Integer"/>
+	<field name="RVSRECVAMT" class="java.lang.Long"/>
+	<field name="RVSPAYCNT" class="java.lang.Integer"/>
+	<field name="RVSPAYAMT" class="java.lang.Long"/>
+	<field name="IN_TOL" class="java.lang.Long"/>
+	<field name="OUT_TOL" class="java.lang.Long"/>
+	<field name="DIF_TOL" class="java.lang.Long"/>
+	<field name="BRBK_NAME" class="java.lang.String"/>
+	<field name="BGBK_NAME" class="java.lang.String"/>
+	<field name="BGBK_ID" class="java.lang.String"/>
+	<field name="BRBK_ID" class="java.lang.String"/>
+	<field name="BUSINESS_TYPE_ID" class="java.lang.String"/>
+	<field name="BUSINESS_TYPE_NAME" class="java.lang.String"/>
+	<field name="EACH_TXN_ID" class="java.lang.String"/>
+	<field name="EACH_TXN_NAME" class="java.lang.String"/>
+	<variable name="v1" class="java.lang.String">
+		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+	</variable>
+	<variable name="recvcnt_tol" class="java.lang.Integer" resetType="Group" resetGroup="CL" calculation="Sum">
+		<variableExpression><![CDATA[$F{RECVCNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="recvamt_tol" class="java.math.BigDecimal" resetType="Group" resetGroup="CL" calculation="Sum">
+		<variableExpression><![CDATA[$F{RECVAMT}]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="rvsrecvcnt_tol" class="java.lang.Integer" resetType="Group" resetGroup="CL" calculation="Sum">
+		<variableExpression><![CDATA[$F{RVSRECVCNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="rvsrecvamt_tol" class="java.math.BigDecimal" resetType="Group" resetGroup="CL" calculation="Sum">
+		<variableExpression><![CDATA[$F{RVSRECVAMT}]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="paycnt_tol" class="java.lang.Integer" resetType="Group" resetGroup="CL" calculation="Sum">
+		<variableExpression><![CDATA[$F{PAYCNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="payamt_tol" class="java.math.BigDecimal" resetType="Group" resetGroup="CL" calculation="Sum">
+		<variableExpression><![CDATA[$F{PAYAMT}]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="rvspaycnt_tol" class="java.lang.Integer" resetType="Group" resetGroup="CL" calculation="Sum">
+		<variableExpression><![CDATA[$F{RVSPAYCNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="rvspayamt_tol" class="java.math.BigDecimal" resetType="Group" resetGroup="CL" calculation="Sum">
+		<variableExpression><![CDATA[$F{RVSPAYAMT}]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="intol_tol" class="java.math.BigDecimal" resetType="Group" resetGroup="CL" calculation="Sum">
+		<variableExpression><![CDATA[$F{IN_TOL}]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="outtol_tol" class="java.math.BigDecimal" resetType="Group" resetGroup="CL" calculation="Sum">
+		<variableExpression><![CDATA[$F{OUT_TOL}]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="diftol_tol" class="java.math.BigDecimal" resetType="Group" resetGroup="CL" calculation="Sum">
+		<variableExpression><![CDATA[$F{DIF_TOL}]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="cl_1_dif_tol" class="java.math.BigDecimal" resetType="Group" resetGroup="BGBK_ID" calculation="Sum">
+		<variableExpression><![CDATA[$F{CLEARINGPHASE}!="" && $F{CLEARINGPHASE}=="01"?$F{DIF_TOL}:new BigDecimal(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="cl_2_dif_tol" class="java.math.BigDecimal" resetType="Group" resetGroup="BGBK_ID" calculation="Sum">
+		<variableExpression><![CDATA[$F{CLEARINGPHASE}!="" && $F{CLEARINGPHASE}=="02"?$F{DIF_TOL}:new BigDecimal(0)]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="G_DIF_TOL" class="java.math.BigDecimal" resetType="Group" resetGroup="BGBK_ID" calculation="Sum">
+		<variableExpression><![CDATA[$F{DIF_TOL}]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="G_IN_TOL" class="java.math.BigDecimal" resetType="Group" resetGroup="BGBK_ID" calculation="Sum">
+		<variableExpression><![CDATA[$F{IN_TOL}]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="G_OUT_TOL" class="java.math.BigDecimal" resetType="Group" resetGroup="BGBK_ID" calculation="Sum">
+		<variableExpression><![CDATA[$F{OUT_TOL}]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="G_PAYAMT" class="java.math.BigDecimal" resetType="Group" resetGroup="BGBK_ID" calculation="Sum">
+		<variableExpression><![CDATA[$F{PAYAMT}]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="G_PAYCNT" class="java.lang.Integer" resetType="Group" resetGroup="BGBK_ID" calculation="Sum">
+		<variableExpression><![CDATA[$F{PAYCNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="G_RECVAMT" class="java.math.BigDecimal" resetType="Group" resetGroup="BGBK_ID" calculation="Sum">
+		<variableExpression><![CDATA[$F{RECVAMT}]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="G_RECVCNT" class="java.lang.Integer" resetType="Group" resetGroup="BGBK_ID" calculation="Sum">
+		<variableExpression><![CDATA[$F{RECVCNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="G_RVSPAYAMT" class="java.math.BigDecimal" resetType="Group" resetGroup="BGBK_ID" calculation="Sum">
+		<variableExpression><![CDATA[$F{RVSPAYAMT}]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="G_RVSPAYCNT" class="java.lang.Integer" resetType="Group" resetGroup="BGBK_ID" calculation="Sum">
+		<variableExpression><![CDATA[$F{RVSPAYCNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="G_RVSRECVAMT" class="java.math.BigDecimal" resetType="Group" resetGroup="BGBK_ID" calculation="Sum">
+		<variableExpression><![CDATA[$F{RVSRECVAMT}]]></variableExpression>
+		<initialValueExpression><![CDATA[new BigDecimal(0)]]></initialValueExpression>
+	</variable>
+	<variable name="G_RVSRECVCNT" class="java.lang.Integer" resetType="Group" resetGroup="BGBK_ID" calculation="Sum">
+		<variableExpression><![CDATA[$F{RVSRECVCNT}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<group name="BGBK_ID" keepTogether="true">
+		<groupExpression><![CDATA[$F{BGBK_ID}]]></groupExpression>
+		<groupFooter>
+			<band height="110">
+				<staticText>
+					<reportElement x="0" y="13" width="85" height="20" uuid="214a0ea4-abeb-4fe7-977b-fda6dfca0434"/>
+					<box bottomPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[清算階段]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="33" width="85" height="20" uuid="6aa54f5d-5ead-4896-9cef-21251d9eaea4"/>
+					<box bottomPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[第一階段]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="53" width="85" height="20" uuid="9f3701ee-0d56-4576-a346-a92ec121de8d"/>
+					<box bottomPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[第二階段]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="73" width="85" height="20" uuid="8a277667-9221-4570-b8ae-9cca057e4a23"/>
+					<box bottomPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[合計]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="85" y="13" width="85" height="20" uuid="438c566e-3fe4-42be-92db-42f3e88d8136"/>
+					<box bottomPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[應收差額]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="170" y="13" width="85" height="20" uuid="a434c15c-0174-45aa-b00d-f134194ae59d"/>
+					<box bottomPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[應付差額]]></text>
+				</staticText>
+				<textField pattern="#,##0">
+					<reportElement x="85" y="33" width="85" height="20" uuid="b4e01075-e70d-45b4-80aa-17831e90532d"/>
+					<box bottomPadding="0" rightPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{cl_1_dif_tol} > 0? $V{cl_1_dif_tol} :new BigDecimal(0)]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="170" y="33" width="85" height="20" uuid="3c0ede44-51d3-4e27-95ca-298ac92bbc5a"/>
+					<box bottomPadding="0" rightPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{cl_1_dif_tol} < 0? $V{cl_1_dif_tol}.abs() :new BigDecimal(0)]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="85" y="73" width="85" height="20" uuid="384fd8ec-7550-421e-9eda-82fb7661fb83"/>
+					<box bottomPadding="0" rightPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{G_DIF_TOL} >0 ?$V{G_DIF_TOL}:new BigDecimal(0)]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="170" y="73" width="85" height="20" uuid="8aa32f10-f748-419b-a2dc-836e5d3677f3"/>
+					<box bottomPadding="0" rightPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{G_DIF_TOL} < 0 ?$V{G_DIF_TOL}.abs():new BigDecimal(0)]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="85" y="53" width="85" height="20" uuid="15e21b0c-cf09-4269-af0f-76ce39fa1335"/>
+					<box bottomPadding="0" rightPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{cl_2_dif_tol}>0?$V{cl_2_dif_tol}:new BigDecimal(0)]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0">
+					<reportElement x="170" y="53" width="85" height="20" uuid="eeb09e96-865a-445a-b8af-e026227c5a1e"/>
+					<box bottomPadding="0" rightPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{cl_2_dif_tol}<0?$V{cl_2_dif_tol}.abs():new BigDecimal(0)]]></textFieldExpression>
+				</textField>
+				<break>
+					<reportElement x="0" y="109" width="100" height="1" uuid="e7605850-f5dc-4400-8544-a10d1324fc0d"/>
+				</break>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="CL">
+		<groupExpression><![CDATA[$F{CLEARINGPHASE}]]></groupExpression>
+		<groupHeader>
+			<band height="80">
+				<staticText>
+					<reportElement x="80" y="60" width="50" height="20" uuid="e41d7e57-df4d-4b8c-a331-951fc50693e3"/>
+					<box bottomPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[筆數]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="130" y="60" width="70" height="20" uuid="6926a5df-4eb2-4b3b-8895-6cf9823af3b1"/>
+					<box bottomPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[金額]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="80" y="20" width="330" height="20" uuid="5a0d8474-abc0-49a3-acd5-80538e1091fa"/>
+					<box bottomPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[應收]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="80" y="40" width="120" height="20" uuid="f7a757ea-b60c-457a-8c17-3409da9901f5"/>
+					<box bottomPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[入帳]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="200" y="40" width="120" height="20" uuid="c9413828-e368-4b73-9537-179dabb27fb2"/>
+					<box bottomPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[扣款沖正]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="200" y="60" width="50" height="20" uuid="adfa9e63-4ebc-49ba-bac5-ce5e294f62c9"/>
+					<box bottomPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[筆數]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="250" y="60" width="70" height="20" uuid="674b1707-7c7b-4061-87b6-4a50924e52b6"/>
+					<box bottomPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[金額]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="410" y="20" width="331" height="20" uuid="e74cf4f5-a45f-4ab5-b35c-2510adb70d91"/>
+					<box bottomPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+					</textElement>
+					<text><![CDATA[應付]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="530" y="40" width="120" height="20" uuid="ebfbffc1-6897-4b97-b482-e43d0427b808"/>
+					<box bottomPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+					</textElement>
+					<text><![CDATA[入帳沖正]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="410" y="40" width="120" height="20" uuid="5a733566-da30-448f-b00c-e9d0e1d6ef82"/>
+					<box bottomPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+					</textElement>
+					<text><![CDATA[扣款]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="410" y="60" width="50" height="20" uuid="08660622-9e14-4c1d-8b81-1cf9d92da9d6"/>
+					<box bottomPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+					</textElement>
+					<text><![CDATA[筆數]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="460" y="60" width="70" height="20" uuid="bdeb4b2b-016e-4efa-997f-f4d5c7693f43"/>
+					<box bottomPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+					</textElement>
+					<text><![CDATA[金額]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="530" y="60" width="50" height="20" uuid="b426625f-c6d4-494d-8eed-d712d8fc27cd"/>
+					<box bottomPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+					</textElement>
+					<text><![CDATA[筆數]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="580" y="60" width="70" height="20" uuid="1d1e14b9-1656-4894-847b-7546fa0b82ba"/>
+					<box bottomPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+					</textElement>
+					<text><![CDATA[金額]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="320" y="40" width="90" height="40" uuid="e5715c4c-c0ef-4286-9637-e1473c031d7f"/>
+					<box bottomPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+					</textElement>
+					<text><![CDATA[金額小計(A)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="650" y="40" width="91" height="40" uuid="f3db214e-402f-45a7-8de9-99a739bc7875"/>
+					<box bottomPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+					</textElement>
+					<text><![CDATA[金額小計(B)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="741" y="40" width="73" height="40" uuid="9d097625-572d-4f84-907d-017a4b9473fb"/>
+					<box bottomPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+					</textElement>
+					<text><![CDATA[差額(A-B)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="741" y="20" width="73" height="20" uuid="fc0c9c06-0347-4259-9c5c-b3ea40d56a55"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+					</textElement>
+					<text><![CDATA[ ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="20" width="80" height="60" uuid="cc712c38-7623-4000-8fc0-728f00dd9ca5"/>
+					<box bottomPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[交易類別]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="55" y="0" width="281" height="20" uuid="03603a97-b5cd-43cc-9322-913f37729b6e"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Serif" size="12" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{CLEARINGPHASE} != null ? $F{CLEARINGPHASE} : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="55" height="20" uuid="26919fd2-d5fb-4fca-b2f6-f776ad2a13db"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Serif" size="12" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[清算階段:]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="20">
+				<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0">
+					<reportElement stretchType="RelativeToBandHeight" x="80" y="0" width="50" height="20" uuid="ae1fc80f-07db-4a7a-9d25-b2f259c9bac3"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{recvcnt_tol}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0">
+					<reportElement stretchType="RelativeToBandHeight" x="130" y="0" width="70" height="20" uuid="3e03f6ea-217d-4b75-b811-7dee48c544ce"/>
+					<box rightPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{recvamt_tol}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0">
+					<reportElement stretchType="RelativeToBandHeight" x="200" y="0" width="50" height="20" uuid="d4f7b920-7462-4d73-bac3-efb731b5ce58"/>
+					<box bottomPadding="0">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{rvsrecvcnt_tol}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0">
+					<reportElement stretchType="RelativeToBandHeight" x="250" y="0" width="70" height="20" uuid="44f4fef3-7d1b-4244-af65-ab3f2339412b"/>
+					<box rightPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{rvsrecvamt_tol}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0">
+					<reportElement stretchType="RelativeToBandHeight" x="320" y="0" width="90" height="20" uuid="39d1e491-616e-48d8-a801-c69a3a5e8150"/>
+					<box rightPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{intol_tol}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0">
+					<reportElement stretchType="RelativeToBandHeight" x="410" y="0" width="50" height="20" uuid="5fbaf2e5-f790-419d-bb43-d69e20ddbc0c"/>
+					<box bottomPadding="0">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{paycnt_tol}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0">
+					<reportElement stretchType="RelativeToBandHeight" x="460" y="0" width="70" height="20" uuid="57f97228-8437-40e2-8ebc-652bc00995f8"/>
+					<box rightPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new BigDecimal($V{payamt_tol}).setScale(0).abs()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0">
+					<reportElement stretchType="RelativeToBandHeight" x="530" y="0" width="50" height="20" uuid="f2ac9f6e-d77a-49fc-b7fb-151f27dfd8e5"/>
+					<box bottomPadding="0">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{rvspaycnt_tol}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0">
+					<reportElement stretchType="RelativeToBandHeight" x="580" y="0" width="70" height="20" uuid="fc9efe29-6aa0-4e08-8dae-3720a599dff8"/>
+					<box rightPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new BigDecimal($V{rvspayamt_tol}).setScale(0).abs()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0">
+					<reportElement stretchType="RelativeToBandHeight" x="650" y="0" width="91" height="20" uuid="43948aa6-7a7a-47f2-abd5-081160dcba4d"/>
+					<box rightPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new BigDecimal($V{outtol_tol}).setScale(0).abs()]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0">
+					<reportElement stretchType="RelativeToBandHeight" x="741" y="0" width="73" height="20" uuid="0c056449-9e5d-4b21-bccd-190ad08df01c"/>
+					<box rightPadding="5">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{diftol_tol}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="80" height="20" uuid="50ab89e6-5d5c-47dd-a3ee-41a9043dc4c3"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+					</textElement>
+					<text><![CDATA[合計]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="100" splitType="Stretch">
+			<staticText>
+				<reportElement x="357" y="0" width="100" height="20" uuid="28961c1a-e14c-47d2-a99a-b72cce486403"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="14" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+				</textElement>
+				<text><![CDATA[台灣票據交換所]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="287" y="40" width="239" height="20" uuid="5894a09c-f74b-4446-a668-c884be329217"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="12" isUnderline="true" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["圈存銀行結算資料日報表(EA-241)"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="307" y="60" width="200" height="20" uuid="cfffa611-3300-4187-8ed3-e9f899e19201"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="12" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{V_TXDT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="689" y="60" width="125" height="20" uuid="34e15a9d-cc9f-43b6-aa71-e06a5071b36b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="12" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA["列印日期:"+$P{V_PRINT_DATE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="689" y="80" width="125" height="20" uuid="fae72a36-05f9-4522-b80f-94c82a0db62c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="12" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA["列印時間:"+$P{V_PRINT_TIME}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="80" width="55" height="20" uuid="b2924187-5367-46fb-b9e4-556f6364b72d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="12" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[總行名稱:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="55" y="80" width="281" height="20" uuid="af1e6582-8aaf-47c8-b441-6be314eab8cf"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="12" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BGBK_NAME} != null ? $F{BGBK_NAME} : ""]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20">
+			<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0">
+				<reportElement stretchType="RelativeToBandHeight" x="200" y="0" width="50" height="20" uuid="4ffb8834-d3c9-4860-9a87-3b53c0e3eb3f"/>
+				<box bottomPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RVSRECVCNT}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0">
+				<reportElement stretchType="RelativeToBandHeight" x="320" y="0" width="90" height="20" uuid="cbd45c2e-542b-4faa-a10a-868661b2e0ef"/>
+				<box rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{IN_TOL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0" isBlankWhenNull="false">
+				<reportElement stretchType="RelativeToBandHeight" x="410" y="0" width="50" height="20" uuid="cabdf68f-f464-42be-ba03-47f6907af5b9"/>
+				<box bottomPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PAYCNT}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0">
+				<reportElement stretchType="RelativeToBandHeight" x="530" y="0" width="50" height="20" uuid="0ddde31a-7e44-45f7-b829-4259bc7383b9"/>
+				<box bottomPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RVSPAYCNT}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0">
+				<reportElement stretchType="RelativeToBandHeight" x="650" y="0" width="91" height="20" uuid="fc3c2552-4608-4612-9cf0-9bede4fa0b89"/>
+				<box rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new BigDecimal($F{OUT_TOL}).setScale(0).abs()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0">
+				<reportElement stretchType="RelativeToBandHeight" x="741" y="0" width="73" height="20" uuid="54b427ef-aba4-4a39-afe4-18e619afb4a6"/>
+				<box rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DIF_TOL}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0">
+				<reportElement stretchType="RelativeToBandHeight" x="130" y="0" width="70" height="20" uuid="9a642260-2a59-41cc-adbe-9057ba80c419"/>
+				<box rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RECVAMT}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0">
+				<reportElement stretchType="RelativeToBandHeight" x="250" y="0" width="70" height="20" uuid="9800ae2e-f73b-4bb1-a4b8-8d853a97f237"/>
+				<box rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RVSRECVAMT}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0">
+				<reportElement stretchType="RelativeToBandHeight" x="460" y="0" width="70" height="20" uuid="fc893e9c-32c8-4a46-8340-d4be54dcf6e7"/>
+				<box rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new BigDecimal($F{PAYAMT}).setScale(0).abs()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0">
+				<reportElement stretchType="RelativeToBandHeight" x="580" y="0" width="70" height="20" uuid="a471c388-783a-4ade-a09d-a7cbfb4375b6"/>
+				<box rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Serif" size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new BigDecimal($F{RVSPAYAMT}).setScale(0).abs()]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="80" height="20" uuid="e7ac0221-edc1-43c4-9631-e6fd47b21f20"/>
+				<box bottomPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{EACH_TXN_ID}+"\n"+$F{EACH_TXN_NAME}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0;-#,##0">
+				<reportElement stretchType="RelativeToBandHeight" x="80" y="0" width="50" height="20" uuid="ceb10e64-5c24-464c-9e83-e0bd0f63f124"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RECVCNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement x="357" y="13" width="50" height="20" uuid="90a80529-cb86-490d-a523-6f2ae74d90ab"/>
+				<textElement textAlignment="Right">
+					<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["第 "+$V{PAGE_NUMBER}+" 頁"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="407" y="13" width="100" height="20" uuid="76034d38-1ba1-4cce-925a-ac99dbf0cb9e"/>
+				<textElement>
+					<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["-共 " + $V{PAGE_NUMBER}+" 頁"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

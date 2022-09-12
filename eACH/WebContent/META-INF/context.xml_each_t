@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context>
+	<WatchedResource>
+		WEB-INF/web.xml
+    </WatchedResource>
+
+<!-- hugo local端-->
+    <Resource name="jdbc/ACH" auth="Container" type="javax.sql.DataSource"
+         driverClassName="com.ibm.db2.jcc.DB2Driver"
+         url="jdbc:db2://10.60.1.11:50000/each"
+         username="eachuser" password="eachuser" maxActive="100" maxIdle="5"
+         maxWait="10000" removeAbandonedTimeout="60" removeAbandoned="true"/>
+
+</Context>

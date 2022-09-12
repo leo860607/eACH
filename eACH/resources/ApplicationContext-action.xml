@@ -1,0 +1,847 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	default-autowire="byName" default-lazy-init="false">
+
+	<!-- hugo Action 設定 -->
+
+	<!-- <bean name="/pl030102" class="tw.gov.nsc.pl.struts.action.Pl030102Action"> -->
+	<!-- <property name="plSearchData" ref="zplSearchData" /> -->
+	<!-- <property name="plsysParams" ref="zplSysParams" /> -->
+	<!-- </bean> -->
+	<!-- <bean name="/test" class="tw.org.twntch.action.TestAction"> -->
+	<!-- </bean> -->
+	<bean name="/login" class="tw.org.twntch.action.LOGIN_Action">
+		<property name="login_bo" ref="login_bo" />
+		<property name="codeUtils" ref="codeUtils" />
+	</bean>
+	<bean name="/bulletin"
+		class="tw.org.twntch.action.BULLETIN_Action">
+		<property name="bulletin_bo" ref="bulletin_bo" />
+	</bean>
+	<bean name="/each_user"
+		class="tw.org.twntch.action.EACH_USER_Action">
+		<property name="each_user_bo" ref="each_user_bo" />
+	</bean>
+	<bean name="/user_bank"
+		class="tw.org.twntch.action.EACH_USER_BANK_Action">
+		<property name="each_user_bo" ref="each_user_bo" />
+	</bean>
+	<bean name="/role_list"
+		class="tw.org.twntch.action.EACH_ROLE_LIST_Action">
+		<property name="role_list_bo" ref="role_list_bo" />
+	</bean>
+	<bean name="/role_list_bank"
+		class="tw.org.twntch.action.EACH_ROLE_LIST_BANK_Action">
+		<property name="role_list_bo" ref="role_list_bo" />
+	</bean>
+	<bean name="/func_list"
+		class="tw.org.twntch.action.EACH_FUNC_LIST_Action">
+		<property name="func_list_bo" ref="func_list_bo" />
+	</bean>
+	<bean name="/sys_para"
+		class="tw.org.twntch.action.SYS_PARA_Action">
+		<property name="sys_para_bo" ref="sys_para_bo" />
+	</bean>
+	<!-- 安控元件版本設定 -->
+	<bean name="/isec_version"
+		class="tw.org.twntch.action.ISEC_VERSION_Action">
+		<property name="isec_version_bo" ref="isec_version_bo" />
+	</bean>
+	<bean name="/wk_date" class="tw.org.twntch.action.WK_DATE_Action">
+		<property name="wk_date_bo" ref="wk_date_bo" />
+	</bean>
+	<bean name="/cr_line" class="tw.org.twntch.action.CR_LINE_Action">
+		<property name="cr_line_bo" ref="cr_line_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+	</bean>
+	<bean name="/each_batch"
+		class="tw.org.twntch.action.EACH_BATCH_Action">
+		<property name="each_batch_bo" ref="each_batch_bo" />
+	</bean>
+	<bean name="/nonclear_batch"
+		class="tw.org.twntch.action.NONCLEAR_BATCH_Action">
+		<property name="nonclear_batch_bo" ref="nonclear_batch_bo" />
+		<property name="each_batch_bo" ref="each_batch_bo" />
+	</bean>
+	<bean name="/each_batch_def"
+		class="tw.org.twntch.action.EACH_BATCH_DEF_Action">
+		<property name="each_batch_def_bo" ref="each_batch_def_bo" />
+	</bean>
+	<bean name="/typh_op" class="tw.org.twntch.action.TYPH_OP_Action">
+		<property name="typh_op_bo" ref="typh_op_bo" />
+	</bean>
+	<bean name="/bank_group"
+		class="tw.org.twntch.action.BANK_GROUP_Action">
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="business_type_bo" ref="business_type_bo" />
+		<property name="sys_para_bo" ref="sys_para_bo" />
+	</bean>
+	<bean name="/business_type"
+		class="tw.org.twntch.action.BUSINESS_TYPE_Action">
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="business_type_bo" ref="business_type_bo" />
+	</bean>
+	<bean name="/bank_branch"
+		class="tw.org.twntch.action.BANK_BRANCH_Action">
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="bank_branch_bo" ref="bank_branch_bo" />
+	</bean>
+	<bean name="/txn_code"
+		class="tw.org.twntch.action.TXN_CODE_Action">
+		<property name="txn_code_bo" ref="txn_code_bo" />
+		<property name="business_type_bo" ref="business_type_bo" />
+		<property name="fee_code_bo" ref="fee_code_bo" />
+	</bean>
+	<bean name="/txn_err_code"
+		class="tw.org.twntch.action.TXN_ERROR_CODE_Action">
+		<property name="txn_err_code_bo" ref="txn_err_code_bo" />
+	</bean>
+	<bean name="/gl_err_code"
+		class="tw.org.twntch.action.GL_ERROR_CODE_Action">
+		<property name="gl_err_code_bo" ref="gl_err_code_bo" />
+	</bean>
+	<bean name="/txn_returnday"
+		class="tw.org.twntch.action.TXN_RETURNDAY_Action">
+		<property name="txn_code_bo" ref="txn_code_bo" />
+		<property name="txn_returnday_bo" ref="txn_returnday_bo" />
+	</bean>
+	<bean name="/each_txn_code"
+		class="tw.org.twntch.action.EACH_TXN_CODE_Action">
+		<property name="each_txn_code_bo" ref="each_txn_code_bo" />
+	</bean>
+	<bean name="/sd_com"
+		class="tw.org.twntch.action.SD_COMPANY_PROFILE_Action">
+		<property name="sd_com_bo" ref="sd_com_bo" />
+		<property name="txn_code_bo" ref="txn_code_bo" />
+		<property name="eachsysstatustab_bo" ref="eachsysstatustab_bo" />
+	</bean>
+	<bean name="/sc_com"
+		class="tw.org.twntch.action.SC_COMPANY_PROFILE_Action">
+		<property name="sc_com_bo" ref="sc_com_bo" />
+		<property name="txn_code_bo" ref="txn_code_bo" />
+		<property name="eachsysstatustab_bo" ref="eachsysstatustab_bo" />
+	</bean>
+	<bean name="/fee_code"
+		class="tw.org.twntch.action.FEE_CODE_Action">
+		<property name="fee_code_bo" ref="fee_code_bo" />
+	</bean>
+	<bean name="/fee_code_nw"
+		class="tw.org.twntch.action.FEE_CODE_NW_Action">
+		<property name="fee_code_nw_bo" ref="fee_code_nw_bo" />
+	</bean>
+	<bean name="/fee_code_nwlvl"
+		class="tw.org.twntch.action.FEE_CODE_NWLVL_Action">
+		<property name="fee_code_nwlvl_bo" ref="fee_code_nwlvl_bo" />
+	</bean>
+	<bean name="/chg_sc_profile"
+		class="tw.org.twntch.action.CHG_SC_PROFILE_Action">
+		<property name="chg_sc_profile_bo" ref="chg_sc_profile_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="txn_code_bo" ref="txn_code_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="bank_branch_bo" ref="bank_branch_bo" />
+	</bean>
+
+	<bean name="/pi_company_profile"
+		class="tw.org.twntch.action.PI_COMPANY_PROFILE_Action">
+		<property name="pi_company_profile_bo"
+			ref="pi_company_profile_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="txn_code_bo" ref="txn_code_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="bank_branch_bo" ref="bank_branch_bo" />
+	</bean>
+	<bean name="/wo_company_profile"
+		class="tw.org.twntch.action.WO_COMPANY_PROFILE_Action">
+		<property name="wo_company_profile_bo"
+			ref="wo_company_profile_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="txn_code_bo" ref="txn_code_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="bank_branch_bo" ref="bank_branch_bo" />
+	</bean>
+	<bean name="/pi_snd_profile"
+		class="tw.org.twntch.action.PI_SND_PROFILE_Action">
+		<property name="pi_company_profile_bo"
+			ref="pi_company_profile_bo" />
+		<property name="pi_snd_profile_bo" ref="pi_snd_profile_bo" />
+	</bean>
+
+	<bean name="/userlog"
+		class="tw.org.twntch.action.EACH_USERLOG_Action">
+		<property name="userlog_bo" ref="userlog_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+	</bean>
+	<bean name="/userlog_demo"
+		class="tw.org.twntch.action.EACH_USERLOG_Demo_Action">
+		<property name="userlog_bo" ref="userlog_bo" />
+	</bean>
+	<bean name="/onclearing_adj"
+		class="tw.org.twntch.action.ONCLEARING_ADJ_Action">
+		<property name="onclearing_adj_bo" ref="onclearing_adj_bo" />
+	</bean>
+	<!-- 交易明細查詢 -->
+	<bean name="/onblocktab"
+		class="tw.org.twntch.action.ONBLOCKTAB_Action">
+		<property name="onblocktab_bo" ref="onblocktab_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="pi_company_profile_bo"
+			ref="pi_company_profile_bo" />
+	</bean>
+	<!-- 未完成交易結果查詢 -->
+	<bean name="/onblocktabNotTradRes"
+		class="tw.org.twntch.action.ONBLOCKTAB_NotTradRes_Action">
+		<property name="onblocktab_bo" ref="onblocktab_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+	</bean>
+	<!-- 每日交易處理時間統計 -->
+	<bean name="/onblocktabevdayTraTimeTol"
+		class="tw.org.twntch.action.ONBLOCKTAB_evdayTraTimeTol_Action">
+		<property name="onblocktab_bo" ref="onblocktab_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+	</bean>
+	<!-- 結算電文查詢 -->
+	<bean name="/settlement_msg"
+		class="tw.org.twntch.action.SETTLEMENT_MSG_Action">
+		<property name="settlement_msg_bo" ref="settlement_msg_bo" />
+	</bean>
+	<bean name="/monitor_biz"
+		class="tw.org.twntch.action.MONITOR_BIZ_Action">
+		<property name="monitor_biz_bo" ref="monitor_biz_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+	</bean>
+	<bean name="/alert_monitor"
+		class="tw.org.twntch.action.ALERT_MONITOR_Action">
+		<property name="sys_para_bo" ref="sys_para_bo" />
+	</bean>
+	<bean name="/userlog_bank"
+		class="tw.org.twntch.action.EACH_USERLOG_BANK_Action">
+		<property name="userlog_bo" ref="userlog_bo" />
+	</bean>
+	<bean name="/turnon" class="tw.org.twntch.action.TURNON_Action">
+		<property name="turnon_bo" ref="turnon_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+	</bean>
+	<bean name="/turnoff" class="tw.org.twntch.action.TURNOFF_Action">
+		<property name="turnoff_bo" ref="turnoff_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+	</bean>
+	<bean name="/msg_notice"
+		class="tw.org.twntch.action.MSG_NOTICE_Action">
+		<property name="msg_notice_bo" ref="msg_notice_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+	</bean>
+	<bean name="/ap_pause"
+		class="tw.org.twntch.action.AP_PAUSE_Action">
+		<property name="ap_pause_bo" ref="ap_pause_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+	</bean>
+	<bean name="/tch_ap_pause"
+		class="tw.org.twntch.action.TCH_AP_PAUSE_Action">
+	</bean>
+	<bean name="/ap_restart"
+		class="tw.org.twntch.action.AP_RESTART_Action">
+		<property name="ap_restart_bo" ref="ap_restart_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+	</bean>
+	<bean name="/tch_ap_restart"
+		class="tw.org.twntch.action.TCH_AP_RESTART_Action">
+	</bean>
+	<bean name="/opc_trans"
+		class="tw.org.twntch.action.OPC_TRANS_Action">
+		<property name="opc_trans_bo" ref="opc_trans_bo" />
+		<property name="txn_err_code_bo" ref="txn_err_code_bo" />
+	</bean>
+	<bean name="/ap_status"
+		class="tw.org.twntch.action.AP_STATUS_Action">
+		<property name="ap_status_bo" ref="ap_status_bo" />
+	</bean>
+	<bean name="/monitor" class="tw.org.twntch.action.MONITOR_Action">
+		<property name="monitor_bo" ref="monitor_bo" />
+	</bean>
+	<bean name="/chg_mac" class="tw.org.twntch.action.CHG_MAC_Action">
+		<property name="chg_mac_bo" ref="chg_mac_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+	</bean>
+	<bean name="/async_mac"
+		class="tw.org.twntch.action.ASYNC_MAC_Action">
+		<property name="async_mac_bo" ref="async_mac_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+	</bean>
+	<bean name="/unknown_msg"
+		class="tw.org.twntch.action.UNKNOWN_MSG_Action">
+		<property name="unknown_msg_bo" ref="unknown_msg_bo" />
+	</bean>
+	<bean name="/tch_turnoff"
+		class="tw.org.twntch.action.TCH_TURNOFF_Action">
+	</bean>
+	<bean name="/tch_turnon"
+		class="tw.org.twntch.action.TCH_TURNON_Action">
+	</bean>
+	<!-- 繳費查詢 -->
+	<bean name="/payment_category"
+		class="tw.org.twntch.action.PAYMENT_CATEGORY_Action">
+		<property name="payment_category_bo"
+			ref="payment_category_bo" />
+	</bean>
+	<!-- 報表列印 -->
+	<bean name="/rptfee_1"
+		class="tw.org.twntch.action.RPTFEE_1_Action">
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="rptfee_1_bo" ref="rptfee_1_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+	</bean>
+	<bean name="/rptfee_2"
+		class="tw.org.twntch.action.RPTFEE_2_Action">
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="rptfee_2_bo" ref="rptfee_2_bo" />
+	</bean>
+	<bean name="/rptfee_3"
+		class="tw.org.twntch.action.RPTFEE_3_Action">
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="rptfee_3_bo" ref="rptfee_3_bo" />
+	</bean>
+	<bean name="/rptfee_4"
+		class="tw.org.twntch.action.RPTFEE_4_Action">
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="rptfee_4_bo" ref="rptfee_4_bo" />
+	</bean>
+	<bean name="/rptfee_5"
+		class="tw.org.twntch.action.RPTFEE_5_Action">
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="rptfee_5_bo" ref="rptfee_5_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+	</bean>
+	<bean name="/rptfee_6"
+		class="tw.org.twntch.action.RPTFEE_6_Action">
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="rptfee_6_bo" ref="rptfee_6_bo" />
+	</bean>
+	<bean name="/rptfee_7"
+		class="tw.org.twntch.action.RPTFEE_7_Action">
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="rptfee_7_bo" ref="rptfee_7_bo" />
+	</bean>
+	<bean name="/rptfee_8"
+		class="tw.org.twntch.action.RPTFEE_8_Action">
+		<property name="rptfee_8_bo" ref="rptfee_8_bo" />
+	</bean>
+	<bean name="/rptfee_9"
+		class="tw.org.twntch.action.RPTFEE_9_Action">
+		<property name="rptfee_9_bo" ref="rptfee_9_bo" />
+	</bean>
+	<bean name="/rptfee_10"
+		class="tw.org.twntch.action.RPTFEE_10_Action">
+		<property name="rptfee_10_bo" ref="rptfee_10_bo" />
+	</bean>
+	<bean name="/rptfee_11"
+		class="tw.org.twntch.action.RPTFEE_11_Action">
+		<property name="rptfee_11_bo" ref="rptfee_11_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="bank_group_Dao" ref="bank_group_Dao" />
+		<property name="eachsysstatustab_bo" ref="eachsysstatustab_bo" />
+		<property name="txn_code_bo" ref="txn_code_bo" />
+	</bean>
+	<bean name="/rpttx_1" class="tw.org.twntch.action.RPTTX_1_Action">
+		<property name="rpttx_1_bo" ref="rpttx_1_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="bank_group_Dao" ref="bank_group_Dao" />
+		<property name="eachsysstatustab_bo" ref="eachsysstatustab_bo" />
+		<property name="txn_code_bo" ref="txn_code_bo" />
+	</bean>
+	<bean name="/rpttx_2" class="tw.org.twntch.action.RPTTX_2_Action">
+		<property name="rpttx_2_bo" ref="rpttx_2_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="bank_group_Dao" ref="bank_group_Dao" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+	</bean>
+	<bean name="/rpttx_3" class="tw.org.twntch.action.RPTTX_3_Action">
+		<property name="rpttx_3_bo" ref="rpttx_3_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="bank_group_Dao" ref="bank_group_Dao" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+	</bean>
+	<bean name="/rpttx_4" class="tw.org.twntch.action.RPTTX_4_Action">
+		<property name="rpttx_4_bo" ref="rpttx_4_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="bank_group_Dao" ref="bank_group_Dao" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+	</bean>
+	<bean name="/rpttx_5" class="tw.org.twntch.action.RPTTX_5_Action">
+		<property name="rpttx_5_bo" ref="rpttx_5_bo" />
+	</bean>
+
+	<bean name="/rptcl_1" class="tw.org.twntch.action.RPTCL_1_Action">
+		<property name="rptcl_1_bo" ref="rptcl_1_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="bank_group_Dao" ref="bank_group_Dao" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+	</bean>
+	<bean name="/rptcl_2" class="tw.org.twntch.action.RPTCL_2_Action">
+		<property name="rptcl_2_bo" ref="rptcl_2_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="bank_group_Dao" ref="bank_group_Dao" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+	</bean>
+	<bean name="/rptcl_3" class="tw.org.twntch.action.RPTCL_3_Action">
+		<property name="rptcl_3_bo" ref="rptcl_3_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+	</bean>
+	<bean name="/rptcl_4" class="tw.org.twntch.action.RPTCL_4_Action">
+		<property name="rptcl_4_bo" ref="rptcl_4_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="bank_group_Dao" ref="bank_group_Dao" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="proxy_cl_bo" ref="proxy_cl_bo" />
+	</bean>
+	<bean name="/rptst_1" class="tw.org.twntch.action.RPTST_1_Action">
+		<property name="rptst_1_bo" ref="rptst_1_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+	</bean>
+	<bean name="/rptst_2" class="tw.org.twntch.action.RPTST_2_Action">
+		<property name="rptst_2_bo" ref="rptst_2_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+	</bean>
+	<bean name="/rptst_3" class="tw.org.twntch.action.RPTST_3_Action">
+		<property name="rptst_3_bo" ref="rptst_3_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+	</bean>
+	<bean name="/rptst_4" class="tw.org.twntch.action.RPTST_4_Action">
+		<property name="rptst_4_bo" ref="rptst_4_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+	</bean>
+	<bean name="/rptst_5" class="tw.org.twntch.action.RPTST_5_Action">
+		<property name="rptst_5_bo" ref="rptst_5_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+	</bean>
+	<bean name="/rptst_6" class="tw.org.twntch.action.RPTST_6_Action">
+		<property name="rptst_6_bo" ref="rptst_6_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+	</bean>
+	<bean name="/rptst_7" class="tw.org.twntch.action.RPTST_7_Action">
+		<property name="rptst_7_bo" ref="rptst_7_bo" />
+	</bean>
+	<bean name="/rptst_8" class="tw.org.twntch.action.RPTST_8_Action">
+		<property name="rptst_8_bo" ref="rptst_8_bo" />
+	</bean>
+	<bean name="/rptst_10"
+		class="tw.org.twntch.action.RPTST_10_Action">
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="business_type_bo" ref="business_type_bo" />
+		<property name="rptst_10_bo" ref="rptst_10_bo" />
+	</bean>
+	<bean name="/rptst_11"
+		class="tw.org.twntch.action.RPTST_11_Action">
+		<property name="rptst_11_bo" ref="rptst_11_bo" />
+	</bean>
+	<bean name="/rptst_13"
+		class="tw.org.twntch.action.RPTST_13_Action">
+		<property name="rptst_13_bo" ref="rptst_13_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="bank_group_Dao" ref="bank_group_Dao" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+	</bean>
+	<bean name="/rptst_14"
+		class="tw.org.twntch.action.RPTST_14_Action">
+		<property name="rptst_14_bo" ref="rptst_14_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="bank_group_Dao" ref="bank_group_Dao" />
+		<property name="business_type_bo" ref="business_type_bo" />
+	</bean>
+	<bean name="/rptst_15"
+		class="tw.org.twntch.action.RPTST_15_Action">
+		<property name="rptst_15_bo" ref="rptst_15_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="business_type_bo" ref="business_type_bo" />
+	</bean>
+	<bean name="/rptst_16"
+		class="tw.org.twntch.action.RPTST_16_Action">
+		<property name="rptst_16_bo" ref="rptst_16_bo" />
+	</bean>
+	<bean name="/rptst_17"
+		class="tw.org.twntch.action.RPTST_17_Action">
+		<property name="rptst_17_bo" ref="rptst_17_bo" />
+	</bean>
+	<bean name="/rptst_18"
+		class="tw.org.twntch.action.RPTST_18_Action">
+		<property name="rptst_18_bo" ref="rptst_18_bo" />
+	</bean>
+	<bean name="/rptst_19"
+		class="tw.org.twntch.action.RPTST_19_Action">
+		<property name="rptst_19_bo" ref="rptst_19_bo" />
+	</bean>
+	<bean name="/fee_search"
+		class="tw.org.twntch.action.FEE_SEARCH_Action">
+		<property name="fee_search_bo" ref="fee_search_bo" />
+		<property name="bank_branch_bo" ref="bank_branch_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+	</bean>
+	
+	<bean name="/fee_search_aftb" class="tw.org.twntch.action.FEE_SEARCH_AFTER_B_Action">
+		<property name="fee_search_bo" ref="fee_search_bo" />
+		<property name="bank_branch_bo" ref="bank_branch_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+	</bean>
+	
+	<bean name="/txs_day" class="tw.org.twntch.action.TXS_DAY_Action">
+		<property name="txs_day_bo" ref="txs_day_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+	</bean>
+	<bean name="/settle_day"
+		class="tw.org.twntch.action.SETTLE_DAY_Action">
+		<property name="settle_day_bo" ref="settle_day_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+	</bean>
+	<bean name="/tx_err" class="tw.org.twntch.action.TX_ERR_Action">
+		<property name="tx_err_bo" ref="tx_err_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+	</bean>
+	<bean name="/undone_txdata"
+		class="tw.org.twntch.action.UNDONE_TXDATA_Action">
+		<property name="undone_txdata_bo" ref="undone_txdata_bo" />
+		<property name="bank_branch_bo" ref="bank_branch_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="business_type_bo" ref="business_type_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="onblocktab_bo" ref="onblocktab_bo" />
+	</bean>
+	<bean name="/fail_trans"
+		class="tw.org.twntch.action.FAIL_TRANS_Action">
+		<property name="fail_trans_bo" ref="fail_trans_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+	</bean>
+	<bean name="/hr_txp_time"
+		class="tw.org.twntch.action.HR_TXP_TIME_Action">
+		<property name="hr_txp_time_bo" ref="hr_txp_time_bo" />
+		<property name="bank_branch_bo" ref="bank_branch_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+	</bean>
+	<bean name="/clear_data"
+		class="tw.org.twntch.action.CLEAR_DATA_Action">
+		<property name="clear_data_bo" ref="clear_data_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+	</bean>
+	<!-- 代理清算行管理 -->
+	<bean name="/proxy_cl"
+		class="tw.org.twntch.action.PROXY_CL_Action">
+		<property name="proxy_cl_bo" ref="proxy_cl_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+	</bean>
+	<bean name="/proxy_cl_rpt"
+		class="tw.org.twntch.action.PROXY_CL_RPT_Action">
+		<property name="proxy_cl_bo" ref="proxy_cl_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+	</bean>
+	<bean name="/proxy_cl_txt"
+		class="tw.org.twntch.action.PROXY_CL_TXT_Action">
+		<property name="proxy_cl_bo" ref="proxy_cl_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="codeUtils" ref="codeUtils" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+	</bean>
+	<!-- 交易資料-交易明細資料檔下載 -->
+	<bean name="/transactiondetail_download"
+		class="tw.org.twntch.action.TRANSACTIONDETAIL_DOWNLOAD_Action">
+		<property name="codeUtils" ref="codeUtils" />
+		<property name="transactiondetail_download_bo"
+			ref="transactiondetail_download_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="business_type_bo" ref="business_type_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="userlog_bo" ref="userlog_bo" />
+	</bean>
+	<!-- 交易資料-共用代碼資料下載 -->
+	<bean name="/basedata_download"
+		class="tw.org.twntch.action.BASEDATA_DOWNLOAD_Action">
+		<property name="basedata_download_bo"
+			ref="basedata_download_bo" />
+		<property name="codeUtils" ref="codeUtils" />
+		<property name="userlog_bo" ref="userlog_bo" />
+	</bean>
+	<!-- 交易資料-GCS結算資料檔下載 -->
+	<bean name="/gcs_download"
+		class="tw.org.twntch.action.GCS_DOWNLOAD_Action">
+		<property name="codeUtils" ref="codeUtils" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="userlog_bo" ref="userlog_bo" />
+	</bean>
+	<!-- 交易資料-交易日統計資料檔下載 -->
+	<bean name="/transactionday_download"
+		class="tw.org.twntch.action.TRANSACTIONDAY_DOWNLOAD_Action">
+		<property name="transactionday_download_bo"
+			ref="transactionday_download_bo" />
+		<property name="codeUtils" ref="codeUtils" />
+		<property name="txs_day_bo" ref="txs_day_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="userlog_bo" ref="userlog_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+	</bean>
+	<!-- 交易資料-收費資料調整 -->
+	<bean name="/fee_adj" class="tw.org.twntch.action.FEE_ADJ_Action">
+		<property name="fee_adj_bo" ref="fee_adj_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="userlog_bo" ref="userlog_bo" />
+	</bean>
+	<!-- 交易資料-計費檔匯出 -->
+	<bean name="/fee_export"
+		class="tw.org.twntch.action.FEE_EXPORT_Action">
+		<property name="codeUtils" ref="codeUtils" />
+	</bean>
+	<!-- 交易資料-交易月統計資料檔下載 -->
+	<bean name="/transactionmonth_download"
+		class="tw.org.twntch.action.TRANSACTIONMONTH_DOWNLOAD_Action">
+		<property name="transactionmonth_download_bo"
+			ref="transactionmonth_download_bo" />
+		<property name="codeUtils" ref="codeUtils" />
+		<property name="txs_day_bo" ref="txs_day_bo" />
+		<property name="userlog_bo" ref="userlog_bo" />
+	</bean>
+	<!-- 交易資料-手續費日統計資料檔下載 -->
+	<bean name="/feeday_download"
+		class="tw.org.twntch.action.FEEDAY_DOWNLOAD_Action">
+		<property name="feeday_download_bo" ref="feeday_download_bo" />
+		<property name="codeUtils" ref="codeUtils" />
+		<property name="txs_day_bo" ref="txs_day_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="userlog_bo" ref="userlog_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+	</bean>
+	<!-- 交易資料-手續費月統計資料檔下載 -->
+	<bean name="/feemonth_download"
+		class="tw.org.twntch.action.FEEMONTH_DOWNLOAD_Action">
+		<property name="feemonth_download_bo"
+			ref="feemonth_download_bo" />
+		<property name="codeUtils" ref="codeUtils" />
+		<property name="txs_day_bo" ref="txs_day_bo" />
+		<property name="userlog_bo" ref="userlog_bo" />
+	</bean>
+	<!-- 交易資料-結算日統計資料檔下載 -->
+	<bean name="/clearday_download"
+		class="tw.org.twntch.action.CLEARDAY_DOWNLOAD_Action">
+		<property name="clearday_download_bo"
+			ref="clearday_download_bo" />
+		<property name="codeUtils" ref="codeUtils" />
+		<property name="txs_day_bo" ref="txs_day_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="userlog_bo" ref="userlog_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+	</bean>
+	<!-- 其他服務-檔案上傳 -->
+	<bean name="/each_fileupload"
+		class="tw.org.twntch.action.EACH_FILEUPLOAD_Action">
+		<property name="each_fileupload_bo" ref="each_fileupload_bo" />
+		<property name="userlog_bo" ref="userlog_bo" />
+	</bean>
+	<!-- 其他服務-檔案下載 -->
+	<bean name="/each_filedownload"
+		class="tw.org.twntch.action.EACH_FILEDOWNLOAD_Action">
+		<property name="each_filedownload_bo"
+			ref="each_filedownload_bo" />
+		<property name="userlog_bo" ref="userlog_bo" />
+	</bean>
+	<!-- 其他服務-表單下載 -->
+	<bean name="/each_formdownload"
+		class="tw.org.twntch.action.EACH_FORMDOWNLOAD_Action">
+		<property name="codeUtils" ref="codeUtils" />
+		<property name="userlog_bo" ref="userlog_bo" />
+	</bean>
+	<!-- 20150511 edit by hugo 移至BO區 -->
+	<!-- 排程產生交易資料的檔案 -->
+	<!-- <bean class="tw.org.twntch.util.RunSchedule"> -->
+	<!-- <property name="transactiondetail_download_bo" ref="transactiondetail_download_bo"/> -->
+	<!-- <property name="basedata_download_bo" ref="basedata_download_bo"/> -->
+	<!-- <property name="transactionday_download_bo" ref="transactionday_download_bo"/> -->
+	<!-- <property name="transactionmonth_download_bo" ref="transactionmonth_download_bo"/> -->
+	<!-- <property name="codeUtils" ref="codeUtils"/> -->
+	<!-- <property name="bank_group_Dao" ref="bank_group_Dao"/> -->
+	<!-- </bean> -->
+
+	<!-- 整批作業-整批交易資料查詢(依發動行) -->
+	<bean name="/batdata" class="tw.org.twntch.action.BATDATA_Action">
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="business_type_bo" ref="business_type_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="batdata_bo" ref="batdata_bo" />
+	</bean>
+	<!-- 整批作業-整批資料上傳作業 -->
+	<bean name="/batdata_upload"
+		class="tw.org.twntch.action.BATDATA_UPLOAD_Action">
+		<property name="batdata_upload_bo" ref="batdata_upload_bo" />
+		<property name="bank_group_bo" ref="bank_group_bo" />
+		<property name="codeUtils" ref="codeUtils" />
+		<property name="userlog_bo" ref="userlog_bo" />
+	</bean>
+	<!-- 代理業者作業-代理業者基本資料維護 -->
+	<bean name="/agent_profile"
+		class="tw.org.twntch.action.AGENT_PROFILE_Action">
+		<property name="agent_profile_bo" ref="agent_profile_bo" />
+	</bean>
+	<!-- 代理業者作業-代理業者手續費資料維護 -->
+	<bean name="/agent_fee_code"
+		class="tw.org.twntch.action.AGENT_FEE_CODE_Action">
+		<property name="agent_fee_code_bo" ref="agent_fee_code_bo" />
+		<property name="agent_profile_bo" ref="agent_profile_bo" />
+		<property name="txn_code_bo" ref="txn_code_bo" />
+
+		<property name="fee_code_bo" ref="fee_code_bo" />
+	</bean>
+
+	<!--  被代理發動者額度設定 -->
+	<bean name="/agent_cr_line"
+		class="tw.org.twntch.action.AGENT_CR_LINE_Action">
+		<property name="agent_cr_line_bo" ref="agent_cr_line_bo" />
+	</bean>
+	<!--  代理業者關聯維護 -->
+	<bean name="/agent_send_profile"
+		class="tw.org.twntch.action.AGENT_SEND_PROFILE_Action">
+		<property name="agent_send_profile_bo"
+			ref="agent_send_profile_bo" />
+		<property name="agent_fee_code_bo" ref="agent_fee_code_bo" />
+		<property name="agent_profile_bo" ref="agent_profile_bo" />
+		<property name="fee_code_bo" ref="fee_code_bo" />
+		<property name="txn_code_bo" ref="txn_code_bo" />
+	</bean>
+	<!--  代理業者交易資料查詢 -->
+	<bean name="/txnlog" class="tw.org.twntch.action.TXNLOG_Action">
+		<property name="txnlog_bo" ref="txnlog_bo" />
+		<property name="pi_company_profile_bo"
+			ref="pi_company_profile_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+	</bean>
+	<!--  代理業者交易統計資料查詢 -->
+	<bean name="/agent_txs_day"
+		class="tw.org.twntch.action.AGENT_TXS_DAY_Action">
+		<property name="agent_txs_day_bo" ref="agent_txs_day_bo" />
+	</bean>
+	<!--  代理業者交易統計資料查詢 -->
+	<bean name="/agent_fee_search"
+		class="tw.org.twntch.action.AGENT_FEE_SEARCH_Action">
+		<property name="agent_fee_search_bo"
+			ref="agent_fee_search_bo" />
+	</bean>
+
+	<!-- 代理業者作業-代理業者交易明細資料檔下載 -->
+	<bean name="/agent_dl_tx001"
+		class="tw.org.twntch.action.AGENTDL_TX001_Action">
+		<property name="agent_profile_bo" ref="agent_profile_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="agentdl_tx001_bo" ref="agentdl_tx001_bo" />
+		<property name="codeUtils" ref="codeUtils" />
+	</bean>
+	<!-- 代理業者作業-代理業者交易日統計資料檔下載 -->
+	<bean name="/agent_dl_st001"
+		class="tw.org.twntch.action.AGENTDL_ST001_Action">
+		<property name="agent_profile_bo" ref="agent_profile_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="agentdl_st001_bo" ref="agentdl_st001_bo" />
+		<property name="codeUtils" ref="codeUtils" />
+	</bean>
+	<!-- 代理業者作業-代理業者手續費日統計資料檔下載 -->
+	<bean name="/agent_dl_fee001"
+		class="tw.org.twntch.action.AGENTDL_FEE001_Action">
+		<property name="agent_profile_bo" ref="agent_profile_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="agentdl_fee001_bo" ref="agentdl_fee001_bo" />
+		<property name="codeUtils" ref="codeUtils" />
+	</bean>
+	<!-- 代理業者作業-代理業者手續費計費檔下載 -->
+	<bean name="/agent_dl_fee002"
+		class="tw.org.twntch.action.AGENTDL_FEE002_Action">
+		<property name="agent_profile_bo" ref="agent_profile_bo" />
+		<property name="eachsysstatustab_bo"
+			ref="eachsysstatustab_bo" />
+		<property name="agentdl_fee002_bo" ref="agentdl_fee002_bo" />
+		<property name="codeUtils" ref="codeUtils" />
+	</bean>
+	<bean name="/agent_opc_trans"
+		class="tw.org.twntch.action.AGENT_OPC_TRANS_Action">
+		<property name="agent_opc_trans_bo" ref="agent_opc_trans_bo" />
+		<property name="txn_err_code_bo" ref="txn_err_code_bo" />
+	</bean>
+	<!-- 代理模組開關機訊息通知 -->
+	<bean name="/agent_turnon"
+		class="tw.org.twntch.action.AGENT_TURNON_Action">
+		<property name="agent_turnon_bo" ref="agent_turnon_bo" />
+	</bean>
+	<bean name="/agent_turnoff"
+		class="tw.org.twntch.action.AGENT_TURNOFF_Action">
+		<property name="agent_turnoff_bo" ref="agent_turnoff_bo" />
+	</bean>
+	<bean name="/agent_notice"
+		class="tw.org.twntch.action.AGENT_NOTICE_Action">
+		<property name="agent_notice_bo" ref="agent_notice_bo" />
+	</bean>
+	
+	<bean name="/onblocktab_count" class="tw.org.twntch.action.ONBLOCKTAB_COUNT_Action">
+		<property name="onblocktab_bo" ref="onblocktab_bo" />
+	</bean>
+</beans>
+    

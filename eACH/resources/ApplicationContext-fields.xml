@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd"        
+    default-autowire="byName" default-lazy-init="false">
+    
+    <bean id="fieldsmap" class="tw.org.twntch.bo.FieldsMap">	
+		<property name="args">
+			<map>
+				<entry key="LOG_MSG" value="訊息" />
+				<entry key="msg" value="訊息" />
+			    <entry key="BGBK_ID" value="總行代號" />
+			    <entry key="ACTIVE_DATE" value="啟用日期" />
+				<entry key="BGBK_ATTR" value="銀行屬性" />
+				<entry key="BGBK_NAME" value="總行名稱" />
+				<entry key="CTBK_ACCT" value="央行帳號" />
+				<entry key="CTBK_ID" value="清算行代號" />
+				<entry key="SENDERACQUIRE" value="清算行代號" />
+				<entry key="EDDA_FLAG" value="識別eDDA是否已抓取過" />
+				<entry key="IN_FEE_BRBK_ID" value="入帳行手續費分行代號" />
+				<entry key="OPBK_ID" value="操作行代號" />
+				<entry key="OUT_FEE_BRBK_ID" value="扣款行手續費分行代號" />
+				<entry key="SND_FEE_BRBK_ID" value="發動行手續費分行代號" />
+				<entry key="WO_FEE_BRBK_ID" value="銷帳行手續費分行代號" />
+				<entry key="TCH_ID" value="交換所代號" />
+<!-- 				<entry key="START_DATE" value="啟用日期" /> -->
+				<entry key="STOP_DATE" value="停用日期" />
+				<entry key="CDATE" value="建立日期" />
+				<entry key="UDATE" value="異動日期" />
+				<entry key="OP_NOTE" value="操作行異動備註" />
+				<entry key="CT_NOTE" value="清算行異動備註" />
+				<entry key="OP_START_DATE" value="操作行啟用日期" />
+				<entry key="CT_START_DATE" value="清算行啟用日期" />
+				<entry key="APTAG" value="總行所屬應用系統" />
+				<entry key="SNO" value="編號" />
+				<entry key="SEND_STATUS" value="是否發佈" />
+				<entry key="SAVE_DATE" value="公告最後儲存時間" />
+				<entry key="SEND_DATE" value="公告最後發佈時間" />
+				<entry key="CHCON" value="公告內容" />
+				<entry key="SDATE" value="日期區間(起)" />
+				<entry key="EDATE" value="日期區間(迄)" />
+				<entry key="USERIP" value="使用者IP" />
+				<entry key="USERID" value="使用者代號" />
+				<entry key="FILE_MAX_CNT" value="整批檔案最大傳送筆數" />
+				
+				<entry key="WO_BANK_FEE" value="銷帳行手續費" />
+				<entry key="WO_BANK_FEE_DISC" value="折扣後銷帳行手續費" />
+				
+				<entry key="PI_COMPANY_ID" value="繳費業者統編" />
+				<entry key="PI_COMPANY_NAME" value="繳費業者名稱" />
+				<entry key="PI_COMPANY_ABBR_NAME" value="繳費業者簡稱(存摺列印用)" />
+				<entry key="WO_COMPANY_ID" value="繳費業者統編" />
+				<entry key="WO_COMPANY_NAME" value="繳費業者名稱" />
+				<entry key="WO_COMPANY_ABBR_NAME" value="繳費業者簡稱(存摺列印用)" />
+				
+				<entry key="AP1" value="主機AP1之IP" />
+				<entry key="AP2" value="主機AP2之IP" />
+				
+				<entry key="AP1_ISRUN" value="主機AP1是否啟動" />
+				<entry key="AP2_ISRUN" value="主機AP2是否啟動" />
+				
+				<entry key="BRBK_ID" value="分行代號" />
+				<entry key="BRBK_NAME" value="分行名稱" />
+				<entry key="TCH_ID" value="交換所代號" />
+				<entry key="SYNCSPDATE" value="停用日期是否與總行相同" />
+				
+				<entry key="BUSINESS_TYPE_ID" value="業務類別代號" />
+				<entry key="BUSINESS_TYPE_NAME" value="業務類別名稱" />
+				
+				<entry key="TXN_ID" value="交易代號" />
+				<entry key="TXN_NAME" value="交易項目" />
+				<entry key="TXN_TYPE" value="交易類別" />
+				<entry key="TXN_CHECK_TYPE" value="入帳檢核統一編號" />
+				<entry key="MAX_TXN_AMT" value="金額上限" />
+				<entry key="TXN_DESC" value="交易說明" />
+				
+				<entry key="BANK_ID" value="銀行代號" />
+				<entry key="BASIC_CR_LINE" value="基本額度" />
+				<entry key="REST_CR_LINE" value="剩餘額度" />
+				<entry key="USER_ID" value="異動者ID" />
+				
+				<entry key="BANK_FUNC" value="銀行端使用" />
+				<entry key="COMPANY_FUNC" value="發動者端使用" />
+				<entry key="TCH_FUNC" value="交換所端使用" />
+				<entry key="FUNC_ID" value="功能代號" />
+				<entry key="FUNC_NAME" value="功能名稱" />
+				<entry key="FUNC_SEQ" value="功能顯示順序" />
+				<entry key="FUNC_TYPE" value="功能種類" />
+				<entry key="FUNC_URL" value="連結網址" />
+				<entry key="IS_USED" value="是否啟用" />
+				<entry key="UP_FUNC_ID" value="上層所屬作業項目" />
+				<entry key="USE_IKEY" value="是否使用Ikey" />
+				<entry key="FUNC_DESC" value="功能說明" />
+				<entry key="FUNC_NAME_BK" value="功能名稱(銀行端)" />
+				<entry key="IS_RECORD" value="查詢是否紀錄" />
+				
+				<entry key="DESC" value="群組說明" />
+				<entry key="ROLE_ID" value="群組代號" />
+				<entry key="ROLE_NAME" value="群組名稱" />
+				<entry key="ROLE_TYPE" value="角色類型" />
+				
+				<entry key="EACH_TXN_ID" value="eACH交易代號" />
+				<entry key="EACH_TXN_NAME" value="eACH交易項目" />
+				
+				<entry key="IDLE_TIMEOUT" value="用戶閒置timeout時間(分)" />
+				<entry key="IP" value="限制IP登入" />
+				<entry key="LAST_LOGIN_DATE" value="上次登入日期" />
+				<entry key="LAST_LOGIN_IP" value="上次登入IP" />
+				<entry key="NOLOGIN_EXPIRE_DAY" value="閒置逾時效期 (天)" />
+				<entry key="USER_COMPANY" value="用戶所屬單位" />
+				<entry key="USER_DESC" value="用戶說明" />
+				<entry key="USER_ID" value="用戶代號" />
+				<entry key="USER_STATUS" value="狀態" />
+				<entry key="USER_TYPE" value="用戶類型" />
+				
+				<entry key="MAX_FILE_SIZE" value="檔案上傳大小 (MB)" />
+				<entry key="PARTY_STD_ECHO_TIME" value="參加單位標準回應時間（秒）" />
+				<entry key="SEQ_ID" value="系統自動產生流水號" />
+				<entry key="TCH_STD_ECHO_TIME" value="票交所標準回應時間（秒）" />
+				<entry key="TIMEOUT_TIME" value="login後閒置timeout時間(分鐘)" />
+				<entry key="TXN_STD_PROC_TIME" value="單筆標準完成時間（秒）" />
+				<entry key="BANK_SC_STD_PROC_TIME" value="銀行每筆入帳標準處理時間(秒)" />
+				<entry key="BANK_SD_STD_PROC_TIME" value="銀行每筆扣款標準處理時間(秒)" />
+				<entry key="PEND_TIME_BUF" value="緩衝上傳時間（分鐘）" />
+				<entry key="HR_UP_MAX_FILE_DFT" value="每小時上傳最多檔案個數預設值（整批）" />
+				<entry key="APT_PEND_START_TIME1" value="約定非上傳時間起(1)" />
+				<entry key="APT_PEND_START_TIME2" value="約定非上傳時間起(2)" />
+				<entry key="APT_PEND_START_TIME3" value="約定非上傳時間起(3)" />
+				<entry key="APT_PEND_START_TIME4" value="約定非上傳時間起(4)" />
+				<entry key="APT_PEND_START_TIME5" value="約定非上傳時間起(5)" />
+				
+				<entry key="APT_PEND_END_TIME1" value="約定非上傳時間迄(1)" />
+				<entry key="APT_PEND_END_TIME2" value="約定非上傳時間迄(2)" />
+				<entry key="APT_PEND_END_TIME3" value="約定非上傳時間迄(3)" />
+				<entry key="APT_PEND_END_TIME4" value="約定非上傳時間迄(4)" />
+				<entry key="APT_PEND_END_TIME5" value="約定非上傳時間迄(5)" />
+				
+				<entry key="ACCT_LIMIT_SAMT" value="ID+ACCT每筆限額" />
+				<entry key="ATM_LIMIT_SAMT" value="晶片金融卡每筆限額" />
+				<entry key="CERT_LIMIT_SAMT" value="授權帳戶每筆限額" />
+				
+				
+				<entry key="TXN_DATE" value="營業日" />
+				<entry key="WEEKDAY" value="星期" />
+				<entry key="IS_TXN_DATE" value="是否為營業日" />
+<!-- 				日期 -->
+				<entry key="DATE" value="日期" />
+				<entry key="BIZDATE" value="營業日期" />
+				<entry key="TXTIME" value="操作日期" />
+				<entry key="TXTIME_1" value="操作日期(起)" />
+				<entry key="TXTIME_2" value="操作日期(迄)" />
+				<entry key="BIZYM" value="營業年月" />
+				<entry key="FEEYM" value="計費年月" />
+				<entry key="TXDATE" value="交易日期" />
+				<entry key="TXTIME_START" value="交易時間(起)" />
+				<entry key="TXTIME_END" value="交易時間(迄)" />
+<!-- 				交易資料查詢 -->
+				<entry key="TXTIME1" value="營業日期(起)" />
+				<entry key="TXTIME2" value="營業日期(迄)" />
+				<entry key="STAN" value="系統追蹤序號" />
+				<entry key="CARDNUM_ID" value="統編" />
+				<entry key="TXAMT" value="金額" />
+				<entry key="CLEARINGPHASE" value="清算階段" />
+				<entry key="RESULTSTATUS" value="交易結果" />
+				<entry key="GARBAGEDATA" value="是否包含異常資料" />
+				<entry key="FILTER_BAT" value="是否過濾整批資料" />
+				<entry key="searchAspect" value="查詢角度" />
+				<entry key="CDNUMRAO" value="發動收受統編" />
+				<entry key="opAction1" value="入帳扣款帳號" />
+				
+				
+				<entry key="APID" value="應用系統代號" />
+				<entry key="MBAPSTATUS" value="應用系統狀態" />
+				<entry key="MBSYSSTATUS" value="系統狀態" />
+				<entry key="XCHGNCD01" value="基碼同步狀態1" />
+				<entry key="XCHGNCD02" value="基碼同步狀態2" />
+				<entry key="XCHGNCD03" value="基碼同步狀態3" />
+				<entry key="XCHGNCD04" value="基碼同步狀態4" />
+				<entry key="UNSYNCCNT01" value="基碼不同步次數1(OPC基碼)" />
+				<entry key="UNSYNCCNT02" value="基碼不同步次數2(圈存交易基碼)" />
+				<entry key="UNSYNCCNT03" value="基碼不同步次數3(保留)" />
+				<entry key="UNSYNCCNT04" value="基碼不同步次數4(保留)" />
+				
+			    <entry key="BATCH_PROC_DESC" value="批次作業說明" />
+				<entry key="BATCH_PROC_NAME" value="批次作業名稱" />
+				<entry key="BATCH_PROC_SEQ" value="批次執行序" />
+				<entry key="ERR_BREAK" value="錯誤中斷是否執行否" />
+			    
+				<entry key="CLEAR_NOTIFY" value="結帳通知" />
+				<entry key="RPT_NOTIFY" value="全部通知" />
+				
+				<entry key="BEGIN_TIME" value="開始時間" />
+				<entry key="END_TIME" value="結束時間" />
+				<entry key="NOTE" value="處理狀態說明" />
+				<entry key="PROC_STATUS" value="處理狀態" />
+				
+				<entry key="MAX_FILE_SIZE" value="檔案上傳大小 (MB)" />
+				<entry key="PARTY_STD_ECHO_TIME" value="參加單位標準回應時間（秒）" />
+				<entry key="TCH_STD_ECHO_TIME" value="票交所標準回應時間（秒）" />
+				<entry key="TIMEOUT_TIME" value="login後閒置timeout時間(分鐘)" />
+				<entry key="TXN_STD_PROC_TIME" value="單筆標準完成時間（秒）" />
+				<entry key="RP_CLEARPHASE1_TIME" value="第一清算階段批次處理時間" />
+				<entry key="RP_CLEARPHASE2_TIME" value="第二清算階段批次處理時間" />
+				
+				<!-- 代收發動者基本資料檔 SD_COMPANY_PROFILE -->
+				<entry key="COMPANY_ID" value="發動者統一編號" />
+				<entry key="COMPANY_NAME" value="發動者名稱" />
+				<entry key="TXN_ID" value="交易代號" />
+				<entry key="SND_BRBK_ID" value="發動分行代號" />
+			    <entry key="COMPANY_ABBR_NAME" value="發動者簡稱" />
+			    <entry key="CONTACT_INFO" value="聯絡人資訊" />
+			    <entry key="USER_NO" value="用戶號碼" />
+			    <entry key="CASE_NO" value="文號" />
+			    <entry key="DISPATCH_DATE" value="發文日期" />
+			    <entry key="SD_START_DATE" value="開辦日期" />
+			    <entry key="STOP_DATE" value="停用日期" />
+				<!-- 代付發動者基本資料檔 SC_COMPANY_PROFILE -->
+				<entry key="IPO_COMPANY_ID" value="上市上櫃公司代號" />
+			    <entry key="PROFIT_ISSUE_DATE" value="現金股息發放日期" />
+			    <entry key="IS_SHORT" value="代付發動者簡稱及名稱待填資料" />
+			    <entry key="UPDATED" value="異動資料" />
+				
+			    <entry key="RETURN_DAY" value="退回天數" />
+			    <!-- 	基本資料-手續費維護	 FEE_ID=交易代號(3碼) -->
+			     <entry key="FEESEQ" value="手續費流水號" />
+			     <entry key="FEE_LVL_TYPE" value="級距類型:1固定(預設)、2百分比" />
+			     <entry key="FEE_DTNO" value="級距序號(01,02,03...)" />
+			     <entry key="FEE_LVL_BEG_AMT" value="級距金額(起)" />
+			     <entry key="FEE_LVL_END_AMT" value="級距金額(迄)" />
+			    <entry key="FEE_ID" value="手續費代號" />
+			   	<entry key="FEE_TYPE" value="收費類型" />
+			    <entry key="OUT_BANK_FEE" value="扣款行手續費" />
+			    <entry key="OUT_BANK_FEE_DISC" value="折扣後扣款行手續費" />
+			    <entry key="IN_BANK_FEE" value="入帳行手續費" />
+			    <entry key="IN_BANK_FEE_DISC" value="折扣後入帳行手續費" />
+			    <entry key="TCH_FEE" value="交換所手續費" />
+			    <entry key="TCH_FEE_DISC" value="折扣後交換所手續費" />
+			    <entry key="SND_BANK_FEE" value="發動行手續費" />
+			    <entry key="SND_BANK_FEE_DISC" value="折扣後發動行手續費" />
+			    <entry key="FEE_DESC" value="手續費說明" />
+			    <entry key="ACTIVE_DESC" value="啟用註解" />
+<!-- 			    回應代碼維護 -->
+			    <entry key="ERROR_ID" value="回應代碼" />
+			    <entry key="ERR_DESC" value="錯誤說明" />
+			    
+			    <!-- 交易資料-手續費資料調整 -->
+			    <entry key="FEE" value="調帳金額" />
+			    <entry key="YYYYMM" value="調整年月" />
+			    
+			    <!-- 連線圈存扣款檔 ONBLOCKTAB -->
+			    <entry key="SENDERHEAD" value="發動者所屬總行代號" />
+			    
+			    <!-- 檔案上傳，檔案下載，表單下載 -->
+			    <entry key="FILE1" value="上傳檔案1"/>
+			    <entry key="FILE2" value="上傳檔案2"/>
+			    <entry key="FILE3" value="上傳檔案3"/>
+			    <entry key="FILE_DESC1" value="檔案描述1"/>
+			    <entry key="FILE_DESC2" value="檔案描述2"/>
+			    <entry key="FILE_DESC3" value="檔案描述3"/>
+			    <entry key="SELECTEDBANKS" value="可下載單位"/>
+			    <entry key="ID_NOS" value="檔案批號"/>
+			    <entry key="FILE_NOS" value="檔案流水號"/>
+			    <entry key="FILENAMES" value="檔案名稱"/>
+			    <entry key="FILESIZES" value="檔案大小"/>
+			    
+			    <!-- 繳費入帳業者基本資料維護 -->
+			    <entry key="SD_ITEM_NO" value="代收項目代號"/>
+			    <entry key="LAYOUTID" value="格式代號"/>
+			    <entry key="DEALY_CHARGE_DAY" value="可收逾期繳費天數"/>
+			    <entry key="INBANKID" value="入帳行代號"/>
+			    <entry key="INBANKACCTNO" value="入帳行帳號"/>
+			    
+			    <!--營業日期 -->
+			    <entry key="TW_YEAR" value="民國"/>
+			    <entry key="TW_MONTH" value="月"/>
+			    <entry key="START_DATE" value="營業日(起)" />
+			    <entry key="END_DATE" value="營業日(迄)" />
+			    <!--作業程序 -->
+			    <entry key="RSPCODE" value="回覆結果"/>
+			    <entry key="PCODE" value="交易類別"/>
+			    <entry key="CHG_PCODE" value="押碼基碼通知類型"/>
+			    <entry key="SENDER_TYPE" value="發動端"/>
+				<entry key="RECEIVER_TYPE" value="接收端"/>
+				<entry key="SENDERBANK" value="發動銀行"/>
+			    <entry key="RECEIVERBANK" value="接收銀行"/>
+			    <entry key="MACTYPE" value="押碼基碼通知類型"/>
+			    <entry key="MACID" value="押碼基碼代號"/>
+			    <entry key="QUERYVISION" value="查詢角度"/>
+			    <entry key="IDFIELD" value="押碼基碼代號"/>
+			    <!-- 報表列印 -->
+			    <entry key="START_YEAR" value="營業月份區間(起年)"/>
+			    <entry key="END_YEAR" value="營業月份區間(迄年)"/>
+			    <entry key="START_MONTH" value="營業月份區間(起月)"/>
+			    <entry key="END_MONTH" value="營業月份區間(迄月)"/>
+			    <entry key="SENDERID" value="發動者統編"/>
+			    <entry key="OP_TYPE" value="查詢角度"/>
+			    <entry key="TXDT" value="營業日期"/>
+			    
+			    <!-- 整批作業 -->
+			    <entry key="DATAFILE1" value="資料檔案1"/>
+				<entry key="MACFILE1" value="MAC檔案1"/>
+				<entry key="DATAFILE2" value="資料檔案2"/>
+				<entry key="MACFILE2" value="MAC檔案2"/>
+				<entry key="DATAFILE3" value="資料檔案3"/>
+				<entry key="MACFILE3" value="MAC檔案3"/>
+				<entry key="DATAFILE4" value="資料檔案4"/>
+				<entry key="MACFILE4" value="MAC檔案4"/>
+				<entry key="DATAFILE5" value="資料檔案5"/>
+				<entry key="MACFILE5" value="MAC檔案5"/>
+				<entry key="DATAFILE6" value="資料檔案6"/>
+				<entry key="MACFILE6" value="MAC檔案6"/>
+				<entry key="DATAFILE7" value="資料檔案7"/>
+				<entry key="MACFILE7" value="MAC檔案7"/>
+				<entry key="DATAFILE8" value="資料檔案8"/>
+				<entry key="MACFILE8" value="MAC檔案8"/>
+				<entry key="DATAFILE9" value="資料檔案9"/>
+				<entry key="MACFILE9" value="MAC檔案9"/>
+				<entry key="DATAFILE10" value="資料檔案10"/>
+				<entry key="MACFILE10" value="MAC檔案10"/>
+				<entry key="DATAFILE11" value="資料檔案11"/>
+				<entry key="MACFILE11" value="MAC檔案11"/>
+				<entry key="DATAFILE12" value="資料檔案12"/>
+				<entry key="MACFILE12" value="MAC檔案12"/>
+				<entry key="DATAFILE13" value="資料檔案13"/>
+				<entry key="MACFILE13" value="MAC檔案13"/>
+				<entry key="DATAFILE14" value="資料檔案14"/>
+				<entry key="MACFILE14" value="MAC檔案14"/>
+				<entry key="DATAFILE15" value="資料檔案15"/>
+				<entry key="MACFILE15" value="MAC檔案15"/>
+				<entry key="DATAFILE16" value="資料檔案16"/>
+				<entry key="MACFILE16" value="MAC檔案16"/>
+				<entry key="DATAFILE17" value="資料檔案17"/>
+				<entry key="MACFILE17" value="MAC檔案17"/>
+				<entry key="DATAFILE18" value="資料檔案18"/>
+				<entry key="MACFILE18" value="MAC檔案18"/>
+				<entry key="DATAFILE19" value="資料檔案19"/>
+				<entry key="MACFILE19" value="MAC檔案19"/>
+				<entry key="DATAFILE20" value="資料檔案20"/>
+				<entry key="MACFILE20" value="MAC檔案20"/>
+				
+				<entry key="FLBATCHSEQ" value="檔名"/>
+				
+				<entry key="WS_URL" value="WebService_URL"/>
+				<entry key="WS_NAME_SPACE" value="WebService_NameSpace"/>
+				<entry key="KEY_ID" value="代理業者基碼"/>
+				<entry key="COMPANY_NO" value="代理業者代號"/>
+				<entry key="result" value="回覆結果"/> 
+				<entry key="NOTICEID" value="訊息代碼"/>
+				<entry key="MESSAGE" value="訊息內容"/>
+			</map>			
+		</property>
+	</bean>  
+</beans>

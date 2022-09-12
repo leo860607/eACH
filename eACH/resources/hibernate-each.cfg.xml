@@ -1,0 +1,69 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+ "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+ "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		 <mapping class="tw.org.twntch.po.EACH_USER"/>
+		 <mapping class="tw.org.twntch.po.EACH_ROLE_LIST"/>
+		 <mapping class="tw.org.twntch.po.EACH_ROLE_FUNC"/>
+		 <mapping class="tw.org.twntch.po.EACH_FUNC_LIST"/>
+		 <mapping class="tw.org.twntch.po.SYS_PARA"/>
+		 <mapping class="tw.org.twntch.po.WK_DATE_CALENDAR"/>
+		 <mapping class="tw.org.twntch.po.CR_LINE"/>
+		 <mapping class="tw.org.twntch.po.CR_LINE_LOG"/>
+		 <mapping class="tw.org.twntch.po.BANK_GROUP"/>
+		 <mapping class="tw.org.twntch.po.BANK_GROUP_BUSINESS"/>
+		 <mapping class="tw.org.twntch.po.BANK_BRANCH"/>
+		 <mapping class="tw.org.twntch.po.BUSINESS_TYPE"/>
+		 <mapping class="tw.org.twntch.po.SC_COMPANY_PROFILE"/>
+		 <mapping class="tw.org.twntch.po.SD_COMPANY_PROFILE"/>
+		 <mapping class="tw.org.twntch.po.CHG_SC_PROFILE"/>
+		 <mapping class="tw.org.twntch.po.TXN_CODE"/>
+		 <mapping class="tw.org.twntch.po.TXN_ERROR_CODE"/>
+		 <mapping class="tw.org.twntch.po.GL_ERROR_CODE"/>
+		 <mapping class="tw.org.twntch.po.RETURN_DAY"/>
+		 <mapping class="tw.org.twntch.po.FEE_CODE"/>
+		 <mapping class="tw.org.twntch.po.TXN_FEE_MAPPING"/>
+		 <mapping class="tw.org.twntch.po.EACH_USERLOG"/>
+		 <mapping class="tw.org.twntch.po.OPCTRANSACTIONLOGTAB"/>
+		 <mapping class="tw.org.twntch.po.EACH_TXN_CODE"/>
+		 <mapping class="tw.org.twntch.po.BANKAPSTATUSTAB"/>
+		 <mapping class="tw.org.twntch.po.BANKSYSSTATUSTAB"/>
+		 <mapping class="tw.org.twntch.po.MISSINGTRADERLOGTAB"/>
+		 <mapping class="tw.org.twntch.po.ONBLOCKTAB"/>
+		 <mapping class="tw.org.twntch.po.ONCLEARINGTAB"/>
+		 <mapping class="tw.org.twntch.po.RPONBLOCKTAB"/>
+		 <mapping class="tw.org.twntch.po.ONPENDINGTAB"/>
+		 <mapping class="tw.org.twntch.po.EACH_FILEUPLOAD"/>
+		 <mapping class="tw.org.twntch.po.VW_ONBLOCKTAB"/>
+		 <mapping class="tw.org.twntch.po.EACHSYSSTATUSTAB"/>
+		 <mapping class="tw.org.twntch.po.EACHAPSTATUSTAB"/>
+		 <mapping class="tw.org.twntch.po.BRBK_FEE_ADJ"/>
+		 <mapping class="tw.org.twntch.po.EACH_BATCH_STATUS"/>
+		 <mapping class="tw.org.twntch.po.EACH_BATCH_NOTIFY"/>
+		 <mapping class="tw.org.twntch.po.EACH_BATCH_DEF"/>
+		 <mapping class="tw.org.twntch.po.SETTLEMENTLOGTAB"/>
+		 <mapping class="tw.org.twntch.po.BANK_OPBK"/>
+		 <mapping class="tw.org.twntch.po.BANK_CTBK"/>
+		 <mapping class="tw.org.twntch.po.BULLETIN"/>
+		 <mapping class="tw.org.twntch.po.BULLETIN_REC"/>
+		 <mapping class="tw.org.twntch.po.FLCONTROLTAB"/>
+		 <mapping class="tw.org.twntch.po.AGENT_PROFILE"/>
+		 <mapping class="tw.org.twntch.po.AGENT_FEE_CODE"/>
+		 <mapping class="tw.org.twntch.po.AGENT_SEND_PROFILE"/>
+		 <mapping class="tw.org.twntch.po.AGENT_CR_LINE"/>
+		 <mapping class="tw.org.twntch.po.NONCLEAR_BATCH_STATUS"/>
+		 <mapping class="tw.org.twntch.po.AGENT_TXN_CODE"/>
+		 <mapping class="tw.org.twntch.po.PI_COMPANY_PROFILE"/>
+		 <mapping class="tw.org.twntch.po.WO_COMPANY_PROFILE"/>
+		 <mapping class="tw.org.twntch.po.PI_SND_PROFILE"/>
+		 <mapping class="tw.org.twntch.po.FEE_CODE_NW"/>
+		 <mapping class="tw.org.twntch.po.FEE_CODE_NWLVL"/>
+		 <mapping class="tw.org.twntch.po.SD_COMPANY_PROFILE_HIS"/>
+		 <mapping class="tw.org.twntch.po.SC_COMPANY_PROFILE_HIS"/>
+		<!-- 		 繳費 -->
+		 <mapping class="tw.org.twntch.po.BILL_TYPE"/>
+		 
+	</session-factory>
+</hibernate-configuration>

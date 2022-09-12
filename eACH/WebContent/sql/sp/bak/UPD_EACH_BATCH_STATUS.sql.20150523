@@ -1,0 +1,65 @@
+﻿CREATE PROCEDURE "EACHUSER"."UPD_EACH_BATCH_STATUS" (IN iBIZDATE VARCHAR(10), IN iCLEARINGPHASE VARCHAR(2), IN iBATCH_PROC_NAME VARCHAR(100) ,IN iPROC_STATUS CHAR(1), IN iNote VARCHAR(300))
+	LANGUAGE SQL
+Begin 
+    --DECLARE USERID  VARCHAR(50) Default '';
+    Declare v_RECVCNT int ;
+    Declare v_RECVAMT Bigint ;
+    Declare v_PAYCNT int ;
+    Declare v_PAYAMT Bigint ;
+    Declare v_RECVMBFEECNT int ;
+    Declare v_RECVMBFEEAMT Decimal(12,2) ;
+    Declare v_PAYMBFEECNT int ;
+    DECLARE sRtn  VARCHAR(100) Default '';
+    Declare v_PAYMBFEEAMT Decimal(12,2) ;
+    Declare sRECVMBFEECNT VARCHAR(12) ;
+    Declare sRECVMBFEEAMT VARCHAR(12) ;
+    Declare sPAYMBFEECNT VARCHAR(12) ;
+    Declare sPAYMBFEEAMT VARCHAR(12) ;
+
+    --SET USERID = (Select CURRENT_USER   FROM SYSIBM.SYSDUMMY1);
+  
+    If iPROC_STATUS = 'P' then
+             Update EACHUSER.EACH_BATCH_STATUS   
+                    Set  PROC_STATUS=iPROC_STATUS  ,
+                            BEGIN_TIME = CURRENT_TIMESTAMP,
+                            Note =iNote
+                Where BIZDATE=iBIZDATE and CLEARINGPHASE=iCLEARINGPHASE and BATCH_PROC_NAME=iBATCH_PROC_NAME;
+                COMMIT;
+    else
+            --結算批次檢核
+            IF iBATCH_PROC_NAME='BAT_RPONCLEARINGTAB'  then
+                SET (v_RECVCNT, v_RECVAMT, v_PAYCNT, v_PAYAMT)=(Select coalesce(TOTAL_RECVCNT,0) , coalesce(TOTAL_RECVAMT,0), coalesce(TOTAL_PAYCNT,0), coalesce(TOTAL_PAYAMT,0) From EACHUSER.EACH_BATCH_DATA_VALIDATION where  CLEARINGPHASE=iCLEARINGPHASE and BizDate=iBizDate fetch first 1 row only) ;
+                SET sRtn =  (select  EACHUSER.CHKBATSUM( iBIZDATE, iCLEARINGPHASE, 'RECV', v_RECVCNT, v_RECVAMT ) from  sysibm.sysdummy1) ;
+                SET sRtn =sRtn || (select  EACHUSER.CHKBATSUM( iBIZDATE, iCLEARINGPHASE, 'PAY', v_PAYCNT, v_PAYAMT ) from  sysibm.sysdummy1) ;
+                SET iNote=iNote ||  sRtn; --'@結算筆數金額比對無誤!';
+            End If;
+            
+            --收續費批次檢核      BAT_RPCLEARFEETAB
+            IF iBATCH_PROC_NAME='BAT_RPCLEARFEETAB'  then
+                    SET (v_RECVMBFEECNT, v_RECVMBFEEAMT)=(Select sum(CNT), sum(AMT) From EACHUSER.RPCLEARFEETAB where AMT > 0 and CLEARINGPHASE=iCLEARINGPHASE and BizDate=iBizDate) ;
+                    SET (v_PAYMBFEECNT, v_PAYMBFEEAMT)=(Select sum(CNT), sum(AMT) From EACHUSER.RPCLEARFEETAB where AMT< 0 and CLEARINGPHASE=iCLEARINGPHASE and BizDate=iBizDate) ;
+                    SET sRtn =  (select  EACHUSER.CHKBATSUM( iBIZDATE, iCLEARINGPHASE, 'RECVMBFEE', v_RECVMBFEECNT, v_RECVMBFEEAMT ) from  sysibm.sysdummy1) ;
+                    SET sRtn =sRtn || (select  EACHUSER.CHKBATSUM( iBIZDATE, iCLEARINGPHASE, 'PAYMBFEE', v_PAYMBFEECNT, v_PAYMBFEEAMT ) from  sysibm.sysdummy1) ;
+                    SET sRECVMBFEECNT=char(v_RECVMBFEECNT) ;
+                    SET sRECVMBFEEAMT=char(v_RECVMBFEEAMT) ;          
+                    SET sPAYMBFEECNT = char(v_PAYMBFEECNT) ;
+                    SET sPAYMBFEEAMT=char(v_PAYMBFEEAMT) ; 
+                    SET iNote=iNote || '應收手續費總筆數：' || sRECVMBFEECNT || '應收手續費總金額：' || sRECVMBFEEAMT || '應付手續費總筆數：' || sPAYMBFEECNT || '應付手續費總金額：' || sPAYMBFEEAMT || sRtn ;
+            End If;
+
+            IF LOCATE('@', sRtn) > 0 then    -- '驗證結果回傳值有@表示檢核失敗'
+                Update EACHUSER.EACH_BATCH_STATUS   
+                    Set  PROC_STATUS='F'  ,
+                            END_TIME = CURRENT_TIMESTAMP,
+                            Note =iNote || sRtn
+                Where BIZDATE=iBIZDATE and CLEARINGPHASE=iCLEARINGPHASE and BATCH_PROC_NAME=iBATCH_PROC_NAME;
+            Else    
+                Update EACHUSER.EACH_BATCH_STATUS   
+                    Set  PROC_STATUS=iPROC_STATUS  ,
+                            END_TIME = CURRENT_TIMESTAMP,
+                            Note = iNote
+                Where BIZDATE=iBIZDATE and CLEARINGPHASE=iCLEARINGPHASE and BATCH_PROC_NAME=iBATCH_PROC_NAME;             
+            End If;
+             COMMIT;
+    End If;
+End

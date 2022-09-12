@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context>
+	<WatchedResource>
+		WEB-INF/web.xml
+    </WatchedResource>
+
+<!-- hugo local端-->
+<!--     <Resource name="jdbc/ACH" auth="Container" type="javax.sql.DataSource" -->
+<!--          driverClassName="com.ibm.db2.jcc.DB2Driver" -->
+<!--          url="jdbc:db2://10.60.5.2:50000/each" -->
+<!--          username="eachuser" password="eachuser" maxActive="100" maxIdle="5" -->
+<!--          maxWait="10000" removeAbandonedTimeout="60" removeAbandoned="true"/> -->
+    <Resource name="jdbc/ACH" auth="Container" type="javax.sql.DataSource"
+         driverClassName="com.ibm.db2.jcc.DB2Driver"
+         url="jdbc:db2://localhost:50000/each"
+         username="eachuser" password="eachuser" maxActive="100" maxIdle="5"
+         maxWait="10000" removeAbandonedTimeout="60" removeAbandoned="true"/>         
+         
+<!-- TBB local端-->
+<!-- 	<Resource name="jdbc/ACH" auth="Container" type="javax.sql.DataSource" -->
+<!--          driverClassName="com.ibm.db2.jcc.DB2Driver" -->
+<!--          url="jdbc:db2://192.168.50.199:50000/eACH" -->
+<!--          username="eachuser" password="9ol./;p0" maxActive="100" maxIdle="5" -->
+<!--          maxWait="10000" removeAbandonedTimeout="60" removeAbandoned="true"/> -->
+    
+<!--     <Resource name="jdbc/ACH" auth="Container" type="javax.sql.DataSource" -->
+<!--          driverClassName="com.ibm.db2.jcc.DB2Driver" -->
+<!--          url="jdbc:db2://localhost:50000/eACH" -->
+<!--          username="eachuser" password="benia1223" maxActive="100" maxIdle="5" -->
+<!--          maxWait="10000" removeAbandonedTimeout="60" removeAbandoned="true" -->
+<!--          connectionProperties="useJDBC4ColumnNameAndLabelSemantics=2;" -->
+<!--      /> -->
+    
+<!--     <Resource name="jdbc/RA" auth="Container" type="javax.sql.DataSource" -->
+<!--          driverClassName="com.ibm.db2.jcc.DB2Driver" -->
+<!--          url="jdbc:db2://10.59.1.171:50000/RA" -->
+<!--          username="fcs" password="1234qweR" maxActive="100" maxIdle="5" -->
+<!--          maxWait="10000" removeAbandonedTimeout="60" removeAbandoned="true"/> -->
+
+</Context>

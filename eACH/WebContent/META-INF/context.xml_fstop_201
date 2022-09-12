@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context>
+	<WatchedResource>
+		WEB-INF/web.xml
+    </WatchedResource>
+<!--     <Resource name="jdbc/lportal" auth="Container" type="javax.sql.DataSource" -->
+<!--          driverClassName="com.mysql.jdbc.Driver" -->
+<!--          url="jdbc:mysql://localhost:3306/lportal" -->
+<!--          username="portal" password="25082201" maxActive="100" maxIdle="5" -->
+<!--          maxWait="10000" removeAbandonedTimeout="60" removeAbandoned="true"/> -->
+
+         
+<!--     <Resource name="jdbc/ACH" auth="Container" type="javax.sql.DataSource" -->
+<!--          driverClassName="com.ibm.db2.jcc.DB2Driver" -->
+<!--          url="jdbc:db2://192.168.4.201:50000/JTOPTOOL" -->
+<!--          username="TOP" password="25082201" maxActive="100" maxIdle="5" -->
+<!--          maxWait="10000" removeAbandonedTimeout="60" removeAbandoned="true"/> -->
+<!--          url="jdbc:db2://192.168.4.201:50000/JTOPTOOL:currentSchema=SQLJ;" -->
+
+<!-- fstop eACH 測試機-->
+    <Resource name="jdbc/ACH" auth="Container" type="javax.sql.DataSource"
+         driverClassName="com.ibm.db2.jcc.DB2Driver"
+         url="jdbc:db2://192.168.4.201:50000/ACH"
+         username="Administrator" password="25082201" maxActive="100" maxIdle="5"
+         maxWait="10000" removeAbandonedTimeout="60" removeAbandoned="true"/>
+<!--          url="jdbc:db2://192.168.4.201:50000/JTOPTOOL:currentSchema=SQLJ;" -->
+
+<!--      local端測試用     -->
+<!--     <Resource name="jdbc/ACH" auth="Container" type="javax.sql.DataSource" -->
+<!--          driverClassName="com.mysql.jdbc.Driver" -->
+<!--          url="jdbc:mysql://localhost:3306/edda?useUnicode=true&amp;characterEncoding=UTF8" -->
+<!--          username="portal" password="25082201" maxActive="100" maxIdle="5" -->
+<!--          maxWait="10000" removeAbandonedTimeout="60" removeAbandoned="true"/> -->
+
+	<!-- PU本機測試 --> 
+<!-- 	<Resource name="jdbc/ACH" auth="Container" type="javax.sql.DataSource" -->
+<!--          driverClassName="com.ibm.db2.jcc.DB2Driver" -->
+<!--          url="jdbc:db2://192.168.150.141:50000/ACH" -->
+<!--          username="Administrator" password="25082201" maxActive="100" maxIdle="5" -->
+<!--          maxWait="10000" removeAbandonedTimeout="60" removeAbandoned="true"/> -->
+
+</Context>

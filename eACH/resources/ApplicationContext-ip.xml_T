@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+    default-autowire="byName" default-lazy-init="false">
+	
+	<bean id="socketClient" class="tw.org.twntch.socket.SocketClient">
+		<!-- 票交測試 -->
+		<property name="ip" value="10.60.3.2"></property>
+		
+		<property name="port" value="22999"></property>
+	</bean>
+	<bean id="parameters" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<!--判斷是否為正式機   開發 測試    P=正式 ，T=測試 ，D=開發  預設為D-->
+				<entry key="isFormal" value="T" />
+				<!-- IKey展期的URL --><!-- 正式機的URL -->
+				<entry key="IKEYEXTENDURL" value="http://10.59.1.51/ra/portal/login2.asp" />
+				<!--是否從HSM取得MAC來驗證，要Y，不要N-->
+				<entry key="isCheckMAC" value="Y" />
+				<!--從HSM取得MAC的IP-->
+				<entry key="hsmIP" value="10.60.3.2" />
+				<!--從HSM取得MAC的PORT-->
+				<entry key="hsmPort" value="8500" />
+			</map>
+		</constructor-arg>
+	</bean>
+	<bean id="ikey" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="className" value="com.ibm.db2.jcc.DB2Driver" />
+<!-- 				開發及測試url都相同 正式必須改成jdbc:db2://10.59.1.51:50000/RA -->
+				<entry key="url" value="jdbc:db2://10.59.1.171:50000/RA" />
+				<entry key="username" value="fcs" />
+				<entry key="password" value="1234qweR" />
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>

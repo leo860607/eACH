@@ -1,0 +1,23 @@
+body{background:#FFFFFF;margin:0 auto;min-height: 615px}
+#wrapper{width:960px; background:#ECF1F6; margin:0 auto;box-shadow:0px 0px 15px -2px rgba(20%,20%,40%,0.5)}
+#block_banner{height:140px; background-image:url('../images/page_banner.jpg'); height:140px; text-align:right; }
+#block_nav{height:100%;}
+#block_body{font-size:14px}
+#block_footer{height:20px; background:#77ADDC; line-height:20px; text-align:center; color:navy; font-size:12px;}
+
+#block_nav ul,#block_nav li,#block_nav span,#block_nav a{margin:0;padding:0;position:relative}
+#block_nav:after,#block_nav ul:after{content:'';display:block;clear:both}
+#block_nav a{color:#fff;display:inline-block;font-family:'Microsoft JhengHei',"Lucida Grande","Lucida Sans Unicode",Helvetica,Arial,Verdana,sans-serif;font-size:16px;min-width:35px;text-align:center;text-decoration:none;text-shadow:0 -1px 0 #333}
+#block_nav ul{list-style:none}
+#block_nav > ul > li{float:left;margin-right:3px}
+#block_nav > ul > li.active a{background-color:#384258;filter:progid:dximagetransform.microsoft.gradient(startColorstr='#566486',endColorstr='#4a4a4a',GradientType=0);box-shadow:inset 0 0 10px #222222,inset 0 10px 10px #222;-moz-box-shadow:inset 0 0 10px #222222,inset 0 10px 10px #222;-webkit-box-shadow:inset 0 0 10px #222222,inset 0 10px 10px #222;filter:none}
+#block_nav > ul > li.active a:hover{background:-moz-linear-gradient(top,#646464 0%,#4a4a4a 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#646464),color-stop(100%,#4a4a4a));background:-webkit-linear-gradient(top,#646464 0%,#4a4a4a 100%);background:-o-linear-gradient(top,#646464 0%,#4a4a4a 100%);background:-ms-linear-gradient(top,#646464 0%,#4a4a4a 100%);background:linear-gradient(to bottom,#646464 0%,#4a4a4a 100%);filter:progid:dximagetransform.microsoft.gradient(startColorstr='#646464',endColorstr='#4a4a4a',GradientType=0);filter:none}
+#block_nav > ul > li a{box-shadow:inset 0 0 0 1px #8a8a8a;-moz-box-shadow:inset 0 0 0 1px #8a8a8a;-webkit-box-shadow:inset 0 0 0 1px #8a8a8a;background-color:#556486;filter:progid:dximagetransform.microsoft.gradient(startColorstr='#566486',endColorstr='#787878',GradientType=0);border-bottom:1px solid #5d5d5d;line-height:30px;padding:0 15px;filter:none}
+#block_nav > ul > li a:hover{background-color:#8f8c61;filter:progid:dximagetransform.microsoft.gradient(startColorstr='#8a8a8a',endColorstr='#787878',GradientType=0);filter:none}
+#block_nav > ul > li:first-child a{border-left:1px solid #5d5d5d}
+/* 20150119 根據UAT-20150109-31 調整圖層z-index:1 有其他狀況再調整 */
+#block_nav .has-sub:hover ul{display:block;z-index:1;}
+#block_nav .has-sub ul{display:none;position:absolute;top:31px;left:0;min-width:220px;text-align:center;*width:100%}
+#block_nav .has-sub ul li{text-align:center}
+#block_nav .has-sub ul li a{border-top:0 none;border-left:1px solid #5d5d5d;display:block;line-height:100%;padding:6px 15px;text-align:left;font-size:14px}
+#block_nav span.corner{position:absolute;height:0;width:0;top:0;right:0;overflow:hidden;border-top:solid 13px #ECF1F6;border-left:solid 13px transparent}

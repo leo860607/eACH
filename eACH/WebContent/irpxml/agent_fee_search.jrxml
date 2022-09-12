@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="agent_txs_day" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isFloatColumnFooter="true" uuid="4501a802-f92a-42ac-bfa2-1bb741218808">
+	<property name="ireport.zoom" value="1.1000000000000052"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.xls.detect.cell.type" value="true"/>
+	<queryString>
+		<![CDATA[WITH TEMP AS (
+SELECT COALESCE(AGENT_COMPANY_ID ,'')  AGENT_COMPANY_ID  , COALESCE(SND_COMPANY_ID ,'') SND_COMPANY_ID , COALESCE(RESPONSECODE , '' ) RESPONSECODE   , COALESCE(COMPANY_ABBR_NAME ,'') COMPANY_ABBR_NAME , COALESCE(SND_COMPANY_ABBR_NAME ,'' ) SND_COMPANY_ABBR_NAME  , COALESCE(TG_RESULT ,'') TG_RESULT
+, CAST(COALESCE(TRANSACTIONAMOUNT ,'0') AS DECIMAL(13,0))   NEWTXAMT
+,TXID , TXN_NAME
+--,( CASE WHEN TG_RESULT = 'R' OR TG_RESULT = 'W' THEN 0.00 ELSE COALESCE(AGENT_FEE,0.00) END) AS AGENT_FEE
+,CAST(COALESCE(AGENT_FEE,0.00) AS DECIMAL(7,2)) AS AGENT_FEE
+--cast('.00 ' as decimal(19,2))
+, COALESCE(CLEARINGPHASE ,'') CLEARINGPHASE , COALESCE(PCODE , '' ) PCODE
+ FROM  VW_TXNLOG  WHERE 1=1  AND  BIZDATE>= '20151120' AND BIZDATE <= '20151120' AND TG_RESULT = 'A'
+ )
+SELECT A.AGENT_COMPANY_ID  ,A.SND_COMPANY_ID   ,A.COMPANY_ABBR_NAME , A.SND_COMPANY_ABBR_NAME
+,TXID , A.TXN_NAME , A.FIRECOUNT , A.AGENT_FEE ,A.SUM_AGENT_FEE
+ FROM (
+SELECT ROWNUMBER() OVER() AS ROWNUMBER, T.* FROM (
+                SELECT AGENT_COMPANY_ID AS AGENT_COMPANY_ID , SND_COMPANY_ID AS SND_COMPANY_ID ,TXID , TXN_NAME, TG_RESULT ,COMPANY_ABBR_NAME , SND_COMPANY_ABBR_NAME , AGENT_FEE AS AGENT_FEE , SUM(AGENT_FEE) AS SUM_AGENT_FEE , COUNT(*) AS FIRECOUNT FROM TEMP GROUP BY AGENT_COMPANY_ID, SND_COMPANY_ID , TXID , TXN_NAME, TG_RESULT ,COMPANY_ABBR_NAME , SND_COMPANY_ABBR_NAME  ,AGENT_FEE		 ) AS T    ) AS A
+ WHERE 1=1  AND ROWNUMBER >= 1 AND ROWNUMBER <= 10]]>
+	</queryString>
+	<field name="AGENT_COMPANY_ID" class="java.lang.String"/>
+	<field name="SND_COMPANY_ID" class="java.lang.String"/>
+	<field name="COMPANY_ABBR_NAME" class="java.lang.String"/>
+	<field name="SND_COMPANY_ABBR_NAME" class="java.lang.String"/>
+	<field name="TXID" class="java.lang.String"/>
+	<field name="TXN_NAME" class="java.lang.String"/>
+	<field name="FIRECOUNT" class="java.lang.Integer"/>
+	<field name="AGENT_FEE" class="java.math.BigDecimal"/>
+	<field name="SUM_AGENT_FEE" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="20">
+			<staticText>
+				<reportElement x="0" y="0" width="212" height="20" uuid="b2fcb169-d7e7-4957-97eb-1749548ffd6f"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="10" isBold="true" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[代理業者統編/簡稱]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="424" y="0" width="152" height="20" uuid="77e25022-d9b4-4ca6-819b-ea169891f5c5"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="10" isBold="true" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[交易代號]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="672" y="0" width="70" height="20" uuid="6349c6e4-0cdb-4ed0-b7f3-9c8a48b4e0a0"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="10" isBold="true" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[筆數]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="742" y="0" width="100" height="20" uuid="e224ce1c-d137-42f0-8a71-4b7b5f42fec6"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="10" isBold="true" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[金額]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="212" y="0" width="212" height="20" uuid="0f7e5156-3bf6-439f-9d54-5d725fadb264"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="10" isBold="true" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[發動者統編/簡稱]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="576" y="0" width="96" height="20" uuid="11871c09-e4c7-42b3-808c-fe3eee9c94f8"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="10" isBold="true" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[單價]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20">
+			<textField>
+				<reportElement x="424" y="0" width="152" height="20" uuid="11e3d610-3e24-46ba-9ba3-ddbfafb9e2ba"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TXN_NAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0;-#,##0">
+				<reportElement x="672" y="0" width="70" height="20" uuid="0b1a1ee6-2ea9-4ca7-929b-dfd1434c3a19"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FIRECOUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="742" y="0" width="100" height="20" uuid="d34c41fa-3dcc-419e-9eb4-ee6dff3c3e7f"/>
+				<box rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUM_AGENT_FEE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="212" height="20" uuid="5541a8be-c9ac-41df-9dc8-a25d7e1766fa"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AGENT_COMPANY_ID}+"-"+$F{COMPANY_ABBR_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="212" y="0" width="212" height="20" uuid="5e839fa8-bac9-489f-857f-0c9ff927172d"/>
+				<box leftPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SND_COMPANY_ID}+"-"+$F{SND_COMPANY_ABBR_NAME}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;-#,##0.00" isBlankWhenNull="true">
+				<reportElement x="576" y="0" width="96" height="20" uuid="e8a563ae-b295-476b-8041-2102a0b18c23"/>
+				<box rightPadding="5">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Serif" pdfFontName="MHei-Medium" pdfEncoding="UniCNS-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AGENT_FEE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="50">
+			<textField evaluationTime="Report">
+				<reportElement x="424" y="30" width="159" height="20" uuid="c3fb7d8e-4233-405a-8feb-4d834f265768"/>
+				<textFieldExpression><![CDATA["-共 " + $V{PAGE_NUMBER}+" 頁"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="273" y="30" width="151" height="20" uuid="bcde8b49-5a95-4ce1-abba-9abd2f608905"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["第 "+$V{PAGE_NUMBER}+" 頁"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

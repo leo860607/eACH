@@ -1,0 +1,89 @@
+--業務類別檔
+CREATE TABLE business_type ( 
+    BUSINESS_TYPE_ID  	varchar(4) COMMENT '業務類別代號'  NOT NULL,
+    BUSINESS_TYPE_NAME	varchar(20) COMMENT '業務類別名稱'  NOT NULL,
+    CDATE             	datetime COMMENT '建立日期'  NULL,
+    UDATE             	datetime COMMENT '異動日期'  NULL,
+    PRIMARY KEY(BUSINESS_TYPE_ID)
+)
+COMMENT = '業務類別檔' 
+
+--代付發動者基本資料檔
+CREATE TABLE `SC_COMPANY_PROFILE` (
+  COMPANY_ID	varchar	(	10	)	NOT NULL DEFAULT ''	COMMENT '發動者統一編號',
+COMPANY_ABBR_NAME	varchar	(	8	)	DEFAULT NULL COMMENT	'發動者簡稱',
+COMPANY_NAME	varchar	(	140	)	DEFAULT NULL COMMENT	'發動者名稱',
+TXN_ID	varchar	(	3	)	NOT NULL DEFAULT ''	COMMENT '交易代號',
+SND_BRBK_ID	varchar	(	7	)	NOT NULL DEFAULT '' COMMENT	'發動分行代號',
+IPO_COMPANY_ID	varchar	(	6	)	DEFAULT NULL COMMENT	'上市上櫃公司代號',
+PROFIT_ISSUE_DATE	varchar	(	8	)	DEFAULT NULL COMMENT	'現金股息發放日期',
+CDATE	date				DEFAULT NULL COMMENT	'建立日期',
+UDATE	date				DEFAULT NULL COMMENT	'異動日期',
+
+  PRIMARY KEY (COMPANY_ID ,TXN_ID,SND_BRBK_ID)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='代付發動者基本資料檔';
+
+
+--代收發動者基本資料檔
+CREATE TABLE `SD_COMPANY_PROFILE` (
+  COMPANY_ID	varchar	(	10	) NOT NULL DEFAULT ''	COMMENT	'發動者統一編號',
+COMPANY_ABBR_NAME	varchar	(	8	) DEFAULT NULL	COMMENT	'發動者簡稱',
+COMPANY_NAME	varchar	(	140	)	DEFAULT NULL COMMENT	'發動者名稱',
+TXN_ID	varchar	(	3	) NOT NULL DEFAULT ''	COMMENT	'交易代號',
+SND_BRBK_ID	varchar	(	7	) NOT NULL DEFAULT ''	COMMENT	'發動分行代號',
+CONTACT_INFO	varchar	(	160	)	DEFAULT NULL  COMMENT	'聯絡人資訊',
+START_DATE	varchar	(	8	)	DEFAULT NULL COMMENT	'開辦日期',
+DISPATCH_DATE	varchar	(	10	)				DEFAULT NULL COMMENT	'發文日期',
+USER_NO	varchar	(	60	)	DEFAULT NULL COMMENT	'用戶號碼',
+CASE_NO	varchar	(	120	)	DEFAULT NULL COMMENT	'文號',
+STOP_DATE	varchar	(	8	)	DEFAULT NULL COMMENT	'停用日期',
+CDATE	varchar	(	10	)				DEFAULT NULL COMMENT	'建立日期',
+UDATE	varchar	(	10	)			DEFAULT NULL COMMENT	'異動日期',
+  PRIMARY KEY (COMPANY_ID ,TXN_ID,SND_BRBK_ID)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='代收發動者基本資料檔';
+
+
+--銀行分行檔
+CREATE TABLE `BANK_BRANCH` (
+  `BGBK_ID` varchar(7) NOT NULL DEFAULT '' COMMENT '總行代號',
+  `BRBK_ID` varchar(7) NOT NULL DEFAULT ''  COMMENT '分行代號',
+  `BRBK_NAME` varchar(20) DEFAULT NULL COMMENT '分行名稱',
+  `TCH_ID`  varchar(2) DEFAULT NULL COMMENT '交換所代號',
+  `ACTIVE_DATE` varchar(10) DEFAULT NULL COMMENT '啟用日期',
+  `STOP_DATE` varchar(10) DEFAULT NULL COMMENT '停用日期',
+  `CDATE` varchar(10) DEFAULT NULL COMMENT '建立日期',
+  `UDATE` varchar(10)  DEFAULT NULL COMMENT '異動日期',   
+  PRIMARY KEY (`BGBK_ID` ,`BRBK_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='銀行分行檔';
+
+--銀行總行承作業務檔
+CREATE TABLE `BANK_GROUP_BUSINESS` (
+  `BGBK_ID` varchar(7) NOT NULL DEFAULT '' COMMENT '總行代號',
+  `BUSINESS_TYPE_ID` varchar(4) NOT NULL DEFAULT ''  COMMENT '總行名稱',
+  `CDATE` varchar(10) DEFAULT NULL COMMENT '建立日期',
+  `UDATE` varchar(10)  DEFAULT NULL COMMENT '異動日期',   
+  PRIMARY KEY (`BGBK_ID` ,`BUSINESS_TYPE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='銀行總行承作業務檔';
+--DROP TABLE `BANK_GROUP_BUSINESS`
+
+--銀行總行檔
+CREATE TABLE `BANK_GROUP` (
+  `BGBK_ID` varchar(7) NOT NULL DEFAULT '' COMMENT '總行代號',
+  `BGBK_NAME` varchar(20)  DEFAULT NULL  COMMENT '總行名稱',
+  `BGBK_ATTR` varchar(1) DEFAULT NULL COMMENT '銀行屬性',
+  `CTBK_ACCT` varchar(4) DEFAULT NULL COMMENT '央行帳號',
+  `TCH_ID` varchar(2) DEFAULT NULL COMMENT '交換所代號',
+  `OPBK_ID` varchar(7) DEFAULT NULL COMMENT '操作行代號',
+  `CTBK_ID` varchar(7) DEFAULT NULL COMMENT '清算行代號',
+  `ACTIVE_DATE` varchar(10) DEFAULT NULL COMMENT '啟用日期',
+  `STOP_DATE` varchar(10) DEFAULT NULL COMMENT '停用日期',
+   `SND_FEE_BRBK_ID` varchar(7) DEFAULT NULL COMMENT '發動行手續費分行代號',
+    `OUT_FEE_BRBK_ID` varchar(7) DEFAULT NULL COMMENT '扣款行手續費分行代號',
+     `IN_FEE_BRBK_ID` varchar(7) DEFAULT NULL COMMENT '入帳行手續費分行代號',
+  `EDDA_FLAG` varchar(1) DEFAULT NULL COMMENT '識別eDDA是否已抓取過',
+  `CDATE` varchar(10) DEFAULT NULL COMMENT '建立日期',
+  `UDATE` varchar(10)  DEFAULT NULL COMMENT '異動日期',   
+  PRIMARY KEY (`BGBK_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='銀行總行檔';
+
+

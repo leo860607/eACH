@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd"        
+    default-autowire="byName" default-lazy-init="false">
+
+	<bean id="arguments" class="tw.org.twntch.bo.Arguments">	
+		<property name="args">
+			<map>
+			    <entry key="GLOBAL.CHECK.SESSION" value="Y" />
+			    <!-- 分頁 每頁總筆數 -->
+			    <entry key="PAGE.SIZE" value="10" />
+			    <!-- IREPORT XML 路徑 -->
+			    <entry key="RPT.XML.PATH" value="/irpxml" />
+			    <!-- IREPORT 產生PDF暫存路徑 -->
+			    <entry key="RPT.PDF.PATH" value="/tmp" />
+<!-- 			    批次產生報表基本檔名  eACH_txlist_S_20150408_01.pdf  ;eACH_txlist_{bkType}_{YYYYMMDD}_{清算階段}.pdf -->
+			    <entry key="BAT.FILE.NAME.TX1" value="eACH_txlist_#1_#2_#3" />
+<!-- 			    eACH_pending_B_20150408_01.pdf -->
+			    <entry key="BAT.FILE.NAME.TX2" value="eACH_pending_#1_#2_#3" />
+<!-- 			    eACH_ pendresult_B_20150408_01.pdf -->
+			    <entry key="BAT.FILE.NAME.TX3" value="eACH_pendresult_#1_#2_#3" />
+<!-- 			    Agent_txlistRP_16606102_20150201_01.pdf -->
+			    <entry key="BAT.FILE.NAME.TX5" value="Agent_txlistRP_#1_#2_#3" />
+<!-- 			    Agent_TxDaySumRP_16606102_20150201_01.pdf -->
+			    <entry key="BAT.FILE.NAME.ST16" value="Agent_TxDaySumRP_#1_#2" />
+<!-- 			    Agent_TxMonSumRP_16606102_201501_01.pdf -->
+			    <entry key="BAT.FILE.NAME.ST17" value="Agent_TxMonSumRP_#1_#2" />
+<!-- 			    eACH_ClsDaySum_20150201_0040000.pdf ; eACH_ClsDaySum_{YYYYMMDD}_{opBkId}.pdf-->
+			    <entry key="BAT.FILE.NAME.CL1" value="eACH_ClsDaySum_#1_#2_#3" />
+<!-- 			    eACH_FeeDaySum_20150201_0040000.pdf ; eACH_FeeDaySum_{YYYYMMDD}_{opBkId}.pdf -->
+			    <entry key="BAT.FILE.NAME.FEE1" value="eACH_FeeDaySum_#1_#2_#3" />
+<!-- 			    Agent_FeeDaySumRP_16606102_20150201_01.pdf ;Agent_FeeDaySumRP_{代理業者統編}_{YYYYMMDD}_{清算階段}.pdf -->
+			    <entry key="BAT.FILE.NAME.FEE8" value="Agent_FeeDaySumRP_#1_#2" />
+<!-- 			    Agent_FeeMonSumRP_16606102_20150201.pdf ;Agent_FeeMonSumRP_{代理業者統編}_{YYYYMMDD}.pdf -->
+			    <entry key="BAT.FILE.NAME.FEE9" value="Agent_FeeMonSumRP_#1_#2" />
+<!-- 			    為了讓批次產生的檔案另外放 -->
+			    <entry key="BAT.LAST.PATH" value="BAT" />
+<!-- 			    報表下載時檔案開啟的方式  ,Y:以新視窗開啟   其他則使用對話框讓使用者選擇開啟或下載 預設應該是N 避免照成快取 -->
+			    <entry key="ISWINOPEN" value="N" />
+				<!--排程 -->
+<!-- 			圈存交易的批次轉檔	ONBLOCKTAB to RPONBLOCKTAB -->
+			    <entry key="RUN_SP_RPONBLOCKTAB" value="N" />
+			    <entry key="RUN_SP_RPONCLEARINGTAB" value="N" />
+			    <entry key="RUN_SP_RPONCLEARFEETAB" value="N" />
+<!-- 			    跑圈存交易的批次轉檔 的時間 -->
+			    <entry key="RPONBLOCKTAB_CL1_A" value="12:30:00" />
+			    <entry key="RPONBLOCKTAB_CL1_B" value="18:00:00" />
+			</map>			
+		</property>
+	</bean>    
+    
+    <!-- 特殊 URL，若是 path 請以 "/" 結尾  -->
+    <bean id="spURL" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <value>indexOld.jsp</value>
+                <value>index.jsp</value>
+                <value>tunnel.jsp</value>
+                <value>login.do</value>
+                <value>/eACH/ActiveX/</value>
+                <value>/ActiveX/</value>
+                <value>/eACH/</value>
+                <value>indexInfo</value>
+                <value>/eACH/RA/</value>
+                <value>/RA/</value>
+                <value>/pdf_js/</value>
+                <value>/css/</value>
+                <value>/images/</value>
+                <value>/js/</value>
+                <value>/pub/</value>
+                <value>pdf.jsp</value>
+                <value>pdf2.html</value>
+                <value>pdf3.html</value>
+                <value>onblocktab_count.do</value>
+            </list>
+        </constructor-arg>
+    </bean>
+<!--     eACH http 的funcId (銀行端) -->
+    <bean id="funcIds" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <value>txlist</value>
+                <value>common</value>
+                <value>txdaysum</value>
+                <value>txmonsum</value>
+                <value>txlistrp</value>
+                <value>cldaysumrp</value>
+                <value>feedaysumrp</value>
+                <value>feedaysum</value>
+                <value>feemonsum</value>
+                <value>cldaysum</value>
+                <value>clbkbal</value>
+                <value>commonutf8</value>
+            </list>
+        </constructor-arg>
+    </bean>
+<!--     eACH http 的funcId (代理業者端) -->
+    <bean id="agent_funcIds" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <value>agentdlrp</value>
+                <value>agentmonrp</value>
+                <value>agentcomm</value>
+                <value>agentcommutf8</value>
+            </list>
+        </constructor-arg>
+    </bean>
+    <bean id="opt_type" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="A" value="新增" />
+				<entry key="B" value="修改" />
+				<entry key="C" value="查詢" />
+				<entry key="D" value="刪除" />
+				<entry key="E" value="報表列印(PDF)" />
+				<entry key="F" value="檔案下載" />
+				<entry key="G" value="送出" />
+				<entry key="H" value="重送" />
+				<entry key="I" value="登入" />
+				<entry key="J" value="登出" />
+				<entry key="K" value="檔案上傳" />
+				<entry key="L" value="產生資料" />
+				<entry key="M" value="單一作業處理" />
+				<entry key="N" value="中斷點開始執行" />
+				<entry key="O" value="起始點開始執行" />
+				<entry key="P" value="結算通知" />
+				<entry key="Q" value="報表及檔案作業通知" />
+				<entry key="R" value="儲存" />
+				<entry key="S" value="產生全年營日" />
+				<entry key="T" value="執行" />
+				<entry key="U" value="發布" />
+				<entry key="V" value="查詢手續費歷程" />
+				<entry key="W" value="匯入" />
+				<entry key="X" value="更新連線結算檔" />
+				<entry key="Y" value="發佈公告" />
+				<entry key="Z" value="取消公告" />
+				<entry key="0" value="儲存及發佈公告" />
+				<entry key="1" value="報表列印(EXCEL)" />
+				<entry key="2" value="列印匯出" />
+				<entry key="3" value="手動更新" />
+				<entry key="4" value="Http下載" />
+				<entry key="5" value="更新剩餘額度" />
+				<entry key="6" value="未定義" />
+				<entry key="7" value="未定義" />
+				<entry key="8" value="未定義" />
+				<entry key="9" value="未定義" />
+			</map>
+		</constructor-arg>
+	</bean>
+    <bean id="agent_file_name" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="agent_zip" value="eACH_AgentData.zip" />
+				<entry key="tx_5" value="Agent_txlistRP_" />
+				<entry key="C" value="查詢" />
+				<entry key="D" value="刪除" />
+				
+			</map>
+		</constructor-arg>
+	</bean>
+        <bean id="onblocktab_count_param" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="email" value="leo860607@gmail.com" />
+				<entry key="qryPeriod" value="5" />
+				<entry key="warnLimit" value="0" />		
+			</map>
+		</constructor-arg>
+	</bean>
+</beans>
+    

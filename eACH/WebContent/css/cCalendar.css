@@ -1,0 +1,47 @@
+@CHARSET "UTF-8";
+/* For customize calendar*/
+.cCalendar {
+	border-collapse: collapse;
+	display: inline;
+	height: 300px;
+	font-size: 1.5em;
+}
+
+.cCalendar th {
+	background-color: rgb(112,129,185);
+	color: white;
+	font-weight: normal;
+}
+
+.cCalendar td {
+	background-color: white;
+}
+
+.cCalendar th, .cCalendar td {
+	border: 1px solid rgb(221,221,221);
+}
+
+.cCalendar .wd6, .cCalendar .wd7 {
+	color: red;
+	font-weight: bold;
+}
+
+.cCalendar .wd1, .cCalendar .wd2, .cCalendar .wd3, .cCalendar .wd4, .cCalendar .wd5, .cCalendar .wd6, .cCalendar .wd7 {
+	background-color: rgb(219,206,234);
+}
+
+.cCalendar .dateBtn {
+	text-align: right;
+	cursor: pointer;
+}
+
+.cCalendar .dateBtn:hover {
+	background-color: rgb(219,206,234);
+	border-right: 1px solid gray;
+	border-bottom: 1px solid gray;
+}
+
+.cCalendar .isNotTxnDate {
+	color: red;
+	font-weight: bold;
+}

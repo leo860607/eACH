@@ -1,0 +1,50 @@
+﻿CREATE FUNCTION "EACHUSER"."CHKBATSUM" (iBizDate  VARCHAR(8) , iCLEARINGPHASE  VARCHAR(2) , iColName VARCHAR(20) , iCNT int , iAMT Decimal(15,2))
+	RETURNS VARCHAR(90)
+	LANGUAGE SQL
+Begin ATOMIC
+Declare Rtn Varchar(100) default '' ;
+Declare exCNT int ;
+Declare exAMT Decimal(15,2) ;
+set Rtn='';
+IF (iColName = 'RECV' ) THEN    --check入帳應收筆數及金額
+    SET (exCNT,exAMT)=(Select sum(RECVCNT) , sum(RECVAMT) From EACHUSER.ONCLEARINGTAB where  TYPHCLEARINGPHASE=iCLEARINGPHASE and TYPHBIZDATE=iBizDate) ;
+    --If  not (exCNT=iCNT And exAMT=iAMT) then
+    If  not (exAMT=iAMT) then
+         set Rtn ='@入帳應收金額不符!';
+    End If;
+ELSEIF (iColName = 'PAY') THEN   --check扣款應付筆數及金額
+    SET (exCNT,exAMT)=(Select sum(PAYCNT) , sum(PAYAMT) From EACHUSER.ONCLEARINGTAB where  TYPHCLEARINGPHASE=iCLEARINGPHASE and TYPHBIZDATE=iBizDate) ;
+    --If  not (exCNT=iCNT And exAMT=ABS(iAMT) ) then 
+    If  not (exAMT=ABS(iAMT) ) then 
+        set Rtn ='@扣款應付金額不符!';
+    End if;
+ELSEIF (iColName = 'RECVMBFEE') THEN    --check應收手續費筆數及金額
+    SET (exCNT,exAMT)=(Select sum(RECVMBFEECNT) , sum(RECVMBFEEAMT) From EACHUSER.ONCLEARINGTAB where  RECVMBFEEAMT != 0 and TYPHCLEARINGPHASE=iCLEARINGPHASE and TYPHBIZDATE=iBizDate) ;
+    --If  not (exCNT=iCNT And exAMT=iAMT) then
+    If  not (exAMT=iAMT) then
+         set Rtn ='@應收手續費金額不符!';
+    End If;
+ELSEIF (iColName = 'PAYMBFEE') THEN --check應付手續費筆數及金額
+    SET (exCNT,exAMT)=(Select sum(PAYMBFEECNT) , sum(PAYMBFEEAMT)+sum(PAYEACHFEEAMT) From EACHUSER.ONCLEARINGTAB where  (PAYMBFEEAMT != 0 or PAYEACHFEEAMT != 0) and TYPHCLEARINGPHASE=iCLEARINGPHASE and TYPHBIZDATE=iBizDate) ;
+    --If  not (exCNT=iCNT And exAMT=ABS(iAMT) ) then
+    If  not (exAMT=ABS(iAMT) ) then
+         set Rtn ='@應付手續費金額不符!';
+    End If;
+--ELSEIF (iColName = 'RVSRECV') THEN
+ -- ;
+--ELSEIF (iColName = 'RVSPAY') THEN
+ -- ;
+--ELSEIF (iColName = 'RVSRECVMBFEE') THEN
+ -- ;
+--ELSEIF (iColName = 'RVSPAYMBFEE') THEN
+ -- ;
+ELSE
+   SET (exCNT,exAMT)=(Select sum(RECVCNT) , sum(RECVAMT) From EACHUSER.ONCLEARINGTAB where  TYPHCLEARINGPHASE=iCLEARINGPHASE and TYPHBIZDATE=iBizDate) ;
+     --If  not (exCNT= iCNT and exAMT=iAMT) then 
+    If  not (exAMT=iAMT) then 
+        set Rtn ='@總金額不符!' ;
+        End If;
+END IF;
+
+RETURN Rtn;
+END
